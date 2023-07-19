@@ -11,6 +11,6 @@ void execute(char **tokens)
   char **args = tokens + 1;
   if (pid > -1)
     execvp(program, args);
-  wait();
+  wait(1);
   return ;
 }
