@@ -9,7 +9,7 @@ void execute(char **tokens)
   if (internalCommand(tokens))
     return ;
   char *program = tokens[0];
-  char **args = tokens + 1;
+  char **args = tokens;
   pid = fork();
   if (pid == 0)
   {

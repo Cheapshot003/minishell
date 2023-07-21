@@ -1,6 +1,7 @@
 #include "../includes/minishell.h"
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -9,7 +10,7 @@ int main()
   t_data data;
   char *line;
   char **tokens;
-  int i;
+
   signal(SIGINT, intHandler);
   while (1)
   {
@@ -21,9 +22,6 @@ int main()
     {
       continue;
     }
-    i = counttoken(line, ' ');
-    i++;
-    i--;
     tokens = gettokens(line);
     if (!strcmp(tokens[0], "exit"))
       exit(0);
@@ -37,7 +35,7 @@ int main()
 
 void intHandler(int lol)
 {
-  lol++;
+  (void) lol;
   printf("\n$ ");
   return;
 }
