@@ -9,8 +9,8 @@ void execute(char **tokens)
 
   char *program = tokens[0];
   char **args = tokens + 1;
-  if (pid > -1)
+  pid = fork();
+  if (pid == 0)
     execvp(program, args);
-  wait(1);
   return ;
 }
