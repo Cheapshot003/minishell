@@ -9,8 +9,13 @@
 #include <string.h>
 #include <sys/wait.h>
 
+typedef struct s_data{
+  char *working_dir;
+} t_data;
+
 int counttoken(char *str, char delim);
 char **gettokens(char *input);
 void execute(char **tokens);
-
+void intHandler(int lol);
+int internalCommand(char **tokens);
 #endif // !MINISHELL_H
