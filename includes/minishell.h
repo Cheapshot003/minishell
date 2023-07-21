@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
 
 int counttoken(char *str, char delim);
 char **gettokens(char *input);

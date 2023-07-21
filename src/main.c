@@ -7,22 +7,17 @@ int main()
   char *line;
   char **tokens;
   int i;
-  i = 0;
-  int j = 0;
   while (1)
   {
-    j = 0;
     line = readline("$ ");
     i = counttoken(line, ' ');
+    i++;
+    i--;
     tokens = gettokens(line);
-    while (j < i)
-    {
-      printf("%s", tokens[j++]);
-    }
-    printf("\n");
     if (!strcmp(tokens[0], "exit"))
       exit(0);
     execute(tokens);
+    wait(NULL);
     free(tokens);
     free(line);
   }
