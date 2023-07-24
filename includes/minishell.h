@@ -18,4 +18,6 @@ char **gettokens(char *input);
 void execute(char **tokens);
 void intHandler(int lol);
 int internalCommand(char **tokens);
+char *getPrompt(char *working_dir);
+char *find_path(char *program);
 #endif // !MINISHELL_H
