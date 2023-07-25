@@ -13,6 +13,7 @@ int main()
   char **tokens;
   char *prompt;
   signal(SIGINT, intHandler);
+  fill_path(&data);
   using_history();
   while (1)
   {
@@ -25,7 +26,7 @@ int main()
     if (line && *line)
       add_history(line);
     tokens = gettokens(line);
-    execute(tokens);
+    execute(tokens, &data);
     wait(NULL);
     free(tokens);
     free(line);
@@ -54,4 +55,10 @@ void intHandler(int lol)
   rl_replace_line("", 0); // Clear the previous text
   rl_redisplay();
   return;
+}
+
+void fill_path(t_data *data)
+{
+  data->PATH_ENV = getenv("PATH");
+  return ;
 }

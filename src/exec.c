@@ -4,7 +4,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <sys/wait.h>
-void execute(char **tokens)
+void execute(char **tokens, t_data *data)
 {
   char *path;
 
@@ -13,14 +13,10 @@ void execute(char **tokens)
     return ;
   char *program = tokens[0];
   char **args = tokens;
-  path = find_path(program);
+  path = find_path(program, data);
   pid = fork();
   if (pid == 0)
-  {
-    
-    execve(program, args, NULL);
-    exit(0);
-  }
+    execve(path, args, NULL);
   else
     wait(NULL);
   return ;
@@ -42,13 +38,34 @@ int internalCommand(char **tokens)
   return (0);
 }
 
-char *find_path(char *program)
+char *find_path(char *program, t_data *data)
 {
   char *path_var;
   char *path;
+  char *full_path;
 
-  path_var = getenv("PATH");
-  if (path_var == NULL)
-    return (NULL);
-  return path; //TBC
+  path_var = malloc(strlen(data->PATH_ENV + 1));
+  path_var[0] = '\0';
+  strcpy(path_var, data->PATH_ENV);
+  path = strtok(path_var, ":");
+  while (path)
+  {
+    full_path = malloc(strlen(path) + strlen(program) + 2);
+    full_path[0] = '\0';
+    strcat(full_path, path);
+    if (full_path[strlen(path) - 1] != '/')
+    {
+      full_path[strlen(path)] = '/';
+      full_path[strlen(path) + 1] = '\0';
+    }
+    strcat(full_path, program);
+    if (access(full_path, F_OK) == 0)
+    {
+      free(path_var);
+      return (full_path);
+    }
+    path = strtok(NULL, ":");
+  }
+  free(path_var);
+  return NULL; //TBC
 }
