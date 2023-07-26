@@ -1,2 +1,2 @@
 # minishell
-Building my very own shell
+Building a shell duh
