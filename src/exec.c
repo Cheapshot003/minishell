@@ -44,7 +44,7 @@ char *find_path(char *program, t_data *data)
   char *path;
   char *full_path;
 
-  path_var = malloc(strlen(data->PATH_ENV + 1));
+  path_var = malloc(strlen(data->PATH_ENV) + 1);
   path_var[0] = '\0';
   strcpy(path_var, data->PATH_ENV);
   path = strtok(path_var, ":");

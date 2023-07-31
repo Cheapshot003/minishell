@@ -10,16 +10,16 @@ int main()
   t_data data;
   char *line;
   char **tokens;
-  char *prompt;
+  //char *prompt;
   signal(SIGINT, intHandler);
   fill_path(&data);
   using_history();
   while (1)
   {
     data.working_dir = getcwd(NULL, 0);
-    prompt = getPrompt(data.working_dir);
-    line = readline(prompt);
-    free(prompt);
+    //prompt = getPrompt(data.working_dir);
+    line = readline("Test");
+    //free(prompt);
     if (line[0] == '\0')
       continue;
     if (line && *line)

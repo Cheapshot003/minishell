@@ -8,7 +8,7 @@ char **gettokens(char *input)
 
   i = 1;
   nToken = counttoken(input, ' ');
-  tokens = malloc(sizeof(char *) * nToken + 1);
+  tokens = malloc(sizeof(char *) * (nToken + 1));
   tokens[nToken] = NULL;
   if (nToken-- > 0)
     tokens[0] = strtok(input, " ");
