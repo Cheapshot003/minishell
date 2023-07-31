@@ -18,7 +18,10 @@ void execute(char **tokens, t_data *data)
   if (pid == 0)
     execve(path, args, NULL);
   else
+  {
+	free(path);
     wait(NULL);
+  }
   return ;
 }
 
@@ -31,8 +34,9 @@ int internalCommand(char **tokens)
   }
   else if (!strcmp(tokens[0], "exit"))
   {
-  free(tokens);
-  exit(0);
+	rl_clear_history();
+	free(tokens);
+	exit(0);
   }
 
   return (0);
@@ -65,7 +69,9 @@ char *find_path(char *program, t_data *data)
       return (full_path);
     }
     path = strtok(NULL, ":");
+	free(full_path);
   }
+  free(full_path);
   free(path_var);
   return NULL; //TBC
 }
