@@ -1,5 +1,4 @@
 #include "../includes/minishell.h"
-#include <readline/history.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
