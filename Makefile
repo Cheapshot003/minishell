@@ -1,16 +1,16 @@
 SRCS = ./src/main.c ./src/utils.c ./src/exec.c
 COMP = gcc
-FLAGS = -Wall -Werror -Wextra -lreadline -g
+FLAGS = -Wall -Werror -Wextra -lncurses -g -lreadline
 OBJS = main.o utils.o exec.o
 
 $(NAME):
 	minishell
 
 minishell: $(OBJS)
-	$(COMP) $(FLAGS) $(OBJS) -o minishell
+	$(COMP) $(OBJS) $(FLAGS) -o minishell
 
 $(OBJS): $(SRCS)
-	$(COMP) $(FLAGS) -c $(SRCS)
+	$(COMP)  -c $(SRCS) $(FLAGS)
 
 clean:
 	rm -rf *.o

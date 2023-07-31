@@ -27,7 +27,6 @@ int main()
       add_history(line);
     tokens = gettokens(line);
     execute(tokens, &data);
-    wait(NULL);
     free(tokens);
     free(line);
   }
