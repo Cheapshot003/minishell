@@ -70,7 +70,6 @@ char *find_path(char *program, t_data *data)
     path = strtok(NULL, ":");
 	free(full_path);
   }
-  free(full_path);
   free(path_var);
   return NULL; //TBC
 }

@@ -16,7 +16,7 @@
 # include <readline/history.h>
 # include "/usr/include/readline/readline.h"
 # include "/usr/include/readline/history.h"
-# include "libft.h"
+# include "../libft/libft.h"
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <curses.h>
