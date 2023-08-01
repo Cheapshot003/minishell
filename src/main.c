@@ -2,7 +2,6 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
 int main()  
@@ -38,8 +37,8 @@ char *getPrompt(char *working_dir)
 
   prompt = malloc(strlen(working_dir) + 3);
   prompt[0] = '\0';
-  strcat(prompt, working_dir);
-  strcat(prompt, "$ ");
+  ft_strlcat(prompt, working_dir, strlen(working_dir) + 1);
+  ft_strlcat(prompt, "$ ", strlen(working_dir) + 3);
   free(working_dir);
   return (prompt);
 }
@@ -57,6 +56,6 @@ void intHandler(int lol)
 
 void fill_path(t_data *data)
 {
-  data->PATH_ENV = getenv("PATH");
+  data->path_env = getenv("PATH");
   return ;
 }

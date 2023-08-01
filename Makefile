@@ -1,21 +1,39 @@
-SRCS = ./src/main.c ./src/utils.c ./src/exec.c
-COMP = gcc
-FLAGS = -Wall -Werror -Wextra -lncurses -g -lreadline
-OBJS = main.o utils.o exec.o
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ohnatiuk <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/07/31 15:30:52 by ohnatiuk          #+#    #+#              #
+#    Updated: 2023/07/31 15:30:55 by ohnatiuk         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-$(NAME):
-	minishell
+NAME = minishell
 
-minishell: $(OBJS)
-	$(COMP) $(OBJS) $(FLAGS) -o minishell
+CFLAGS = -Wall -Werror -Wextra -Ilibft -lncurses -g -lreadline
 
-$(OBJS): $(SRCS)
-	$(COMP)  -c $(SRCS) $(FLAGS)
+SRCS = src/main.c \
+				src/utils.c \
+				src/exec.c \
+
+libft = ./libft/libft.a
+
+OBJS = $(SRCS:.c=.o)
+
+$(NAME): $(libft) $(OBJS)
+				@cc $(CFLAGS) $(OBJS) -o $(NAME) -Llibft -l:libft.a
+
+$(libft):
+	make -C libft
+	
+all: $(NAME)
 
 clean:
-	rm -rf *.o
-fclean:
-	rm -rf *.o
-	rm -rf minishell
+	rm -f $(OBJS) && make -C libft clean
 
-re: fclean minishell
+fclean: clean
+	rm -f $(NAME) && make -C libft fclean
+
+re: fclean all
