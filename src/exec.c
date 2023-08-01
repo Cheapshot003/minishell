@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -27,12 +26,12 @@ void execute(char **tokens, t_data *data)
 
 int internalCommand(char **tokens)
 {
-  if (!strcmp(tokens[0], "cd"))
+  if (!ft_strncmp(tokens[0], "cd", 3))
   {
     chdir(tokens[1]);
     return (1);
   }
-  else if (!strcmp(tokens[0], "exit"))
+  else if (!ft_strncmp(tokens[0], "exit", 5))
   {
 	rl_clear_history();
 	free(tokens);
@@ -48,19 +47,19 @@ char *find_path(char *program, t_data *data)
   char *path;
   char *full_path;
 
-  path_var = malloc(strlen(data->PATH_ENV) + 1);
+  path_var = malloc(ft_strlen(data->path_env) + 1);
   path_var[0] = '\0';
-  strcpy(path_var, data->PATH_ENV);
+  strcpy(path_var, data->path_env);
   path = strtok(path_var, ":");
   while (path)
   {
-    full_path = malloc(strlen(path) + strlen(program) + 2);
+    full_path = malloc(ft_strlen(path) + ft_strlen(program) + 2);
     full_path[0] = '\0';
     strcat(full_path, path);
-    if (full_path[strlen(path) - 1] != '/')
+    if (full_path[ft_strlen(path) - 1] != '/')
     {
-      full_path[strlen(path)] = '/';
-      full_path[strlen(path) + 1] = '\0';
+      full_path[ft_strlen(path)] = '/';
+      full_path[ft_strlen(path) + 1] = '\0';
     }
     strcat(full_path, program);
     if (access(full_path, F_OK) == 0)
