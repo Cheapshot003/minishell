@@ -12,18 +12,23 @@
 
 NAME = minishell
 
-CFLAGS = -Wall -Werror -Wextra -Ilibft -lncurses -g -lreadline
+COMP = gcc
+
+CFLAGS = -Wall -Werror -Wextra -Ilibft -g
+
+# Add -lncurses after $(OBJS) to ensure proper linking
+LDFLAGS = -Llibft -lft -lreadline -lncurses
 
 SRCS = src/main.c \
-				src/utils.c \
-				src/exec.c \
+       src/utils.c \
+       src/exec.c \
 
 libft = ./libft/libft.a
 
 OBJS = $(SRCS:.c=.o)
 
 $(NAME): $(libft) $(OBJS)
-				@cc $(CFLAGS) $(OBJS) -o $(NAME) -Llibft -l:libft.a
+	$(COMP) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
 
 $(libft):
 	make -C libft
