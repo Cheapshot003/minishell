@@ -13,6 +13,7 @@ int main()
   signal(SIGINT, intHandler);
   fill_path(&data);
   using_history();
+  tokens = NULL;
   while (1)
   {
     data.working_dir = getcwd(NULL, 0);
@@ -20,10 +21,14 @@ int main()
 	line = readline(prompt);
     free(prompt);
     if (line[0] == '\0')
-      continue;
+	{
+		//free(tokens);
+		//free(line);
+		continue;
+	}   
     if (line && *line)
       add_history(line);
-    tokens = gettokens(line);
+    tokens = gettokens(line, &data);
     execute(tokens, &data);
     free(tokens);
     free(line);

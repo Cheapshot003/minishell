@@ -5,23 +5,100 @@
 #include <sys/wait.h>
 void execute(char **tokens, t_data *data)
 {
-  char *path;
+    char *path;
+    pid_t pid;
 
-  pid_t pid;
-  if (internalCommand(tokens))
-    return ;
-  char *program = tokens[0];
-  char **args = tokens;
-  path = find_path(program, data);
-  pid = fork();
-  if (pid == 0)
-    execve(path, args, NULL);
-  else
-  {
-	free(path);
-    wait(NULL);
-  }
-  return ;
+    checkRedirects(tokens, data);
+    if (internalCommand(tokens))
+        return;
+
+    char *program = tokens[0];
+    char **args = data->path_args;
+    path = find_path(program, data);
+    if (path == NULL)
+    {
+        printf("Error\n");
+        return;
+    }
+
+    // Fork a child process
+    pid = fork();
+
+    if (pid == -1)
+    {
+        perror("Fork failed");
+        exit(EXIT_FAILURE);
+    }
+    else if (pid == 0)
+    {
+        // Child process
+
+        setRedirects(data);
+
+        // Replace the last element of args with NULL (required by execve)
+
+        execve(path, args, NULL);
+        perror("Execve failed"); // This line will only execute if execve fails
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        // Parent process
+        free(path);
+        wait(NULL);
+    }
+}
+
+
+void checkRedirects(char **tokens, t_data *data)
+{
+	int i;
+
+	i = 1;
+	data->input_redirection = 0;
+	data->output_redirection = 0;
+	data->input_file = NULL;
+	data->output_file = NULL;
+    while(i < data->arg_count) {
+		if (tokens[i] == NULL)
+		{
+
+		}
+        else if (ft_strncmp(tokens[i], "<", ft_strlen(tokens[i])) == 0) {
+            data->input_redirection = 1;
+            data->input_file = tokens[i + 1];
+        } else if (ft_strncmp(tokens[i], ">", ft_strlen(tokens[i])) == 0) {
+            data->output_redirection = 1;
+            data->output_file = tokens[i + 1];
+        }
+		i++;
+    }
+}
+
+void setRedirects(t_data *data)
+{
+    // If inpus redirection is present, open the file and duplicate file descriptor
+    if (data->input_redirection) {
+        int fd_input = open(data->input_file, O_RDONLY);
+        if (fd_input < 0) {
+            perror("Failed to open input file");
+            exit(EXIT_FAILURE);
+        }
+        dup2(fd_input, STDIN_FILENO);
+        close(fd_input);
+    }
+
+    // If output redirection is present, open the file and duplicate file descriptor
+    if (data->output_redirection) {
+        int fd_output = open(data->output_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+        if (fd_output < 0) {
+            perror("Failed to open output file");
+            exit(EXIT_FAILURE);
+        }
+        dup2(fd_output, STDOUT_FILENO);
+        close(fd_output);
+    }
+	return ;
 }
 
 int internalCommand(char **tokens)
@@ -43,33 +120,36 @@ int internalCommand(char **tokens)
 
 char *find_path(char *program, t_data *data)
 {
-  char *path_var;
-  char *path;
-  char *full_path;
+    char *path_var;
+    char *path;
+    char *full_path;
 
-  path_var = malloc(ft_strlen(data->path_env) + 1);
-  path_var[0] = '\0';
-  strcpy(path_var, data->path_env);
-  path = strtok(path_var, ":");
-  while (path)
-  {
-    full_path = malloc(ft_strlen(path) + ft_strlen(program) + 2);
-    full_path[0] = '\0';
-    strcat(full_path, path);
-    if (full_path[ft_strlen(path) - 1] != '/')
+    path_var = strdup(data->path_env); // Make a copy of the path_env to avoid modifying the original string
+    path = strtok(path_var, ":");
+    while (path)
     {
-      full_path[ft_strlen(path)] = '/';
-      full_path[ft_strlen(path) + 1] = '\0';
+        // Calculate the length needed for the full path
+        size_t full_path_len = strlen(path) + 1 + strlen(program) + 1; // path + '/' + program + '\0'
+        full_path = malloc(full_path_len);
+        if (full_path == NULL)
+        {
+            perror("Memory allocation error");
+            exit(EXIT_FAILURE);
+        }
+
+        // Construct the full path
+        snprintf(full_path, full_path_len, "%s/%s", path, program);
+
+        // Check if the file exists at the current full path
+        if (access(full_path, F_OK) == 0)
+        {
+            free(path_var);
+            return full_path;
+        }
+
+        free(full_path);
+        path = strtok(NULL, ":");
     }
-    strcat(full_path, program);
-    if (access(full_path, F_OK) == 0)
-    {
-      free(path_var);
-      return (full_path);
-    }
-    path = strtok(NULL, ":");
-	free(full_path);
-  }
-  free(path_var);
-  return NULL; //TBC
+    free(path_var);
+    return NULL;
 }
