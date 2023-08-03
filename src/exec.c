@@ -70,16 +70,22 @@ void checkRedirects(char **tokens, t_data *data)
         } else if (ft_strncmp(tokens[i], ">", ft_strlen(tokens[i])) == 0) {
             data->output_redirection = 1;
             data->output_file = tokens[i + 1];
-        }
+        } else if (ft_strncmp(tokens[i], ">>", ft_strlen(tokens[i])) == 0) {
+			data->output_redirection = 1;
+			data->append_redirection = 1;
+			data->output_file = tokens[i + 1];
+		}
 		i++;
     }
 }
 
 void setRedirects(t_data *data)
 {
-    // If inpus redirection is present, open the file and duplicate file descriptor
+	int fd_output;
+	int	fd_input;
+	// If inpus redirection is present, open the file and duplicate file descriptor
     if (data->input_redirection) {
-        int fd_input = open(data->input_file, O_RDONLY);
+        fd_input = open(data->input_file, O_RDONLY);
         if (fd_input < 0) {
             perror("Failed to open input file");
             exit(EXIT_FAILURE);
@@ -90,7 +96,14 @@ void setRedirects(t_data *data)
 
     // If output redirection is present, open the file and duplicate file descriptor
     if (data->output_redirection) {
-        int fd_output = open(data->output_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		if (data->append_redirection == 1)
+		{
+			fd_output = open(data->output_file, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		}
+		else
+		{
+			fd_output = open(data->output_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		}
         if (fd_output < 0) {
             perror("Failed to open output file");
             exit(EXIT_FAILURE);

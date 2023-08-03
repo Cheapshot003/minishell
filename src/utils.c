@@ -45,7 +45,7 @@ void parse_tokens(char **tokens, t_data *data)
 			i++;
 		}
 	}
-	data->path_args[i] = NULL;
+	data->path_args[j] = NULL;
 	return ;
 }
 int countargs(char **tokens, t_data *data)

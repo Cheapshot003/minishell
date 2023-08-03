@@ -31,8 +31,10 @@ int main()
     tokens = gettokens(line, &data);
     execute(tokens, &data);
     free(tokens);
+	free(data.path_args);
     free(line);
   }
+  free_data(&data);
   return (0);
 }
 
@@ -63,4 +65,10 @@ void fill_path(t_data *data)
 {
   data->path_env = getenv("PATH");
   return ;
+}
+
+void free_data(t_data *data)
+{
+	free(data->full_tokens);
+	free(data->path_args);
 }

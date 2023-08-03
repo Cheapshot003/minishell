@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/03 15:06:28 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/03 16:51:57 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_data{
 	int		output_redirection;
 	char	*input_file;
 	char	*output_file;
+	int		append_redirection;
 }	t_data;
 
 int		counttoken(char *str, char delim);
@@ -49,4 +50,5 @@ void	parse_tokens(char **tokens, t_data *data);
 int		countargs(char **tokens, t_data *data);
 int		is_special(char *token);
 void	checkRedirects(char **tokens, t_data *data);
+void	free_data(t_data *data);
 #endif
