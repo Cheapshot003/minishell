@@ -12,6 +12,7 @@ int main()
   char *prompt;
   signal(SIGINT, intHandler);
   fill_path(&data);
+  data.vars = NULL;
   using_history();
   tokens = NULL;
   while (1)

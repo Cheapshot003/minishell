@@ -12,7 +12,4 @@
 
 #include "../includes/minishell.h"
 
-char	ft_*strtok(char *str, const char *delim)
-{
-	
-}
+//char	*ft_strtok(char *str, const char *delim)

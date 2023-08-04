@@ -9,7 +9,7 @@ void execute(char **tokens, t_data *data)
     pid_t pid;
 
     checkRedirects(tokens, data);
-    if (internalCommand(tokens))
+    if (internal_command(tokens, data))
         return;
 
     char *program = tokens[0];
@@ -112,23 +112,6 @@ void setRedirects(t_data *data)
         close(fd_output);
     }
 	return ;
-}
-
-int internalCommand(char **tokens)
-{
-  if (!ft_strncmp(tokens[0], "cd", 3))
-  {
-    chdir(tokens[1]);
-    return (1);
-  }
-  else if (!ft_strncmp(tokens[0], "exit", 5))
-  {
-	rl_clear_history();
-	free(tokens);
-	exit(0);
-  }
-
-  return (0);
 }
 
 char *find_path(char *program, t_data *data)
