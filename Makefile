@@ -34,7 +34,7 @@ $(NAME): $(libft) $(OBJS)
 	$(COMP) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
 
 $(libft):
-	make -C libft
+	make -C libft && make bonus -C libft
 	
 all: $(NAME)
 
