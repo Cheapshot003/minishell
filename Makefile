@@ -16,12 +16,12 @@ COMP = gcc
 
 CFLAGS = -Wall -Werror -Wextra -Ilibft -g
 
-# Add -lncurses after $(OBJS) to ensure proper linking
 LDFLAGS = -Llibft -lft -lreadline -lncurses
 
 SRCS = src/main.c \
        src/utils.c \
        src/exec.c \
+	   src/data.c
 
 libft = ./libft/libft.a
 

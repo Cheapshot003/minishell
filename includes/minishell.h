@@ -51,4 +51,5 @@ int		countargs(char **tokens, t_data *data);
 int		is_special(char *token);
 void	checkRedirects(char **tokens, t_data *data);
 void	free_data(t_data *data);
+t_data	*init_data(t_data *data);
 #endif
