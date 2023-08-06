@@ -25,6 +25,7 @@ SRCS = src/main.c \
 			 src/ft_lst_remove.c \
 			 src/internal_command.c \
 			 src/ft_strtok.c \
+	   src/data.c
 
 libft = ./libft/libft.a
 

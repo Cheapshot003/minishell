@@ -10,6 +10,7 @@ int main()
   char *line;
   char **tokens;
   char *prompt;
+  data = *(init_data(&data));
   signal(SIGINT, intHandler);
   fill_path(&data);
   data.vars = NULL;

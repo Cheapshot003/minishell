@@ -63,4 +63,5 @@ void	free_data(t_data *data);
 t_list	*ft_lst_remove(t_list **begin_list, void *data_ref, int (*cmp)());
 int	ft_cmp(void *a, void *b);
 char	*ft_strtok(char *str, const char *delim);
+t_data	*init_data(t_data *data);
 #endif

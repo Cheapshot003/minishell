@@ -1,0 +1,17 @@
+#include "../includes/minishell.h"
+
+t_data *init_data(t_data *data)
+{
+    data->append_redirection = 0;
+    data->arg_count = 0;
+    data->full_tokens = NULL;
+    data->input_file = NULL;
+    data->input_redirection = 0;
+    data->output_file = NULL;
+    data->output_redirection = 0;
+    data->path_args = NULL;
+    data->path_env = NULL;
+    data->working_dir = NULL;
+
+    return data;
+}
