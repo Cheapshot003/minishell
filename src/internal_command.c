@@ -12,6 +12,14 @@
 
 #include "../includes/minishell.h"
 
+void	free_var(t_list *var_to_del)
+{
+	free(((t_var*)var_to_del->content)->var_name);
+	free(((t_var*)var_to_del->content)->var_value);
+	free(var_to_del->content);
+	free(var_to_del);
+}
+
 void	ft_echo(t_data *data, char **tokens)
 {
 	if (data->arg_count == 2)
@@ -32,21 +40,52 @@ void	ft_export(t_data *data, char **tokens)
 	t_var	*new_var;
 	t_list	*new_lst_el;
 	t_list	*old_var;
+	size_t	len;
+	int	i;
 
-	new_var = malloc(sizeof(t_var));
-	new_var->var_name = ft_strdup(strtok(tokens[1], "="));
-	new_var->var_value = ft_strdup(strtok(NULL, "="));
-	new_lst_el = ft_lstnew(new_var);
-	old_var = ft_lst_remove(&data->vars, (void *)new_var, ft_cmp);
-	if (old_var)
+	i = 1;
+	len = ft_strlen(tokens[1]);
+	while(tokens[i] != NULL)
 	{
-		free(((t_var*)old_var->content)->var_name);
-		free(((t_var*)old_var->content)->var_value);
-		free(old_var->content);
-		free(old_var);
+		new_var = malloc(sizeof(t_var));
+		new_var->var_name = ft_strdup(ft_strtok(tokens[i], "="));
+		if (ft_strlen(new_var->var_name) == len)
+		{
+			printf("Error\n");
+			i++;
+			continue ;
+		}
+		new_var->var_value = ft_strdup(ft_strtok(NULL, "="));
+		new_lst_el = ft_lstnew(new_var);
+		old_var = ft_lst_remove(&data->vars, (void *)new_var, ft_cmp);
+		if (old_var)
+			free_var(old_var);
+		ft_lstadd_back(&data->vars, new_lst_el);
+		//printf("%s == %s\n", ((t_var *)new_lst_el->content)->var_name, ((t_var *)new_lst_el->content)->var_value);
+		i++;
 	}
-	ft_lstadd_back(&data->vars, new_lst_el);
-	//printf("%s = %s\n", ((t_var *)data->vars[0].content)->var_name, ((t_var *)data->vars[0].content)->var_value);
+}
+
+void	ft_unset(t_data *data, char **tokens)
+{
+	t_var	new_var;
+	t_list	*deleted_var;
+	int	i;
+
+	i = 1;
+	while(tokens[i] != NULL)
+	{
+		new_var.var_name = tokens[i];
+		//printf("before%s = %s\n", ((t_var *)data->vars[0].content)->var_name, ((t_var *)data->vars[0].content)->var_value);
+		deleted_var = ft_lst_remove(&data->vars, (void *)&new_var, ft_cmp);
+		//printf("after%s = %s\n", ((t_var *)data->vars[0].content)->var_name, ((t_var *)data->vars[0].content)->var_value);
+		if (deleted_var == NULL)
+		{
+			free(deleted_var);
+			break ;
+		}
+		i++;
+	}
 }
 
 int	internal_command(char **tokens, t_data *data)
@@ -75,6 +114,11 @@ int	internal_command(char **tokens, t_data *data)
 	else if (!ft_strncmp(tokens[0], "export", 7))
 	{
 		ft_export(data, tokens);
+		return (1);
+	}
+	else if (!ft_strncmp(tokens[0], "unset", 6))
+	{
+		ft_unset(data, tokens);
 		return (1);
 	}
 	return (0);

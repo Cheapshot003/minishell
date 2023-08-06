@@ -121,7 +121,7 @@ char *find_path(char *program, t_data *data)
     char *full_path;
 
     path_var = strdup(data->path_env); // Make a copy of the path_env to avoid modifying the original string
-    path = strtok(path_var, ":");
+    path = ft_strtok(path_var, ":");
     while (path)
     {
         // Calculate the length needed for the full path
@@ -144,7 +144,7 @@ char *find_path(char *program, t_data *data)
         }
 
         free(full_path);
-        path = strtok(NULL, ":");
+        path = ft_strtok(NULL, ":");
     }
     free(path_var);
     return NULL;

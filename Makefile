@@ -12,7 +12,7 @@
 
 NAME = minishell
 
-COMP = gcc
+COMP = cc
 
 CFLAGS = -Wall -Werror -Wextra -Ilibft -g
 

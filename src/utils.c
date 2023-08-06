@@ -12,9 +12,9 @@ char **gettokens(char *input, t_data *data)
   	tokens = malloc(sizeof(char *) * (nToken + 1));
   	tokens[nToken] = NULL;
   	if (nToken-- > 0)
-   		tokens[0] = strtok(input, " ");
+   		tokens[0] = ft_strtok(input, " ");
   	while(nToken-- > 0)
- 		tokens[i++] = strtok(NULL, " ");
+ 		tokens[i++] = ft_strtok(NULL, " ");
 	parse_tokens(tokens, data);
 	return tokens;
 }
