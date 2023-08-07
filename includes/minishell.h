@@ -18,6 +18,7 @@
 # include "/usr/include/readline/history.h"
 # include "../libft/libft.h"
 # include <stdlib.h>
+#	include <unistd.h>
 # include <sys/wait.h>
 # include <curses.h>
 # include <term.h>
@@ -35,14 +36,22 @@ typedef struct s_data{
 	char	*input_file;
 	char	*output_file;
 	int		append_redirection;
+	t_list	*vars;
 	char	*delim;
 }	t_data;
+
+typedef struct s_var
+{
+	struct s_var *next;
+	char *var_name;
+	char *var_value;
+} t_var;
 
 int		counttoken(char *str, char delim);
 char	**gettokens(char *input, t_data *data);
 void	execute(char **tokens, t_data *data);
 void	intHandler(int lol);
-int		internalCommand(char **tokens);
+int		internal_command(char **tokens, t_data *data);
 char	*getPrompt(char *working_dir);
 char	*find_path(char *program, t_data *data);
 void	fill_path(t_data *data);
@@ -52,5 +61,8 @@ int		countargs(char **tokens, t_data *data);
 int		is_special(char *token);
 void	checkRedirects(char **tokens, t_data *data);
 void	free_data(t_data *data);
+t_list	*ft_lst_remove(t_list **begin_list, void *data_ref, int (*cmp)());
+int	ft_cmp(void *a, void *b);
+char	*ft_strtok(char *str, const char *delim);
 t_data	*init_data(t_data *data);
 #endif

@@ -9,7 +9,7 @@ void execute(char **tokens, t_data *data)
     pid_t pid;
 
     checkRedirects(tokens, data);
-    if (internalCommand(tokens))
+    if (internal_command(tokens, data))
         return;
 
     char *program = tokens[0];
@@ -142,23 +142,6 @@ void setRedirects(t_data *data)
     }
 }
 
-int internalCommand(char **tokens)
-{
-  if (!ft_strncmp(tokens[0], "cd", 3))
-  {
-    chdir(tokens[1]);
-    return (1);
-  }
-  else if (!ft_strncmp(tokens[0], "exit", 5))
-  {
-	rl_clear_history();
-	free(tokens);
-	exit(0);
-  }
-
-  return (0);
-}
-
 char *find_path(char *program, t_data *data)
 {
     char *path_var;
@@ -166,7 +149,7 @@ char *find_path(char *program, t_data *data)
     char *full_path;
 
     path_var = strdup(data->path_env); // Make a copy of the path_env to avoid modifying the original string
-    path = strtok(path_var, ":");
+    path = ft_strtok(path_var, ":");
     while (path)
     {
         // Calculate the length needed for the full path
@@ -189,7 +172,7 @@ char *find_path(char *program, t_data *data)
         }
 
         free(full_path);
-        path = strtok(NULL, ":");
+        path = ft_strtok(NULL, ":");
     }
     free(path_var);
     return NULL;
