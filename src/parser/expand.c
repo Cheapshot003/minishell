@@ -4,6 +4,7 @@ char **expander(char **tokens, t_data *data)
 {
 	int i;
 	int j;
+	char *var;
 
 	(void)data;
 	i = 0;
@@ -14,7 +15,9 @@ char **expander(char **tokens, t_data *data)
 		{
 			if (tokens[i][j] == '$')
 			{
-				tokens[i] = getenv(tokens[i] + 1);
+				var = getenv(tokens[i] + 1);
+				tokens[i][j] = '\0';
+				tokens[i] = ft_strjoin(tokens[i], var);
 			}
 			j++;
 		}

@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/07 12:33:55 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/07 12:39:11 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ typedef struct s_var
 	char *var_value;
 } t_var;
 
-int		counttoken(char *str, char delim);
-char	**gettokens(char *input, t_data *data);
 void	execute(char **tokens, t_data *data);
 void	intHandler(int lol);
 int		internal_command(char **tokens, t_data *data);
@@ -60,7 +58,6 @@ char	*getPrompt(char *working_dir);
 char	*find_path(char *program, t_data *data);
 void	fill_path(t_data *data);
 void	setRedirects(t_data *data);
-void	parse_tokens(char **tokens, t_data *data);
 int		countargs(char **tokens, t_data *data);
 int		is_special(char *token);
 void	checkRedirects(char **tokens, t_data *data);

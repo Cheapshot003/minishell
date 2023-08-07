@@ -13,7 +13,7 @@ void execute(char **tokens, t_data *data)
         return;
 
     char *program = tokens[0];
-    char **args = data->path_args;
+    char **args = tokens;
     path = find_path(program, data);
     if (path == NULL)
     {

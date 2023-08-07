@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:13:56 by otietz            #+#    #+#             */
-/*   Updated: 2023/08/07 12:35:38 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/07 12:59:58 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char **tokenize(char *line, t_data *data)
 	tokens = expander(tokens, data);
 	tokens1 = cmdlex(tokens, data);
 	tokens1 = remove_empty_strings(tokens1);
+	data->arg_count = (sizeof(tokens1) / sizeof(char *)) + 1;
 	return tokens1;
 }
 
@@ -112,7 +113,6 @@ char **cmdlex(char **input_tokens, t_data *data)
 
     // Add a NULL pointer at the end of the array to indicate the end of tokens
     tokens[token_count] = NULL;
-
     return tokens; 
 }
 
