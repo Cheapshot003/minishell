@@ -35,6 +35,7 @@ typedef struct s_data{
 	char	*input_file;
 	char	*output_file;
 	int		append_redirection;
+	char	*delim;
 }	t_data;
 
 int		counttoken(char *str, char delim);
