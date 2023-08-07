@@ -45,6 +45,6 @@ char** remove_empty_strings(char** input_tokens) {
 
     // Add the NULL terminator to the end of the result_tokens array
     result_tokens[non_empty_count] = NULL;
-
+	free(input_tokens);
     return result_tokens;
 }

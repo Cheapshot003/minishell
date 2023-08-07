@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:13:56 by otietz            #+#    #+#             */
-/*   Updated: 2023/08/07 12:59:58 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/07 13:24:48 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char **tokenize(char *line, t_data *data)
 	tokens = expander(tokens, data);
 	tokens1 = cmdlex(tokens, data);
 	tokens1 = remove_empty_strings(tokens1);
+	free(tokens);
 	data->arg_count = (sizeof(tokens1) / sizeof(char *)) + 1;
 	return tokens1;
 }

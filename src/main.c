@@ -1,14 +1,11 @@
 #include "../includes/minishell.h"
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 int main()  
 {
   t_data data;
   char *line;
   char **tokens;
+  char **tokens1;
   char *prompt;
   data = *(init_data(&data));
   signal(SIGINT, intHandler);
@@ -27,7 +24,13 @@ int main()
       add_history(line);
 	tokens = tokenize(line, &data);
     execute(tokens, &data);
-    free(tokens);
+	tokens1 = tokens;
+	while(*tokens)
+	{
+		free(*tokens);
+		tokens++;
+	}
+    free(tokens1);
 	free(data.path_args);
     free(line);
   }

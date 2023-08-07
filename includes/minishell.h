@@ -6,13 +6,15 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/07 12:39:11 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/07 13:19:58 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# include <signal.h>
 # include <stdio.h>
+# include <unistd.h>
 # include <readline/history.h>
 # include "/usr/include/readline/readline.h"
 # include "/usr/include/readline/history.h"
