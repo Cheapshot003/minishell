@@ -15,7 +15,7 @@ char **expander(char **tokens, t_data *data)
 		{
 			if (tokens[i][j] == '$')
 			{
-				var = getenv(tokens[i] + 1);
+				var = getenv(tokens[i] + j + 1);
 				tokens[i][j] = '\0';
 				tokens[i] = ft_strjoin(tokens[i], var);
 			}
