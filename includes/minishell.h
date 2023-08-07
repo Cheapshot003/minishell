@@ -37,6 +37,7 @@ typedef struct s_data{
 	char	*output_file;
 	int		append_redirection;
 	t_list	*vars;
+	char	*delim;
 }	t_data;
 
 typedef struct s_var
