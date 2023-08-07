@@ -12,6 +12,6 @@ t_data *init_data(t_data *data)
     data->path_args = NULL;
     data->path_env = NULL;
     data->working_dir = NULL;
-
+  	fill_path(data);
     return data;
 }

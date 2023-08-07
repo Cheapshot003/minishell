@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ohnatiuk <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: otietz <otietz@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 15:30:52 by ohnatiuk          #+#    #+#              #
-#    Updated: 2023/07/31 15:30:55 by ohnatiuk         ###   ########.fr        #
+#    Updated: 2023/08/07 12:12:36 by otietz           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,10 @@ SRCS = src/main.c \
 			 src/ft_lst_remove.c \
 			 src/internal_command.c \
 			 src/ft_strtok.c \
-	   src/data.c
+	   src/data.c \
+	   src/parser/tokenize.c \
+	   src/parser/expand.c \
+	   src/parser/parser_utils.c
 
 libft = ./libft/libft.a
 

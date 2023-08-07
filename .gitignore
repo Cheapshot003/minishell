@@ -1,3 +1,5 @@
 *.o
 minishell
 .nfs*
+.vscode
+*.txt

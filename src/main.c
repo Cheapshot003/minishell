@@ -12,7 +12,6 @@ int main()
   char *prompt;
   data = *(init_data(&data));
   signal(SIGINT, intHandler);
-  fill_path(&data);
   data.vars = NULL;
   using_history();
   tokens = NULL;
@@ -23,14 +22,10 @@ int main()
 	line = readline(prompt);
     free(prompt);
     if (line[0] == '\0')
-	{
-		//free(tokens);
-		//free(line);
 		continue;
-	}   
     if (line && *line)
       add_history(line);
-    tokens = gettokens(line, &data);
+	tokens = tokenize(line, &data);
     execute(tokens, &data);
     free(tokens);
 	free(data.path_args);

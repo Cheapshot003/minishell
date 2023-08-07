@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/03 16:51:57 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/07 12:33:55 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ typedef struct s_data{
 	char	*delim;
 }	t_data;
 
+typedef struct s_cmd{
+
+} t_cmd;
+
 typedef struct s_var
 {
 	struct s_var *next;
@@ -65,4 +69,15 @@ t_list	*ft_lst_remove(t_list **begin_list, void *data_ref, int (*cmp)());
 int	ft_cmp(void *a, void *b);
 char	*ft_strtok(char *str, const char *delim);
 t_data	*init_data(t_data *data);
+char **cmdtok(char *line, t_data *data);
+char **cmdlex(char **input_tokens, t_data *data);
+char	**tokenize(char *line, t_data *data);
+char	*getnexttoken(char *line);
+int		is_whitespace(char c);
+void	*ft_realloc(void* ptr, size_t new_size);
+char	**expander(char **tokens, t_data *data);
+int		is_special_char(char c);
+int		is_quote(char c);
+int 	is_empty_string(const char* str);
+char	**remove_empty_strings(char **input_tokens);
 #endif
