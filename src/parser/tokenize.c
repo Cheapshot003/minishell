@@ -58,12 +58,15 @@ char **cmdtok(char *line, t_data *data) {
 
 char **cmdlex(char **input_tokens, t_data *data)
 {
-  char** tokens = malloc((sizeof(input_tokens) / sizeof(input_tokens[0])) * sizeof(char*));
+  char** tokens;
     int token_count = 0;
     int i = 0;
 
 	(void)data;
-
+    while(input_tokens[i] != NULL)
+        i++;
+    tokens = malloc((i + 1) * sizeof(char*));
+    i = 0;
     while (input_tokens[i] != NULL) {
         char* token = input_tokens[i];
         int token_length = strlen(token);
