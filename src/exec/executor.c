@@ -7,7 +7,7 @@ int	execute1(t_data *data, t_exec *exec_head)
 
 	current_exec = exec_head;
 
-	while (current_exec)
+	while (current_exec && current_exec->path)
 	{
 		fork_exec(data, current_exec);
 		current_exec = current_exec->next;
