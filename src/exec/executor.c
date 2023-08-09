@@ -21,6 +21,14 @@ int fork_exec(t_data *data, t_exec *exec)
 	int	input_fd;
 	int output_fd;
 
+	exec->path[0] = expand_path(exec->path[0], data);
+	if (data->builtin == 1)
+	{
+		data->builtin = 0;
+		data->arg_count = getarrlen(exec->path);
+		internal_command(exec->path, data);
+		return (0);
+	}
 	pid = fork();
 	input_fd = 0;
 	output_fd = 1;
@@ -44,7 +52,6 @@ int fork_exec(t_data *data, t_exec *exec)
 			dup2(output_fd, 1);
 			close(output_fd);
 		}
-		exec->path[0] = find_path(exec->path[0], data);
 		execve(exec->path[0], exec->path, NULL);
 		perror("Exec failed\n");
 		return (1);
@@ -55,4 +62,65 @@ int fork_exec(t_data *data, t_exec *exec)
 	}
 
 	return (0);
+}
+
+int	containsslash(char *path)
+{
+	int i;
+
+	i = 0;
+	while (path[i])
+	{
+		if (path[i] == '\\')
+		{
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int isbuiltin(char *path)
+{
+	if (!ft_strncmp(path, "cd", 3))
+	{
+		return (1);
+	}
+	else if (!ft_strncmp(path, "exit", 5))
+	{
+		return (1);
+	}
+	else if (!ft_strncmp(path, "pwd", 4))
+	{
+		return (1);
+	}
+	else if (!ft_strncmp(path, "echo", 5))
+	{
+		return (1);
+	}
+	else if (!ft_strncmp(path, "export", 7))
+	{
+		return (1);
+	}
+	else if (!ft_strncmp(path, "unset", 6))
+	{
+		return (1);
+	}
+	return (0);
+}
+char *expand_path(char *path, t_data *data)
+{
+	if (containsslash(path) == 1)
+	{
+		return(path);
+	}
+	if (isbuiltin(path) == 1)
+	{
+		data->builtin = 1;
+		return(path);
+	}
+	else
+	{
+		return(find_path(path, data));
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/09 23:09:34 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/09 23:29:01 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_data{
 	char	*delim;
 	int		exit_status;
 	t_exec *exec_head;
+	int		builtin;
 }	t_data;
 
 
@@ -122,4 +123,7 @@ void	fillredirects(t_exec *head, t_data *data);
 void 	delete_t_cmd_at_index(t_cmd **head, int index);
 int		fork_exec(t_data *data, t_exec *exec);
 int	execute1(t_data *data, t_exec *exec_head);
+char *expand_path(char *path, t_data *data);
+void	ft_echo(t_data *data, char **tokens);
+
 #endif
