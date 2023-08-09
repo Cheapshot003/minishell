@@ -55,6 +55,7 @@ typedef struct s_var
 
 void	execute(char **tokens, t_data *data);
 void	intHandler(int lol);
+void quitHandler(int sig);
 int		internal_command(char **tokens, t_data *data);
 char	*getPrompt(char *working_dir);
 char	*find_path(char *program, t_data *data);
