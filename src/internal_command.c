@@ -104,6 +104,13 @@ void	ft_unset(t_data *data, char **tokens)
 	}
 }
 
+void	print_env_vars(t_list *lst)
+{
+	while(lst != NULL)
+		printf("%s=%s\n", ((t_var*)lst->content)->var_name, ((t_var*)lst->content)->var_value);
+		lst = lst->next;
+}
+
 void	ft_env(t_data *data, char **tokens)
 {
 	t_list *command_env;
@@ -112,7 +119,8 @@ void	ft_env(t_data *data, char **tokens)
 	t_list *previous_current_copy;
 	t_var *current_var;
 
-	// TODO: if tokens length < 2, print all env vars
+	if(ft_strlen(tokens) < 2)
+		print_env_vars(data->vars);
 	current = data->vars;
 	previous_current_copy = NULL;
 	command_env = NULL;
@@ -147,7 +155,7 @@ void	ft_env(t_data *data, char **tokens)
 	{
 		if (tokens[current_token] == NULL)
 		{
-			// TODO: If no utility operand is specified, the resulting environment shall be written to the standard output, with  one name=value pair per line.
+			print_env_vars(command_env);
 			break;
 		}
 		token_len = ft_strlen(tokens[current_token]);
