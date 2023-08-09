@@ -4,14 +4,11 @@ int main()
 {
   t_data data;
   char *line;
-  char **tokens;
-  char **tokens1;
   char *prompt;
   data = *(init_data(&data));
   signal(SIGINT, intHandler);
   data.vars = NULL;
   using_history();
-  tokens = NULL;
   while (1)
   {
     data.working_dir = getcwd(NULL, 0);
@@ -22,15 +19,8 @@ int main()
 		continue;
     if (line && *line)
       add_history(line);
-	tokens = tokenize(line, &data);
-    execute(tokens, &data);
-	tokens1 = tokens;
-	while(*tokens)
-	{
-		free(*tokens);
-		tokens++;
-	}
-    free(tokens1);
+	tokenize(line, &data);
+    execute1(&data, data.exec_head);
 	free(data.path_args);
     free(line);
   }

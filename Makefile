@@ -6,7 +6,7 @@
 #    By: otietz <otietz@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 15:30:52 by ohnatiuk          #+#    #+#              #
-#    Updated: 2023/08/07 12:12:36 by otietz           ###   ########.fr        #
+#    Updated: 2023/08/09 23:03:39 by otietz           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,13 @@ SRCS = src/main.c \
 	   src/data.c \
 	   src/parser/tokenize.c \
 	   src/parser/expand.c \
-	   src/parser/parser_utils.c
+	   src/parser/parser_utils.c \
+	   src/parser/parse.c \
+	   src/utils/cmdlist.c \
+	   src/utils/execlist.c \
+	   src/utils/utils1.c \
+	   src/parser/parse1.c \
+	   src/exec/executor.c
 
 libft = ./libft/libft.a
 

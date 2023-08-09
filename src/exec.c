@@ -3,50 +3,9 @@
 #include <time.h>
 #include <unistd.h>
 #include <sys/wait.h>
-void execute(char **tokens, t_data *data)
+void execute(t_data *data)
 {
-    char *path;
-    pid_t pid;
-
-    checkRedirects(tokens, data);
-    if (internal_command(tokens, data))
-        return;
-
-    char *program = tokens[0];
-    char **args = tokens;
-    path = find_path(program, data);
-    if (path == NULL)
-    {
-        printf("Error\n");
-        return;
-    }
-
-    // Fork a child process
-    pid = fork();
-
-    if (pid == -1)
-    {
-        perror("Fork failed");
-        exit(EXIT_FAILURE);
-    }
-    else if (pid == 0)
-    {
-        // Child process
-
-        setRedirects(data);
-
-        // Replace the last element of args with NULL (required by execve)
-
-        execve(path, args, NULL);
-        perror("Execve failed"); // This line will only execute if execve fails
-        exit(EXIT_FAILURE);
-    }
-    else
-    {
-        // Parent process
-        free(path);
-        wait(NULL);
-    }
+	(void)(data);
 }
 
 
