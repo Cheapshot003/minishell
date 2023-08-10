@@ -22,17 +22,30 @@ void	free_var(t_list *var_to_del)
 
 void	ft_echo(t_data *data, char **tokens)
 {
-	if (data->arg_count == 2)
-		printf("%s\n", tokens[1]);
-	else if (data->arg_count == 3)
-	{
-		if (!ft_strncmp(tokens[1], "-n", 3))
-			printf("%s", tokens[2]);
-		else
-			printf("Error\n");
-	}
-	else
-		printf("Error\n");
+	int with_newline;
+    int i;
+
+    with_newline = 1;
+    i = 1;
+    if (data->arg_count > 1)
+    {
+        if (ft_strncmp(tokens[i], "-n", 3) == 0)
+        {
+            with_newline = 0;
+            i++;
+        }
+        while (i < data->arg_count) {
+            printf("%s", tokens[i]);
+            if (i != data->arg_count - 1)
+                printf(" ");
+            i++;
+        }
+        if (with_newline)
+            printf("\n");
+    } else
+    {
+        printf("\n");
+    }
 }
 
 int add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned int token_len)
