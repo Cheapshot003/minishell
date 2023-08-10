@@ -107,6 +107,8 @@ char *find_path(char *program, t_data *data)
     char *path;
     char *full_path;
 
+    if (program[0] == '/' || program[0] == '.')
+        return (strdup(program));
     path_var = strdup(data->path_env); // Make a copy of the path_env to avoid modifying the original string
     path = ft_strtok(path_var, ":");
     while (path)

@@ -29,10 +29,32 @@ int fork_exec(t_data *data, t_exec *exec)
 		internal_command(exec->path, data);
 		return (0);
 	}
+	int vars_len = 0;
+	t_list *current = data->vars;
+	while (current != NULL)
+	{
+			vars_len++;
+			current = current->next;
+	}
+	char **env_vars = malloc((vars_len + 1) * sizeof(char *)); // +1 for NULL at the end
+	current = data->vars;
+	int i = 0;
+	while (current != NULL)
+	{
+		t_var *var = (t_var *)current->content;
+		char *env_var_str = malloc(ft_strlen(var->var_name) + ft_strlen(var->var_value) + 2); // 1 for '=', 1 for '\0'
+		env_var_str[0] = '\0';
+		ft_strlcat(env_var_str, var->var_name, ft_strlen(var->var_name) + 1);
+		ft_strlcat(env_var_str, "=", ft_strlen(var->var_name) + 2);
+		ft_strlcat(env_var_str, var->var_value, ft_strlen(var->var_name) + 1 + ft_strlen(var->var_value) + 1);
+		env_vars[i] = env_var_str;
+		i++;
+		current = current->next;
+	}
+  env_vars[i] = NULL;
 	pid = fork();
 	input_fd = 0;
 	output_fd = 1;
-
 	if (pid == -1)
 	{
 		perror("Fork failed\n");
@@ -52,13 +74,20 @@ int fork_exec(t_data *data, t_exec *exec)
 			dup2(output_fd, 1);
 			close(output_fd);
 		}
-		execve(exec->path[0], exec->path, NULL);
+		execve(exec->path[0], exec->path, env_vars);
 		perror("Exec failed\n");
 		return (1);
 	}
 	else
 	{
 		waitpid(pid, &(data->exit_status), 0);
+		i--;
+		while (i > 0)
+		{
+				free(env_vars[i]);
+				i--;
+		}
+		free(env_vars);
 	}
 
 	return (0);

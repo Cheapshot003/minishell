@@ -1,12 +1,15 @@
 #include "../includes/minishell.h"
 
-int main()  
+// static int received_signal;
+
+int main()
 {
   t_data data;
   char *line;
   char *prompt;
   data = *(init_data(&data));
   signal(SIGINT, intHandler);
+	signal(SIGQUIT, quitHandler);
   data.vars = NULL;
   using_history();
   while (1)
@@ -15,6 +18,11 @@ int main()
     prompt = getPrompt(data.working_dir);
 	line = readline(prompt);
     free(prompt);
+		if (line == NULL)
+		{
+			printf("exit\n");
+			break;
+		}
     if (line[0] == '\0')
 		continue;
     if (line && *line)
@@ -30,31 +38,37 @@ int main()
 
 char *getPrompt(char *working_dir)
 {
-  char *prompt;
+	char *prompt;
 
-  prompt = malloc(strlen(working_dir) + 3);
-  prompt[0] = '\0';
-  ft_strlcat(prompt, working_dir, strlen(working_dir) + 1);
-  ft_strlcat(prompt, "$ ", strlen(working_dir) + 3);
-  free(working_dir);
-  return (prompt);
+	prompt = malloc(strlen(working_dir) + 3);
+	prompt[0] = '\0';
+	ft_strlcat(prompt, working_dir, strlen(working_dir) + 1);
+	ft_strlcat(prompt, "$ ", strlen(working_dir) + 3);
+	free(working_dir);
+	return (prompt);
 }
 
 
 void intHandler(int lol)
 {
-  (void) lol;
-  printf("\n"); // Move to a new line
-  rl_on_new_line(); // Regenerate the prompt on a newline
-  rl_replace_line("", 0); // Clear the previous text
-  rl_redisplay();
-  return;
+	(void) lol;
+	// received_signal = lol;
+	printf("\n"); // Move to a new line
+	rl_on_new_line(); // Regenerate the prompt on a newline
+	rl_replace_line("", 0); // Clear the previous text
+	rl_redisplay();
+	return;
+}
+
+void quitHandler(int sig)
+{
+	(void) sig;
 }
 
 void fill_path(t_data *data)
 {
-  data->path_env = getenv("PATH");
-  return ;
+	data->path_env = getenv("PATH");
+	return ;
 }
 
 void free_data(t_data *data)
