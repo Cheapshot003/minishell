@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/07 13:19:58 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/09 23:29:01 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,24 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 
+typedef struct s_cmd{
+	char *str;
+	int	i;
+	struct s_cmd *next;
+	struct s_cmd *prev;
+} t_cmd;
+
+typedef struct s_exec{
+	char **path;
+	int		input_redirection;
+	int		output_redirection;
+	char	*input_file;
+	char	*output_file;
+	int		append_redirection;
+	struct s_exec *next;
+	struct s_exec *prev;
+} t_exec;
+
 typedef struct s_data{
 	char	*working_dir;
 	char	*path_env;
@@ -38,13 +56,14 @@ typedef struct s_data{
 	char	*input_file;
 	char	*output_file;
 	int		append_redirection;
+	t_cmd	*cmd_head;
 	t_list	*vars;
 	char	*delim;
+	int		exit_status;
+	t_exec *exec_head;
+	int		builtin;
 }	t_data;
 
-typedef struct s_cmd{
-
-} t_cmd;
 
 typedef struct s_var
 {
@@ -53,7 +72,7 @@ typedef struct s_var
 	char *var_value;
 } t_var;
 
-void	execute(char **tokens, t_data *data);
+void	execute(t_data *data);
 void	intHandler(int lol);
 void quitHandler(int sig);
 int		internal_command(char **tokens, t_data *data);
@@ -70,8 +89,8 @@ int	ft_cmp(void *a, void *b);
 char	*ft_strtok(char *str, const char *delim);
 t_data	*init_data(t_data *data);
 char **cmdtok(char *line, t_data *data);
-char **cmdlex(char **input_tokens, t_data *data);
-char	**tokenize(char *line, t_data *data);
+void cmdlex(char **input_tokens, t_data *data);
+void 	tokenize(char *line, t_data *data);
 char	*getnexttoken(char *line);
 int		is_whitespace(char c);
 void	*ft_realloc(void* ptr, size_t new_size);
@@ -80,4 +99,32 @@ int		is_special_char(char c);
 int		is_quote(char c);
 int 	is_empty_string(const char* str);
 char	**remove_empty_strings(char **input_tokens);
+void	parse(t_data *data);
+t_cmd	*getcmd(t_data *data);
+void	exiterror(t_data *data);
+int		count_pipes(t_data *data);
+void	getcmdlst(t_data *data, int npipes);
+t_cmd	*create_t_cmd(void);
+void	insert_t_cmd(t_cmd **head, t_cmd *new_cmd);
+void	free_t_cmd_list(t_cmd *head);
+t_cmd	*get_t_cmd_at_index(t_cmd *head, int index);
+void 	insert_t_cmd_at_index(t_cmd **head, t_cmd *new_cmd, int index);
+t_exec	*create_t_exec(void);
+void	insert_t_exec(t_exec **head, t_exec *new_cmd);
+void	free_t_exec_list(t_exec *head);
+t_exec	*get_t_exec_at_index(t_exec *head, int index);
+void 	insert_t_exec_at_index(t_exec **head, t_exec *new_cmd, int index);
+char	isdouble(char *token);
+t_exec *getexecs(t_data *data);
+void	fillpath(t_exec *head, t_data *data);
+char	**ft_appendstr(char **dest, char *str);
+int 	is_redirect(char *str);
+int		getarrlen(char **arr);
+void	fillredirects(t_exec *head, t_data *data);
+void 	delete_t_cmd_at_index(t_cmd **head, int index);
+int		fork_exec(t_data *data, t_exec *exec);
+int	execute1(t_data *data, t_exec *exec_head);
+char *expand_path(char *path, t_data *data);
+void	ft_echo(t_data *data, char **tokens);
+
 #endif

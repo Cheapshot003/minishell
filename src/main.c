@@ -4,49 +4,36 @@
 
 int main()
 {
-	t_data data;
-	char *line;
-	char **tokens;
-	char **tokens1;
-	char *prompt;
-	data = *(init_data(&data));
-	signal(SIGINT, intHandler);
+  t_data data;
+  char *line;
+  char *prompt;
+  data = *(init_data(&data));
+  signal(SIGINT, intHandler);
 	signal(SIGQUIT, quitHandler);
-	data.vars = NULL;
-	using_history();
-	tokens = NULL;
-	// received_signal = 0;
-	while (1)
-	{
-		data.working_dir = getcwd(NULL, 0);
-		prompt = getPrompt(data.working_dir);
-		line = readline(prompt);
-		free(prompt);
-		// line == NULL is ctrl + D
+  data.vars = NULL;
+  using_history();
+  while (1)
+  {
+    data.working_dir = getcwd(NULL, 0);
+    prompt = getPrompt(data.working_dir);
+	line = readline(prompt);
+    free(prompt);
 		if (line == NULL)
 		{
 			printf("exit\n");
 			break;
 		}
-		// handle correctly ctrl + c
-		if (line[0] == '\0')
-			continue;
-		if (line && *line)
-			add_history(line);
-		tokens = tokenize(line, &data);
-		execute(tokens, &data);
-		tokens1 = tokens;
-		while(*tokens)
-		{
-			free(*tokens);
-			tokens++;
-		}
-		free(tokens1);
-		free(data.path_args);
-		free(line);
-	}
-	free_data(&data);
-	return (0);
+    if (line[0] == '\0')
+		continue;
+    if (line && *line)
+      add_history(line);
+	tokenize(line, &data);
+    execute1(&data, data.exec_head);
+	free(data.path_args);
+    free(line);
+  }
+  free_data(&data);
+  return (0);
 }
 
 char *getPrompt(char *working_dir)

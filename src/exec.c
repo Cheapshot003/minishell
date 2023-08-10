@@ -3,79 +3,9 @@
 #include <time.h>
 #include <unistd.h>
 #include <sys/wait.h>
-void execute(char **tokens, t_data *data)
+void execute(t_data *data)
 {
-    char *path;
-    pid_t pid;
-
-    checkRedirects(tokens, data);
-    if (internal_command(tokens, data))
-        return;
-
-    char *program = tokens[0];
-    char **args = tokens;
-    path = find_path(program, data);
-    if (path == NULL)
-    {
-        printf("Error\n");
-        return;
-    }
-
-    // t_data vars to env var null-terminated array
-    int vars_len = 0;
-    t_list *current = data->vars;
-    while (current != NULL)
-    {
-        vars_len++;
-        current = current->next;
-    }
-    char **env_vars = malloc((vars_len + 1) * sizeof(char *)); // +1 for NULL at the end
-    current = data->vars;
-    int i = 0;
-    while (current != NULL)
-    {
-        t_var *var = (t_var *)current->content;
-        char *env_var_str = malloc(ft_strlen(var->var_name) + ft_strlen(var->var_value) + 2); // 1 for '=', 1 for '\0'
-        env_var_str[0] = '\0';
-        ft_strlcat(env_var_str, var->var_name, ft_strlen(var->var_name) + 1);
-        ft_strlcat(env_var_str, "=", ft_strlen(var->var_name) + 2);
-        ft_strlcat(env_var_str, var->var_value, ft_strlen(var->var_name) + 1 + ft_strlen(var->var_value) + 1);
-        env_vars[i] = env_var_str;
-        i++;
-        current = current->next;
-    }
-    env_vars[i] = NULL;
-    // Fork a child process
-    pid = fork();
-
-    if (pid == -1)
-    {
-        perror("Fork failed");
-        exit(EXIT_FAILURE);
-    }
-    else if (pid == 0)
-    {
-        // Child process
-        setRedirects(data);
-
-        // Replace the last element of args with NULL (required by execve)
-        execve(path, args, env_vars);
-        perror("Execve failed"); // This line will only execute if execve fails
-        exit(EXIT_FAILURE);
-    }
-    else
-    {
-        // Parent process
-        free(path);
-        wait(NULL);
-        i--;
-        while (i > 0)
-        {
-            free(env_vars[i]);
-            i--;
-        }
-        free(env_vars);
-    }
+	(void)(data);
 }
 
 

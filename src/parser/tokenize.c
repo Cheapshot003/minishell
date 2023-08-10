@@ -6,24 +6,21 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:13:56 by otietz            #+#    #+#             */
-/*   Updated: 2023/08/07 13:24:48 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/09 23:10:16 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char **tokenize(char *line, t_data *data)
+void tokenize(char *line, t_data *data)
 {
 	char **tokens;
-	char **tokens1;
 
 	tokens = cmdtok(line, data);
 	tokens = expander(tokens, data);
-	tokens1 = cmdlex(tokens, data);
-	tokens1 = remove_empty_strings(tokens1);
+	cmdlex(tokens, data);
 	free(tokens);
-	data->arg_count = (sizeof(tokens1) / sizeof(char *)) + 1;
-	return tokens1;
+	parse(data);
 }
 
 char **cmdtok(char *line, t_data *data) {
@@ -56,68 +53,59 @@ char **cmdtok(char *line, t_data *data) {
     return tokens;
 }
 
-char **cmdlex(char **input_tokens, t_data *data)
+void cmdlex(char **input_tokens, t_data *data)
 {
-  char** tokens;
-    int token_count = 0;
-    int i = 0;
+	int i;
+	t_cmd *head;
+	t_cmd *new;
+	int j;
+	char *temp;
+	char aux;
 
-	(void)data;
-    while(input_tokens[i] != NULL)
-        i++;
-    tokens = malloc((i + 1) * sizeof(char*));
-    i = 0;
-    while (input_tokens[i] != NULL) {
-        char* token = input_tokens[i];
-        int token_length = strlen(token);
-        int token_index = 0;
-        char* current_token = malloc((token_length + 1) * sizeof(char));
-
-        // Process each character of the token
-        for (int j = 0; j < token_length; j++) {
-            char c = token[j];
-            char next_c = token[j + 1];
-
-            // Check if it is a special character outside quotes
-            if (j == 0 && is_special_char(c) && !is_quote(c)) {
-                // Allocate memory for the special character token and add it to the tokens array
-                tokens[token_count] = malloc(2 * sizeof(char));
-                tokens[token_count][0] = c;
-                tokens[token_count][1] = '\0';
-                token_count++;
-            } else if (is_special_char(c) && !is_quote(c) && (next_c == '\0' || is_whitespace(next_c) || is_special_char(next_c))) {
-                // Add the current token to the tokens array
-                current_token[token_index] = '\0';
-                tokens[token_count] = current_token;
-                token_count++;
-
-                // Allocate memory for the special character token and add it to the tokens array
-                tokens[token_count] = malloc(2 * sizeof(char));
-                tokens[token_count][0] = c;
-                tokens[token_count][1] = '\0';
-                token_count++;
-
-                // Reset current_token for the next token
-                current_token = malloc((token_length + 1) * sizeof(char));
-                token_index = 0;
-            } else {
-                // Add the character to the current token
-                current_token[token_index] = c;
-                token_index++;
-            }
-        }
-
-        // Add the remaining token to the tokens array
-        current_token[token_index] = '\0';
-        tokens[token_count] = current_token;
-        token_count++;
-
-        i++; // Move to the next token
-    }
-
-    // Add a NULL pointer at the end of the array to indicate the end of tokens
-    tokens[token_count] = NULL;
-    return tokens; 
+	temp = NULL;
+	head = create_t_cmd();
+	data->cmd_head = head;
+	new = head;
+	j = 0;
+	i = 0;
+	while (input_tokens[i])
+	{
+		j = 0;	
+		if (is_special_char(input_tokens[i][0]))
+		{
+			while (is_special_char(input_tokens[i][j]))
+				j++;
+			
+			new->str = malloc((sizeof(char *) * j) + 1);
+			ft_strlcpy(new->str, input_tokens[i], j+1);
+			new = create_t_cmd();
+			insert_t_cmd(&head, new);
+			if (j > 0)
+			{
+				temp = strdup(input_tokens[i] + j);
+				free(input_tokens[i]);
+				input_tokens[i] = temp;
+				j--;
+			}
+		}
+		else
+		{
+			while(input_tokens[i][j] &&!is_special_char(input_tokens[i][j]))
+				j++;
+			aux = input_tokens[i][j];
+			input_tokens[i][j] = '\0';
+			temp = strdup(input_tokens[i]);
+			new->str = temp;
+			new = create_t_cmd();
+			insert_t_cmd(&head, new);
+			input_tokens[i][j] = aux;
+			temp = strdup(input_tokens[i] + j);
+			free(input_tokens[i]);
+			input_tokens[i] = temp;
+		}
+		if (input_tokens[i][0] == '\0')
+			i++;
+	}
 }
 
 int is_whitespace(char c) {
