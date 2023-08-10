@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   internal_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 07:21:55 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/09 23:38:38 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/09 23:38:38 by ohnatiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,23 @@ int add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned i
 	return (0);
 }
 
+void export_print_env_vars(t_list *vars)
+{
+	t_list *current;
+	t_var *current_var;
+
+	current = vars;
+	while (current != NULL)
+	{
+		current_var = (t_var *)current->content;
+		printf("declare -x %s", current_var->var_name);
+		if (current_var->var_value != NULL)
+			printf("=\"%s\"", current_var->var_value);
+		printf("\n");
+		current = current->next;
+	}
+}
+
 void	ft_export(t_data *data, char **tokens)
 {
 	char *var_name;
@@ -77,22 +94,51 @@ void	ft_export(t_data *data, char **tokens)
 	size_t	len;
 	int	i;
 
+	if (getarrlen(tokens) == 1)
+		export_print_env_vars(data->vars);
 	i = 1;
-	len = ft_strlen(tokens[1]);
 	while(tokens[i] != NULL)
 	{
+		len = ft_strlen(tokens[i]);
 		var_name = ft_strdup(ft_strtok(tokens[i], "="));
-		var_value = ft_strdup(ft_strtok(NULL, "="));
+		var_value = ft_strtok(NULL, "=");
+		if (var_value != NULL)
+			var_value = ft_strdup(var_value);
 		if (add_or_replace_var(&data->vars, var_name, var_value, len))
 		{
 			printf("Error\n");
 			free(var_name);
 			free(var_value);
 		}
-
-		//printf("%s == %s\n", ((t_var *)new_lst_el->content)->var_name, ((t_var *)new_lst_el->content)->var_value);
 		i++;
 	}
+}
+
+void	ft_exit(char **tokens)
+{
+	int	exit_arg;
+
+	if (tokens[1])
+	{
+		if (ft_is_num(tokens[1]) == 0)
+		{
+			exit_arg = ft_atoi(tokens[1]);
+			rl_clear_history();
+			free(tokens);
+			if (exit_arg >= 0 && exit_arg <= 255)
+			{
+				printf("exit\n");
+				exit(exit_arg);
+			}
+		}
+		else
+			printf("exit: %s: numeric argument required\n", tokens[1]);
+		exit(1);
+	}
+	printf("exit\n");
+	rl_clear_history();
+	free(tokens);
+	exit(0);
 }
 
 void	ft_unset(t_data *data, char **tokens)
@@ -105,9 +151,7 @@ void	ft_unset(t_data *data, char **tokens)
 	while(tokens[i] != NULL)
 	{
 		new_var.var_name = tokens[i];
-		//printf("before%s = %s\n", ((t_var *)data->vars[0].content)->var_name, ((t_var *)data->vars[0].content)->var_value);
 		deleted_var = ft_lst_remove(&data->vars, (void *)&new_var, ft_cmp);
-		//printf("after%s = %s\n", ((t_var *)data->vars[0].content)->var_name, ((t_var *)data->vars[0].content)->var_value);
 		if (deleted_var == NULL)
 		{
 			free(deleted_var);
@@ -205,14 +249,13 @@ int	internal_command(char **tokens, t_data *data)
 {
 	if (!ft_strncmp(tokens[0], "cd", 3))
 	{
-		chdir(tokens[1]);
+		if (chdir(tokens[1]) != 0)
+			printf("cd: %s: No such file or directory\n", tokens[1]);
 		return (1);
 	}
 	else if (!ft_strncmp(tokens[0], "exit", 5))
 	{
-		rl_clear_history();
-		free(tokens);
-		exit(0);
+		ft_exit(tokens);
 	}
 	else if (!ft_strncmp(tokens[0], "pwd", 4))
 	{

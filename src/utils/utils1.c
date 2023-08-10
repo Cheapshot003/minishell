@@ -34,3 +34,13 @@ int	getarrlen(char **arr)
 	return (i);
 }
 
+void free_array(void **arr)
+{
+	int i = 0;
+		while (arr[i] != NULL)
+		{
+				free(arr[i]);
+				i++;
+		}
+		free(arr);
+}
