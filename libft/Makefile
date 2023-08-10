@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ohnatiuk <marvin@42.fr>		    +#+  +:+       +#+         #
+#    By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/04 19:32:51 by ohnatiuk          #+#    #+#              #
 #    Updated: 2022/10/10 16:41:18 by ohnatiuk         ###   ########.fr        #

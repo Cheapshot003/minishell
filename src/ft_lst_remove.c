@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_remove.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 07:23:17 by ohnatiuk          #+#    #+#             */
 /*   Updated: 2023/08/04 07:23:19 by ohnatiuk         ###   ########.fr       */
