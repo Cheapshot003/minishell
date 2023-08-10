@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 08:11:00 by ohnatiuk          #+#    #+#             */
 /*   Updated: 2022/10/06 08:28:11 by ohnatiuk         ###   ########.fr       */

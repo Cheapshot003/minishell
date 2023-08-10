@@ -125,5 +125,9 @@ int		fork_exec(t_data *data, t_exec *exec);
 int	execute1(t_data *data, t_exec *exec_head);
 char *expand_path(char *path, t_data *data);
 void	ft_echo(t_data *data, char **tokens);
+char **get_env_vars_array(t_data *data);
+void free_array(void **arr);
+t_list *init_env_vars();
+int	ft_is_num(char *s);
 
 #endif

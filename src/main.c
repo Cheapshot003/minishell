@@ -10,7 +10,7 @@ int main()
   data = *(init_data(&data));
   signal(SIGINT, intHandler);
 	signal(SIGQUIT, quitHandler);
-  data.vars = NULL;
+  data.vars = init_env_vars();
   using_history();
   while (1)
   {

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <marvin@42.fr>		    +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 07:43:46 by ohnatiuk          #+#    #+#             */
 /*   Updated: 2022/10/25 09:00:00 by ohnatiuk         ###   ########.fr       */

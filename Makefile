@@ -33,6 +33,8 @@ SRCS = src/main.c \
 	   src/utils/cmdlist.c \
 	   src/utils/execlist.c \
 	   src/utils/utils1.c \
+		 src/utils/env_vars.c \
+		 src/utils/ft_isnum.c \
 	   src/parser/parse1.c \
 	   src/exec/executor.c
 

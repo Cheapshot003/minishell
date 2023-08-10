@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 12:35:22 by ohnatiuk          #+#    #+#             */
 /*   Updated: 2022/10/11 13:01:24 by ohnatiuk         ###   ########.fr       */

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:54:26 by ohnatiuk          #+#    #+#             */
 /*   Updated: 2022/10/14 21:55:10 by ohnatiuk         ###   ########.fr       */

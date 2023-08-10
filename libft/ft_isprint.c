@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <marvin@42.fr>		     +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 09:25:22 by ohnatiuk          #+#    #+#             */
 /*   Updated: 2022/10/06 09:39:58 by ohnatiuk         ###   ########.fr       */
