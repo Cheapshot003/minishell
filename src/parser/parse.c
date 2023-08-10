@@ -11,13 +11,13 @@ void parse(t_data *data)
 void	fillpath(t_exec *head, t_data *data)
 {
 	t_cmd *head_cmd;
-	t_exec *head_exec;
+	//t_exec *head_exec;
 	t_exec *current_exec;
 	t_cmd *current_cmd;
 	int done;
 
 	done = 0;
-	head_exec = head;
+	//head_exec = head;
 	current_exec = head;
 	head_cmd = data->cmd_head;
 	current_cmd = head_cmd;

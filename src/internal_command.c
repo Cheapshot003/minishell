@@ -107,8 +107,10 @@ void	ft_unset(t_data *data, char **tokens)
 void	print_env_vars(t_list *lst)
 {
 	while(lst != NULL)
+	{
 		printf("%s=%s\n", ((t_var*)lst->content)->var_name, ((t_var*)lst->content)->var_value);
 		lst = lst->next;
+	}
 }
 
 void	ft_env(t_data *data, char **tokens)
@@ -119,7 +121,7 @@ void	ft_env(t_data *data, char **tokens)
 	t_list *previous_current_copy;
 	t_var *current_var;
 
-	if(ft_strlen(tokens) < 2)
+	if(getarrlen(tokens) < 2)
 		print_env_vars(data->vars);
 	current = data->vars;
 	previous_current_copy = NULL;
@@ -168,7 +170,10 @@ void	ft_env(t_data *data, char **tokens)
 
 	t_list *original_env = data->vars;
 	data->vars = command_env;
-	execute(&tokens[current_token], data);
+	t_exec *exec_head;
+	exec_head = create_t_exec();
+	exec_head->path = &tokens[current_token];
+	execute1(data, exec_head);
 	data->vars = original_env;
 
 	// remove env copy

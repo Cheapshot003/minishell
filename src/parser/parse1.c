@@ -3,7 +3,7 @@
 void	fillredirects(t_exec *head, t_data *data)
 {
 	t_cmd *head_cmd;
-	t_exec *head_exec;
+	//t_exec *head_exec;
 	t_exec *current_exec;
 	t_cmd *current_cmd;
 	int done;
@@ -13,7 +13,7 @@ void	fillredirects(t_exec *head, t_data *data)
 	redirect = -1;
 	done = 0;
 	i = 0;
-	head_exec = head;
+	//head_exec = head;
 	current_exec = head;
 	head_cmd = data->cmd_head;
 	current_cmd = head_cmd;
