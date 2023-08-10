@@ -16,8 +16,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <readline/history.h>
-# include "/usr/include/readline/readline.h"
-# include "/usr/include/readline/history.h"
+# include "readline/readline.h"
 # include "../libft/libft.h"
 # include <stdlib.h>
 #	include <unistd.h>

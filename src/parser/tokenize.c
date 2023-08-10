@@ -126,10 +126,12 @@ char* getnexttoken(char *input) {
         i++;
     if (input[i] == '\'' || input[i] == '\"') {
         quote = input[i];
+				buffer[buffer_index++] = input[i];
         i++; // Move past the quote character
     }
     while (input[i] != '\0' && (quote || !is_whitespace(input[i]))) {
         if (quote && input[i] == quote) {
+						buffer[buffer_index++] = input[i];
             quote = 0; // Reset the quote flag
             i++; // Move past the closing quote character
             break;
