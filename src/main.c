@@ -94,7 +94,6 @@ int main(int argc, char **argv, char **envp)
     	execute1(&data, data.exec_head);
 	free(data.path_args);
     free(line);
-  	free_lst(&data);
   	data.skip = 0;
   }
   free_lst(&data);
