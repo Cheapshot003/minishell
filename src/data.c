@@ -1,5 +1,11 @@
 #include "../includes/minishell.h"
 
+void fill_path(t_data *data)
+{
+    data->path_env = getenv("PATH");
+    return ;
+}
+
 t_data *init_data(t_data *data)
 {
     data->append_redirection = 0;

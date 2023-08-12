@@ -1,9 +1,6 @@
 #include "../../includes/minishell.h"
-#include "../../libft/libft.h"
 
-extern char **environ;
-
-t_list *init_env_vars()
+t_list *init_env_vars(char **environ)
 {
   int i;
   t_var *new_var;
