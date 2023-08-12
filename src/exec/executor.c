@@ -46,6 +46,7 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 
 	char **env_vars = get_env_vars_array(data);
 	pid = fork();
+	signal(SIGQUIT, handleSignalByChild);
 	if (pid == -1)
 	{
 		perror("Fork failed\n");

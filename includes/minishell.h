@@ -77,17 +77,12 @@ typedef struct s_var
 } t_var;
 
 void	execute(t_data *data);
-void	intHandler(int lol);
-void quitHandler(int sig);
 int		internal_command(char **tokens, t_data *data);
-char	*getPrompt(char *working_dir);
 char	*find_path(char *program, t_data *data);
-void	fill_path(t_data *data);
 void	setRedirects(t_data *data);
 int		countargs(char **tokens, t_data *data);
 int		is_special(char *token);
 void	checkRedirects(char **tokens, t_data *data);
-void	free_data(t_data *data);
 t_list	*ft_lst_remove(t_list **begin_list, void *data_ref, int (*cmp)());
 int	ft_cmp(void *a, void *b);
 char	*ft_strtok(char *str, const char *delim);
@@ -132,8 +127,9 @@ int expand_paths(t_data *data, t_exec *exec_head);
 void	ft_echo(t_data *data, char **tokens);
 char **get_env_vars_array(t_data *data);
 void free_array(void **arr);
-t_list *init_env_vars();
+t_list *init_env_vars(char **environ);
 int	ft_is_num(char *s);
+void handleSignalByChild(int sig);
 int add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned int token_len);
 void	free_tok(char **tokens);
 void free_env(char **env);
