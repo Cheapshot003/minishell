@@ -26,12 +26,16 @@ void	fillredirects(t_exec *head, t_data *data)
 				{
 					if (redirect == 1)// < Input Redirection
 					{
+						if (current_exec->output_file != NULL)
+							free(current_exec->output_file);
 						current_exec->input_redirection = 1;
 						current_exec->input_file = ft_strdup(current_cmd->next->str);
 					} 
 					else if (redirect == 2) //> Output
 					{
-						current_exec->output_redirection = 1,
+						if (current_exec->output_file != NULL)
+							free(current_exec->output_file);
+						current_exec->output_redirection = 1;
 						current_exec->output_file = ft_strdup(current_cmd->next->str);
 					}
 					else if (redirect == 3) // << Heredoc
@@ -40,6 +44,8 @@ void	fillredirects(t_exec *head, t_data *data)
 					}
 					else if (redirect == 4) // >> Append
 					{
+						if (current_exec->output_file != NULL)
+							free(current_exec->output_file);
 						current_exec->append_redirection = 1;
 						current_exec->output_file = ft_strdup(current_cmd->next->str);
 					}

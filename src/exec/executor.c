@@ -9,7 +9,10 @@ int	execute1(t_data *data, t_exec *exec_head)
 
 	while (current_exec && current_exec->path)
 	{
-		fork_exec(data, current_exec);
+		if(fork_exec(data, current_exec) == 1)
+		{
+			printf("ERROR\n");
+		}
 		current_exec = current_exec->next;
 	}
 	return (0);
@@ -22,6 +25,8 @@ int fork_exec(t_data *data, t_exec *exec)
 	int output_fd;
 
 	exec->path[0] = expand_path(exec->path[0], data);
+	if (exec->path[0] == NULL)
+		return (1);
 	if (data->builtin == 1)
 	{
 		data->builtin = 0;
@@ -50,6 +55,12 @@ int fork_exec(t_data *data, t_exec *exec)
 		if (exec->output_redirection == 1)
 		{
 			output_fd = open(exec->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			dup2(output_fd, 1);
+			close(output_fd);
+		}
+		if (exec->append_redirection == 1)
+		{
+			output_fd = open(exec->output_file, O_WRONLY | O_CREAT | O_APPEND, 0666);
 			dup2(output_fd, 1);
 			close(output_fd);
 		}
