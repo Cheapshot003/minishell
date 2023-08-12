@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/12 14:35:44 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/12 16:16:28 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_exec{
 	char	*input_file;
 	char	*output_file;
 	int		append_redirection;
+	int		pipes[2];
 	struct s_exec *next;
 	struct s_exec *prev;
 } t_exec;
@@ -124,8 +125,8 @@ int 	is_redirect(char *str);
 int		getarrlen(char **arr);
 void	fillredirects(t_exec *head, t_data *data);
 void 	delete_t_cmd_at_index(t_cmd **head, int index);
-int		fork_exec(t_data *data, t_exec *exec);
 int	execute1(t_data *data, t_exec *exec_head);
+int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd);
 char *expand_path(char *path, t_data *data);
 void	ft_echo(t_data *data, char **tokens);
 char **get_env_vars_array(t_data *data);

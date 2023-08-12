@@ -14,6 +14,8 @@ t_exec *create_t_exec(void) {
 	new_exec->input_redirection = 0;
 	new_exec->output_file = NULL;
 	new_exec->output_redirection = 0;
+	new_exec->pipes[0] = -1;
+	new_exec->pipes[1] = -1;
 
     return new_exec;
 }

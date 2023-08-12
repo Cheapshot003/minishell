@@ -1,28 +1,37 @@
 #include "../../includes/minishell.h"
 
 
-int	execute1(t_data *data, t_exec *exec_head)
-{
-	t_exec *current_exec;
+int execute1(t_data *data, t_exec *exec_head) {
+    t_exec *current_exec = exec_head;
+    int input_fd = 0; // Initial input file descriptor
 
-	current_exec = exec_head;
+    while (current_exec && current_exec->path) {
+        if (pipe(current_exec->pipes) == -1) {
+            perror("pipe");
+            exit(EXIT_FAILURE);
+        }
 
-	while (current_exec && current_exec->path)
-	{
-		if(fork_exec(data, current_exec) == 1)
-		{
-			printf("ERROR\n");
-		}
-		current_exec = current_exec->next;
-	}
-	return (0);
+        if (fork_exec(data, current_exec, input_fd, current_exec->pipes[1]) == 1) {
+            printf("ERROR\n");
+            exit(EXIT_FAILURE);
+        }
+
+        // Close the write end of the pipe in the parent process
+        close(current_exec->pipes[1]);
+
+        // Set the input file descriptor for the next iteration
+        input_fd = current_exec->pipes[0];
+
+        current_exec = current_exec->next;
+    }
+
+    return 0;
 }
 
-int fork_exec(t_data *data, t_exec *exec)
+
+int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 {
 	pid_t pid;
-	int	input_fd;
-	int output_fd;
 
 	exec->path[0] = expand_path(exec->path[0], data);
 	if (exec->path[0] == NULL)
@@ -37,8 +46,6 @@ int fork_exec(t_data *data, t_exec *exec)
 
 	char **env_vars = get_env_vars_array(data);
 	pid = fork();
-	input_fd = 0;
-	output_fd = 1;
 	if (pid == -1)
 	{
 		perror("Fork failed\n");
@@ -46,6 +53,15 @@ int fork_exec(t_data *data, t_exec *exec)
 	}
 	else if (pid == 0)
 	{
+		if (input_fd != 0) {
+            dup2(input_fd, 0);
+            close(input_fd); // Close the read end of the previous pipe
+        }
+
+        // Redirect output if there's a pipe going to the next command
+        if (exec->next) {
+            dup2(output_fd, 1);
+        }
 		if (exec->input_redirection == 1)
 		{
 			input_fd = open(exec->input_file, O_RDONLY);
