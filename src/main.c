@@ -12,7 +12,7 @@ int main()
 	signal(SIGQUIT, quitHandler);
   data.vars = init_env_vars();
   using_history();
-  while (1)
+  while (data.exit == 0)
   {
     data.working_dir = getcwd(NULL, 0);
     prompt = getPrompt(data.working_dir);
@@ -31,9 +31,10 @@ int main()
     execute1(&data, data.exec_head);
 	free(data.path_args);
     free(line);
+  	free_data(&data);
   }
-  free_data(&data);
-  return (0);
+  free_lst(data.vars);
+  return (data.exit_arg);
 }
 
 char *getPrompt(char *working_dir)
@@ -73,6 +74,6 @@ void fill_path(t_data *data)
 
 void free_data(t_data *data)
 {
-	free(data->full_tokens);
-	free(data->path_args);
+	free_t_cmd_list(data->cmd_head);
+	free_t_exec_list(data->exec_head);
 }

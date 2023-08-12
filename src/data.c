@@ -13,6 +13,9 @@ t_data *init_data(t_data *data)
     data->path_env = NULL;
     data->working_dir = NULL;
 	data->builtin = 0;
+	data->exit_status = 0;
+	data->exit = 0;
+	data->exit_arg = 0;
   	fill_path(data);
     return data;
 }

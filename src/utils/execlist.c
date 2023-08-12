@@ -1,7 +1,7 @@
 #include "../../includes/minishell.h"
 
 t_exec *create_t_exec(void) {
-    t_exec *new_exec = (t_exec *)malloc(sizeof(t_exec));
+    t_exec *new_exec = (t_exec *)ft_calloc(1, sizeof(t_exec));
     if (new_exec == NULL) {
         perror("Memory allocation error");
         exit(EXIT_FAILURE);
@@ -32,15 +32,23 @@ void insert_t_exec(t_exec **head, t_exec *new_exec) {
     }
 }
 
-// Function to free the memory of the linked list
 void free_t_exec_list(t_exec *head) {
     while (head != NULL) {
-        t_exec *temp = head;
+		t_exec *temp = head;
         head = head->next;
+		if (temp->input_file != NULL)
+			free(temp->input_file);
+		if (temp->output_file != NULL)
+			free(temp->output_file);
+		//if (temp->path[0] != NULL)
+		//{
+			//free(temp->path[0]);
+		//	temp->path[0] = NULL;
+		//}
+		if (temp->path != NULL)
+			free(temp->path);
         
-        // Free any dynamically allocated memory in the t_exec struct
-        // For example: free(temp->str), free(temp->infile), free(temp->outfile), etc.
-        
+		temp->path = NULL;
         free(temp);
     }
 }

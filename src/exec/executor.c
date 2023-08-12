@@ -59,8 +59,10 @@ int fork_exec(t_data *data, t_exec *exec)
 	}
 	else
 	{
+		free(exec->path[0]);
 		waitpid(pid, &(data->exit_status), 0);
-		free_array((void **)env_vars);
+		data->exit_status = WEXITSTATUS(data->exit_status);
+		free_env(env_vars);
 	}
 
 	return (0);

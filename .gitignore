@@ -3,3 +3,4 @@ minishell
 .nfs*
 .vscode
 *.txt
+test*

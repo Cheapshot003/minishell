@@ -6,6 +6,8 @@ char *get_env_var_value(t_data *data, char *var_name)
     t_var *current_var;
 
     current = data->vars;
+	if (ft_strncmp(var_name, "?", ft_strlen(var_name)) == 0)
+		return (ft_itoa(data->exit_status));
     while (current != NULL)
     {
         current_var = (t_var *)current->content;

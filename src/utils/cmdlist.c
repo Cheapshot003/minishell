@@ -3,7 +3,7 @@
 
 
 t_cmd *create_t_cmd(void) {
-    t_cmd *new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
+    t_cmd *new_cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
     if (new_cmd == NULL) {
         perror("Memory allocation error");
         exit(EXIT_FAILURE);
@@ -36,7 +36,8 @@ void free_t_cmd_list(t_cmd *head) {
     while (head != NULL) {
         t_cmd *temp = head;
         head = head->next;
-        
+		if (temp->str != NULL)
+			free(temp->str); 
         // Free any dynamically allocated memory in the t_cmd struct
         // For example: free(temp->str), free(temp->infile), free(temp->outfile), etc.
         
@@ -124,6 +125,7 @@ void delete_t_cmd_at_index(t_cmd **head, int index) {
         if (*head != NULL) {
             (*head)->prev = NULL;
         }
+		free(temp->str);
         free(temp); // Free dynamically allocated memory
         return;
     }
@@ -146,5 +148,6 @@ void delete_t_cmd_at_index(t_cmd **head, int index) {
     if (current->next != NULL) {
         current->next->prev = current->prev;
     }
+	free(current->str);
     free(current); // Free dynamically allocated memory
 }

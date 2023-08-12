@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/09 23:29:01 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/12 09:46:38 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_data{
 	int		exit_status;
 	t_exec *exec_head;
 	int		builtin;
+	int		exit;
+	int		exit_arg;
 }	t_data;
 
 
@@ -129,5 +131,9 @@ char **get_env_vars_array(t_data *data);
 void free_array(void **arr);
 t_list *init_env_vars();
 int	ft_is_num(char *s);
+int add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned int token_len);
+void	free_tok(char **tokens);
+void free_env(char **env);
+void free_lst(t_list *lst);
 
 #endif
