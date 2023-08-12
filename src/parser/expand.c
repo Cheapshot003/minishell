@@ -6,7 +6,7 @@ char *get_env_var_value(t_data *data, char *var_name)
     t_var *current_var;
 
     current = data->vars;
-	data->exit_str = ft_itoa(data->exit_status);
+    data->exit_str = ft_itoa(data->exit_status);
 	if (ft_strncmp(var_name, "?", ft_strlen(var_name)) == 0)
 		return (data->exit_str);
     while (current != NULL)
@@ -44,6 +44,34 @@ void cut_quotes(char **tokens)
     }
 }
 
+char *find_and_replace_unclosed_quote(char  *str, char quote)
+{
+    int i = 0;
+    int move = 0;
+    int count = 0;
+    int last_quote_pos = 0;
+
+    while (str[i] != '\0') {
+        if (str[i] == quote) {
+            count++;
+            last_quote_pos = i;
+        }
+        i++;
+    }
+
+    if (count % 2 != 0) {
+        i = last_quote_pos;
+        while (str[i] != '\0') {
+            if (str[i] == quote)
+                move = 1;
+            if (move)
+                str[i] = str[i+1];
+            i++;
+        }
+    }
+    return str;
+}
+
 char **expander(char **tokens, t_data *data)
 {
 	int i;
@@ -60,6 +88,9 @@ char **expander(char **tokens, t_data *data)
 		j = 0;
 		while(tokens[i][j])
 		{
+            tokens[i] = find_and_replace_unclosed_quote(tokens[i], '\'');
+            tokens[i] = find_and_replace_unclosed_quote(tokens[i], '"');
+
             if (tokens[i][j] == '\'')
                 is_in_single_quote = !is_in_single_quote;
 			if (tokens[i][j] == '$' && is_in_single_quote == 0)
