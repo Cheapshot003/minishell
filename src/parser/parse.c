@@ -86,12 +86,12 @@ int	count_pipes(t_data *data)
 	return (npipes);	
 }
 
-void	exiterror(t_data *data)
+void	exiterror(t_data *data, char *errmsg, int exitbit)
 {
-	if (data->input_file != NULL)
-		free(data->input_file);
-	//TBC
-	printf("Fatal Error...exiting\n");
-	exit(1);
+	data->exit = exitbit;
+	if (exitbit == 0)
+		data->skip = 1;
+	printf("%s\n", errmsg);
+	return ;
 
 }

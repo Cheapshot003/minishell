@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/09 23:29:01 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/12 17:05:06 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_exec{
 	char	*input_file;
 	char	*output_file;
 	int		append_redirection;
+	int		pipes[2];
 	struct s_exec *next;
 	struct s_exec *prev;
 } t_exec;
@@ -61,6 +62,10 @@ typedef struct s_data{
 	int		exit_status;
 	t_exec *exec_head;
 	int		builtin;
+	int		exit;
+	int		exit_arg;
+	char	*exit_str;
+	int		skip;
 }	t_data;
 
 
@@ -95,7 +100,7 @@ int 	is_empty_string(const char* str);
 char	**remove_empty_strings(char **input_tokens);
 void	parse(t_data *data);
 t_cmd	*getcmd(t_data *data);
-void	exiterror(t_data *data);
+void	exiterror(t_data *data, char *errmsg, int exitbit);
 int		count_pipes(t_data *data);
 void	getcmdlst(t_data *data, int npipes);
 t_cmd	*create_t_cmd(void);
@@ -116,14 +121,18 @@ int 	is_redirect(char *str);
 int		getarrlen(char **arr);
 void	fillredirects(t_exec *head, t_data *data);
 void 	delete_t_cmd_at_index(t_cmd **head, int index);
-int		fork_exec(t_data *data, t_exec *exec);
 int	execute1(t_data *data, t_exec *exec_head);
-char *expand_path(char *path, t_data *data);
+int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd);
+int expand_paths(t_data *data, t_exec *exec_head);
 void	ft_echo(t_data *data, char **tokens);
 char **get_env_vars_array(t_data *data);
 void free_array(void **arr);
 t_list *init_env_vars(char **environ);
 int	ft_is_num(char *s);
 void handleSignalByChild(int sig);
+int add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned int token_len);
+void	free_tok(char **tokens);
+void free_env(char **env);
+void free_lst(t_data *data);
 
 #endif

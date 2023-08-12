@@ -71,7 +71,7 @@ int main(int argc, char **argv, char **envp)
   data.vars = init_env_vars(envp);
   received_signal = 0;
   using_history();
-  while (1)
+  while (data.exit == 0)
   {
       if (received_signal != 0)
           continue;
@@ -86,14 +86,17 @@ int main(int argc, char **argv, char **envp)
         break;
     }
     if (line[0] == '\0')
-		continue;
+		data.skip = 1;
     if (line && *line)
       add_history(line);
 	tokenize(line, &data);
-    execute1(&data, data.exec_head);
+	if(data.skip == 0)
+    	execute1(&data, data.exec_head);
 	free(data.path_args);
     free(line);
+  	free_lst(&data);
+  	data.skip = 0;
   }
-  free_data(&data);
-  return (0);
+  free_lst(&data);
+  return (data.exit_arg);
 }

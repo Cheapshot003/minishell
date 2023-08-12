@@ -17,7 +17,7 @@ void	fillredirects(t_exec *head, t_data *data)
 	current_cmd = head_cmd;
 	while (done == 0 && current_cmd)
 	{
-		while (current_cmd)
+		while (current_cmd->str != NULL)
 		{
 			if (ft_strncmp(current_cmd->str, "|", ft_strlen(current_cmd->str)) != 0)
 			{
@@ -26,19 +26,17 @@ void	fillredirects(t_exec *head, t_data *data)
 				{
 					if (redirect == 1)// < Input Redirection
 					{
+						if (current_exec->output_file != NULL)
+							free(current_exec->output_file);
 						current_exec->input_redirection = 1;
-						current_exec->input_file = current_cmd->next->str;
-						delete_t_cmd_at_index(&head_cmd, i+1);
-						delete_t_cmd_at_index(&head_cmd, i);
-						i = i - 1;
+						current_exec->input_file = ft_strdup(current_cmd->next->str);
 					} 
 					else if (redirect == 2) //> Output
 					{
-						current_exec->output_redirection = 1,
-						current_exec->output_file = current_cmd->next->str;
-						delete_t_cmd_at_index(&head_cmd, i+1);
-						delete_t_cmd_at_index(&head_cmd, i);
-						i = i - 1;
+						if (current_exec->output_file != NULL)
+							free(current_exec->output_file);
+						current_exec->output_redirection = 1;
+						current_exec->output_file = ft_strdup(current_cmd->next->str);
 					}
 					else if (redirect == 3) // << Heredoc
 					{
@@ -46,12 +44,16 @@ void	fillredirects(t_exec *head, t_data *data)
 					}
 					else if (redirect == 4) // >> Append
 					{
+						if (current_exec->output_file != NULL)
+							free(current_exec->output_file);
 						current_exec->append_redirection = 1;
-						current_exec->output_file = current_cmd->next->str;
-						delete_t_cmd_at_index(&head_cmd, i+1);
-						delete_t_cmd_at_index(&head_cmd, i);
-						i = i - 1;
+						current_exec->output_file = ft_strdup(current_cmd->next->str);
 					}
+					delete_t_cmd_at_index(&head_cmd, i+1);
+					delete_t_cmd_at_index(&head_cmd, i);
+					current_cmd = head_cmd;
+					i--;
+					continue;
 				}
 			}
 			current_cmd = current_cmd->next;
@@ -65,4 +67,19 @@ void	fillredirects(t_exec *head, t_data *data)
 			current_cmd = current_cmd->next;
 		}
 	}
+	data->cmd_head = head_cmd;
+}
+
+void	free_tok(char **tokens)
+{
+	int i;
+
+	i = getarrlen(tokens);
+	while (i >= 0)
+	{
+		free(tokens[i]);
+		i--;
+	}
+	free(tokens);
+	return ;
 }

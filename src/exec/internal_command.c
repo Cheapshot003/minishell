@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   internal_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
+/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 07:21:55 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/09 23:38:38 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/12 08:29:26 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,11 @@ void	ft_export(t_data *data, char **tokens)
 	}
 }
 
-void	ft_exit(char **tokens)
+void	ft_exit(char **tokens, t_data *data)
 {
 	int	exit_arg;
 
+	data->exit = 1;
 	if (tokens[1])
 	{
 		if (ft_is_num(tokens[1]) == 0)
@@ -128,17 +129,16 @@ void	ft_exit(char **tokens)
 			if (exit_arg >= 0 && exit_arg <= 255)
 			{
 				printf("exit\n");
-				exit(exit_arg);
+				data->exit_arg = exit_arg;
+				return ;
 			}
 		}
 		else
 			printf("exit: %s: numeric argument required\n", tokens[1]);
-		exit(1);
+		return ;
 	}
 	printf("exit\n");
-	rl_clear_history();
-	free(tokens);
-	exit(0);
+	data->exit = 1;
 }
 
 void	ft_unset(t_data *data, char **tokens)
@@ -255,7 +255,7 @@ int	internal_command(char **tokens, t_data *data)
 	}
 	else if (!ft_strncmp(tokens[0], "exit", 5))
 	{
-		ft_exit(tokens);
+		ft_exit(tokens, data);
 	}
 	else if (!ft_strncmp(tokens[0], "pwd", 4))
 	{

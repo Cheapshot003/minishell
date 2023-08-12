@@ -17,6 +17,7 @@ char **ft_appendstr(char **dest, char *str)
 	}
 	output[i] = str;
 	output[i+1] = NULL;
+	free(dest);
 	return (output);
 }
 
@@ -43,4 +44,19 @@ void free_array(void **arr)
 				i++;
 		}
 		free(arr);
+}
+
+void free_env(char **env)
+{
+	int i;
+
+	i = getarrlen(env);
+
+	while (i >= 0)
+	{	
+		free(env[i]);
+		i--;
+	}
+	free(env);
+	return ;
 }

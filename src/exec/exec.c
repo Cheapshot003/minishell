@@ -115,7 +115,7 @@ char *find_path(char *program, t_data *data)
     {
         // Calculate the length needed for the full path
         size_t full_path_len = strlen(path) + 1 + strlen(program) + 1; // path + '/' + program + '\0'
-        full_path = malloc(full_path_len);
+        full_path = ft_calloc(full_path_len, sizeof(char));
         if (full_path == NULL)
         {
             perror("Memory allocation error");

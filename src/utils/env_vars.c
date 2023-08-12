@@ -49,3 +49,30 @@ char **get_env_vars_array(t_data *data)
   env_vars[i] = NULL;
   return (env_vars);
 }
+
+void free_lst(t_data *data)
+{
+	t_var *temp;
+	t_list *temp1;
+	t_list *lst;
+
+	lst = data->vars;
+	while(lst->next != NULL)
+	{
+		temp = (t_var *)lst->content;
+		temp1 = lst;
+		free(temp->var_name);
+		free(temp->var_value);
+		free(temp1->content);
+		lst = lst->next;
+		free(temp1);
+	}
+	temp = (t_var *)lst->content;
+	temp1 = lst;
+	free(temp->var_name);
+	free(temp->var_value);
+	free(temp1->content);
+	free(temp1);
+	rl_clear_history();
+	
+}

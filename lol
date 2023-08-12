@@ -1,3 +1,0 @@
-hallo
-ich
-bin Ole
