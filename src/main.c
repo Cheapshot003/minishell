@@ -33,7 +33,7 @@ int main()
     free(line);
   	free_data(&data);
   }
-  free_lst(data.vars);
+  free_lst(&data);
   return (data.exit_arg);
 }
 
@@ -76,4 +76,9 @@ void free_data(t_data *data)
 {
 	free_t_cmd_list(data->cmd_head);
 	free_t_exec_list(data->exec_head);
+	if (data->exit_str != NULL)
+	{
+		free(data->exit_str);
+		data->exit_str = NULL;
+	}
 }

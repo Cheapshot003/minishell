@@ -16,6 +16,7 @@ t_data *init_data(t_data *data)
 	data->exit_status = 0;
 	data->exit = 0;
 	data->exit_arg = 0;
+	data->exit_str = NULL;
   	fill_path(data);
     return data;
 }
