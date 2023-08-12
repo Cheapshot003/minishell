@@ -42,14 +42,8 @@ void free_t_exec_list(t_exec *head) {
 			free(temp->input_file);
 		if (temp->output_file != NULL)
 			free(temp->output_file);
-		//if (temp->path[0] != NULL)
-		//{
-			//free(temp->path[0]);
-		//	temp->path[0] = NULL;
-		//}
 		if (temp->path != NULL)
 			free(temp->path);
-        
 		temp->path = NULL;
         free(temp);
     }
@@ -60,7 +54,6 @@ t_exec *get_t_exec_at_index(t_exec *head, int index) {
         fprintf(stderr, "Invalid index\n");
         return NULL;
     }
-
     t_exec *current = head;
     int count = 0;
     while (current != NULL && count < index) {

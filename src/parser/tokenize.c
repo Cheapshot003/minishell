@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:13:56 by otietz            #+#    #+#             */
-/*   Updated: 2023/08/12 09:28:38 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/12 16:44:55 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,11 @@ void cmdlex(char **input_tokens, t_data *data)
 		{
 			while (is_special_char(input_tokens[i][j]))
 				j++;
-			
+			if (input_tokens[i][0] == '|' && j > 1)
+			{
+				exiterror(data, "ERROR: Double pipe detected. Not supported :(", 0);
+				return ;
+			}
 			new->str = ft_calloc((sizeof(char *) * j) + 1, sizeof(char));
 			ft_strlcpy(new->str, input_tokens[i], j+1);
 			new = create_t_cmd();

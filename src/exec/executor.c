@@ -58,7 +58,6 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
             close(input_fd); // Close the read end of the previous pipe
         }
 
-        // Redirect output if there's a pipe going to the next command
         if (exec->next) {
             dup2(output_fd, 1);
         }

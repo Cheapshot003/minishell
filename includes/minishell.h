@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/12 16:16:28 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/12 16:42:58 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_data{
 	int		exit;
 	int		exit_arg;
 	char	*exit_str;
+	int		skip;
 }	t_data;
 
 
@@ -104,7 +105,7 @@ int 	is_empty_string(const char* str);
 char	**remove_empty_strings(char **input_tokens);
 void	parse(t_data *data);
 t_cmd	*getcmd(t_data *data);
-void	exiterror(t_data *data);
+void	exiterror(t_data *data, char *errmsg, int exitbit);
 int		count_pipes(t_data *data);
 void	getcmdlst(t_data *data, int npipes);
 t_cmd	*create_t_cmd(void);

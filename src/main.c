@@ -28,10 +28,12 @@ int main()
     if (line && *line)
       add_history(line);
 	tokenize(line, &data);
-    execute1(&data, data.exec_head);
+	if(data.skip == 0)
+    	execute1(&data, data.exec_head);
 	free(data.path_args);
     free(line);
   	free_data(&data);
+  	data.skip = 0;
   }
   free_lst(&data);
   return (data.exit_arg);
