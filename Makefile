@@ -6,7 +6,7 @@
 #    By: otietz <otietz@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 15:30:52 by ohnatiuk          #+#    #+#              #
-#    Updated: 2023/08/12 17:29:06 by otietz           ###   ########.fr        #
+#    Updated: 2023/08/12 17:30:58 by otietz           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,10 @@ CFLAGS = -Wall -Werror -Wextra -Ilibft -g
 LDFLAGS = -Llibft -l:libft.a -lreadline -lncurses
 
 SRCS = src/main.c \
-       src/utils.c \
        src/exec/exec.c \
-			 src/utils/ft_lst_remove.c \
-			 src/exec/internal_command.c \
-			 src/utils/ft_strtok.c \
+	src/utils/ft_lst_remove.c \
+	src/exec/internal_command.c \
+	src/utils/ft_strtok.c \
 	   src/utils/data.c \
 	   src/parser/tokenize.c \
 	   src/parser/expand.c \
@@ -33,6 +32,7 @@ SRCS = src/main.c \
 	   src/utils/cmdlist.c \
 	   src/utils/execlist.c \
 	   src/utils/utils1.c \
+	   src/utils/utils.c \
 		 src/utils/env_vars.c \
 		 src/utils/ft_isnum.c \
 	   src/parser/parse1.c \
