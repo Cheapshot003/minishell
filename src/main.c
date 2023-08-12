@@ -24,7 +24,7 @@ int main()
 			break;
 		}
     if (line[0] == '\0')
-		continue;
+		data.skip = 1;
     if (line && *line)
       add_history(line);
 	tokenize(line, &data);

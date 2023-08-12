@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/12 16:42:58 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/12 17:05:06 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	fillredirects(t_exec *head, t_data *data);
 void 	delete_t_cmd_at_index(t_cmd **head, int index);
 int	execute1(t_data *data, t_exec *exec_head);
 int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd);
-char *expand_path(char *path, t_data *data);
+int expand_paths(t_data *data, t_exec *exec_head);
 void	ft_echo(t_data *data, char **tokens);
 char **get_env_vars_array(t_data *data);
 void free_array(void **arr);

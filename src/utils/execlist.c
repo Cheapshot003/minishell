@@ -35,7 +35,7 @@ void insert_t_exec(t_exec **head, t_exec *new_exec) {
 }
 
 void free_t_exec_list(t_exec *head) {
-    while (head != NULL) {
+	while (head != NULL) {
 		t_exec *temp = head;
         head = head->next;
 		if (temp->input_file != NULL)

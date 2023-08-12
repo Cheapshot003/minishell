@@ -37,11 +37,12 @@ void free_t_cmd_list(t_cmd *head) {
         t_cmd *temp = head;
         head = head->next;
 		if (temp->str != NULL)
+		{
 			free(temp->str); 
-        // Free any dynamically allocated memory in the t_cmd struct
-        // For example: free(temp->str), free(temp->infile), free(temp->outfile), etc.
-        
+			temp->str = NULL;
+		}
         free(temp);
+		temp = NULL;
     }
 }
 

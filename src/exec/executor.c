@@ -4,7 +4,11 @@
 int execute1(t_data *data, t_exec *exec_head) {
     t_exec *current_exec = exec_head;
     int input_fd = 0; // Initial input file descriptor
-
+	if (expand_paths(data, exec_head) == 1)
+	{
+		exiterror(data, "Error: Command not found", 0);
+		return (1);
+	}
     while (current_exec && current_exec->path) {
         if (pipe(current_exec->pipes) == -1) {
             perror("pipe");
@@ -12,8 +16,7 @@ int execute1(t_data *data, t_exec *exec_head) {
         }
 
         if (fork_exec(data, current_exec, input_fd, current_exec->pipes[1]) == 1) {
-            printf("ERROR\n");
-            exit(EXIT_FAILURE);
+            return (1);
         }
 
         // Close the write end of the pipe in the parent process
@@ -33,9 +36,6 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 {
 	pid_t pid;
 
-	exec->path[0] = expand_path(exec->path[0], data);
-	if (exec->path[0] == NULL)
-		return (1);
 	if (data->builtin == 1)
 	{
 		data->builtin = 0;
@@ -86,6 +86,7 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 	else
 	{
 		free(exec->path[0]);
+		exec->path[0] = NULL;
 		waitpid(pid, &(data->exit_status), 0);
 		data->exit_status = WEXITSTATUS(data->exit_status);
 		free_env(env_vars);
@@ -138,19 +139,29 @@ int isbuiltin(char *path)
 	}
 	return (0);
 }
-char *expand_path(char *path, t_data *data)
+int expand_paths(t_data *data, t_exec *exec_head)
 {
-	if (containsslash(path) == 1)
+	t_exec *current;
+
+	current = exec_head;
+	while (current && current->path)
 	{
-		return(path);
+		if (containsslash(current->path[0]) == 1)
+		{
+			return(0);
+		}
+		if (isbuiltin(current->path[0]) == 1)
+		{
+			data->builtin = 1;
+			return(0);
+		}
+		else
+		{
+			current->path[0] = find_path(current->path[0], data);
+			if (current->path[0] == NULL)
+				return (1);
+		}
+		current = current->next;
 	}
-	if (isbuiltin(path) == 1)
-	{
-		data->builtin = 1;
-		return(path);
-	}
-	else
-	{
-		return(find_path(path, data));
-	}
+	return(0);
 }
