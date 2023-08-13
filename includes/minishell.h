@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/12 17:05:06 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/13 10:19:14 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <term.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <errno.h>
 
 typedef struct s_cmd{
 	char *str;
@@ -138,5 +139,5 @@ int add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned i
 void	free_tok(char **tokens);
 void free_env(char **env);
 void free_lst(t_data *data);
-
+void handle_execerr(t_data *data);
 #endif

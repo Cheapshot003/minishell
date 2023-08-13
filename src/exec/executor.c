@@ -80,7 +80,10 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 			close(output_fd);
 		}
 		execve(exec->path[0], exec->path, env_vars);
-		perror("Exec failed\n");
+		handle_execerr(data);
+		free(exec->path[0]);
+		exec->path[0] = NULL;
+		free_env(env_vars);
 		return (1);
 	}
 	else
