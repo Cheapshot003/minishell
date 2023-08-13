@@ -18,16 +18,10 @@ int execute1(t_data *data, t_exec *exec_head) {
         if (fork_exec(data, current_exec, input_fd, current_exec->pipes[1]) == 1) {
             return (1);
         }
-
-        // Close the write end of the pipe in the parent process
         close(current_exec->pipes[1]);
-
-        // Set the input file descriptor for the next iteration
         input_fd = current_exec->pipes[0];
-
         current_exec = current_exec->next;
     }
-
     return 0;
 }
 
@@ -95,7 +89,6 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 		data->exit_status = WEXITSTATUS(data->exit_status);
 		free_env(env_vars);
 	}
-
 	return (0);
 }
 
@@ -118,29 +111,17 @@ int	containsslash(char *path)
 int isbuiltin(char *path)
 {
 	if (!ft_strncmp(path, "cd", 3))
-	{
 		return (1);
-	}
 	else if (!ft_strncmp(path, "exit", 5))
-	{
 		return (1);
-	}
 	else if (!ft_strncmp(path, "pwd", 4))
-	{
 		return (1);
-	}
 	else if (!ft_strncmp(path, "echo", 5))
-	{
 		return (1);
-	}
 	else if (!ft_strncmp(path, "export", 7))
-	{
 		return (1);
-	}
 	else if (!ft_strncmp(path, "unset", 6))
-	{
 		return (1);
-	}
 	return (0);
 }
 int expand_paths(t_data *data, t_exec *exec_head)
