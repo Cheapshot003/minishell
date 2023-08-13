@@ -56,6 +56,12 @@ void free_data(t_data *data)
 		free(data->exit_str);
 		data->exit_str = NULL;
 	}
+	data->cmd_head = NULL;
+	data->exec_head = NULL;
+	data->append_redirection = 0;
+	data->builtin = 0;
+	data->delim = NULL;
+	data->input_redirection = 0;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -95,10 +101,8 @@ int main(int argc, char **argv, char **envp)
     if (line && *line)
       add_history(line);
 	tokenize(line, &data);
-	if(data.skip == 0)
-    	execute1(&data, data.exec_head);
+    execute1(&data, data.exec_head);
 	free(data.path_args);
-    free(line);
   	data.skip = 0;
 	free_data(&data);
   }

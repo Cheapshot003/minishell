@@ -4,6 +4,8 @@
 int execute1(t_data *data, t_exec *exec_head) {
     t_exec *current_exec = exec_head;
     int input_fd = 0; // Initial input file descriptor
+	if (data->skip)
+		return (0);
 	if (expand_paths(data, exec_head) == 1)
 	{
 		exiterror(data, "Error: Command not found", 0);

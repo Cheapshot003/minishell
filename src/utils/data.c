@@ -24,6 +24,8 @@ t_data *init_data(t_data *data)
 	data->exit_arg = 0;
 	data->exit_str = NULL;
 	data->skip = 0;
+	data->cmd_head = 0;
+	data->exec_head = 0;
   	fill_path(data);
     return data;
 }

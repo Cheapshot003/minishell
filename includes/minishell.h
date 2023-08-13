@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/13 10:41:15 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/13 16:48:43 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void 	tokenize(char *line, t_data *data);
 char	*getnexttoken(char *line);
 int		is_whitespace(char c);
 void	*ft_realloc(void* ptr, size_t new_size);
-char	**expander(char **tokens, t_data *data);
+void	expander(char **tokens, t_data *data);
 int		is_special_char(char c);
 int		is_quote(char c);
 int 	is_empty_string(const char* str);
@@ -136,4 +136,7 @@ void	free_tok(char **tokens);
 void free_env(char **env);
 void free_lst(t_data *data);
 void handle_execerr(t_data *data);
+int	is_closed(char **tokens, int i, int j);
+char *clear_single_quotes(char *str);
+int is_closed_line(char *line, int i);
 #endif

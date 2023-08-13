@@ -4,15 +4,21 @@ char *get_env_var_value(t_data *data, char *var_name)
 {
     t_list *current;
     t_var *current_var;
+	int i;
 
+	i = 0;
     current = data->vars;
+	while (*var_name == '\"' || *var_name == '$')
+		var_name++;
+	while (var_name[i] && var_name[i] != '\"' && var_name[i] != '\'' && !is_whitespace(var_name[i]))
+		i++;
     data->exit_str = ft_itoa(data->exit_status);
 	if (ft_strncmp(var_name, "?", ft_strlen(var_name)) == 0)
 		return (data->exit_str);
     while (current != NULL)
     {
         current_var = (t_var *)current->content;
-        if (ft_strncmp(current_var->var_name, var_name, ft_strlen(var_name)) == 0) {
+        if (ft_strncmp(current_var->var_name, var_name, i) == 0) {
             return current_var->var_value;
         }
         current = current->next;
@@ -71,65 +77,117 @@ char *find_and_replace_unclosed_quote(char  *str, char quote)
     }
     return str;
 }
+void	insert_var(t_data *data, char *line, int i)
+{
+	char *var;
+	char *rest;
 
-char **expander(char **tokens, t_data *data)
+	rest = line + i ;
+	var = get_env_var_value(data, line+i);
+
+}
+
+char *get_env(t_data *data, char *token)
+{
+	int i;
+	char name[1024];
+	char *value;
+
+	i = 0;
+
+	while(token[i] && !is_whitespace(token[i]) && !is_special_char(token[i]))
+	{
+		i++;
+	}
+	ft_strlcpy(name, token, i+1);
+	value = get_env_var_value(data, name);
+	return (value);
+}
+char *get_rest(char *rest)
+{
+	int i;
+
+	i = 0;
+	while (rest[i] && !is_whitespace(rest[i]) && rest[i] != '\"' && !is_special_char(rest[i]))
+	{
+		i++;
+	}
+	if (rest[i])
+		return (ft_strdup(rest + i));
+	else
+		return (NULL);
+}
+void expander(char **tokens, t_data *data) 
 {
 	int i;
 	int j;
-    char *var_name;
-    int var_name_length;
-	char *var_value;
-    int is_in_single_quote;
-
+	char temp[1024];
+	char *rest;
+	char *env;
 	i = 0;
-	while(tokens[i])
+	while (tokens[i])
 	{
-        is_in_single_quote = 0;
 		j = 0;
-		while(tokens[i][j])
+		if (tokens[i][0] == '\'')
+			i++;
+		else
 		{
-            tokens[i] = find_and_replace_unclosed_quote(tokens[i], '\'');
-            tokens[i] = find_and_replace_unclosed_quote(tokens[i], '"');
-
-            if (tokens[i][j] == '\'')
-                is_in_single_quote = !is_in_single_quote;
-			if (tokens[i][j] == '$' && is_in_single_quote == 0)
+			while (tokens[i][j])
 			{
-                var_name_length = 0;
-                while (ft_isalnum(tokens[i][j + 1 +var_name_length]) || tokens[i][j + 1 +var_name_length] == '_') {
-                    var_name_length++;
-                }
-                var_name = malloc(var_name_length * sizeof(char) + 1);
-                var_name[0] = '\0';
-                ft_strlcpy(var_name, &tokens[i][j + 1], var_name_length + 1);
-				var_value = get_env_var_value(data, var_name);
-                free(var_name);
+				if (tokens[i][j] == '$' && (tokens[i][j+1] && !is_whitespace(tokens[i][j])))
+				{
+					tokens[i][j] = '\0';
+					rest = get_rest(tokens[i] + j + 1);
+					ft_strlcpy(temp, tokens[i], ft_strlen(tokens[i]) + 1);
+					env = get_env(data, tokens[i] + j + 1);
+					if (env != NULL)
+						ft_strlcat(temp, env, (ft_strlen(temp) + ft_strlen(env) + 1));
+					if (rest != NULL)
+						ft_strlcat(temp, rest, ft_strlen(temp) + ft_strlen(rest) + 1);
+					j = j + ft_strlen(env) - 1;
+					//free(tokens[i]);
+					tokens[i] = temp;
+				}
+				j++;
+			}
+			i++;
+		}
+	}
+}
+int	clearstrlen(char *str)
+{
+	int i;
+	int j;
 
-                int old_token_len = ft_strlen(&tokens[i][j]);
-                int new_token_length = j + (old_token_len - var_name_length - 1);
-                if (var_value != NULL)
-                    new_token_length += ft_strlen(var_value);
-                char *new_token = malloc(new_token_length * sizeof(char) + 1);
-                new_token[0] = '\0';
-                tokens[i][j] = '\0';
-                int current_new_token_length = ft_strlen(tokens[i]);
-                ft_strlcat(new_token, tokens[i], current_new_token_length + 1);
-                if (var_value != NULL) {
-                    current_new_token_length += ft_strlen(var_value);
-                    ft_strlcat(new_token, var_value, current_new_token_length + 1);
-                }
-                current_new_token_length += ft_strlen(&tokens[i][j + 1 + var_name_length]);
-                ft_strlcat(new_token, &tokens[i][j + 1 + var_name_length], current_new_token_length + 1);
-                free(tokens[i]);
-                tokens[i] = new_token;
-                if (var_value != NULL)
-                    j += ft_strlen(var_value);
-			} else {
-                j++;
-            }
+	j = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '\'')
+			j++;
+		i++;
+	}
+	return (j);
+}
+char *clear_single_quotes(char *str)
+{
+	int i;
+	char *output;
+	int len;
+
+	len = clearstrlen(str);
+	i = 0;
+	output = malloc(len);
+	while(str[i])
+	{
+		if (str[i] == '\'')
+		{
+			str[i] = '\0';
+			ft_strlcat(output, str, len);
 		}
 		i++;
 	}
-    cut_quotes(tokens);
-	return (tokens);
+	free(str);
+	str = NULL;
+	return (output);
 }

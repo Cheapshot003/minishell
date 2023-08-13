@@ -1,5 +1,19 @@
 #include "../../includes/minishell.h"
 
+char *trim_var(char *var)
+{
+	int i;
+	char *val;
+
+	i = 0;
+	while(var[i] != '=')
+		i++;
+	if (var[i] == '=')
+		var[i] = '\0';
+	val = var + i + 1;
+	return(val);
+}
+
 t_list *init_env_vars(char **environ)
 {
   int i;
@@ -14,7 +28,7 @@ t_list *init_env_vars(char **environ)
   {
     new_var = malloc(sizeof(t_var));
     new_var->var_name = ft_strdup(environ[i]);
-    var_value = getenv(environ[i]);
+    var_value = trim_var(environ[i]);
     if (var_value != NULL)
       var_value = ft_strdup(var_value);
     new_var->var_value = var_value;

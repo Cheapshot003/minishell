@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:13:56 by otietz            #+#    #+#             */
-/*   Updated: 2023/08/12 17:05:20 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/13 12:17:32 otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 void tokenize(char *line, t_data *data)
 {
+	if (data->skip)
+		return ;
 	char **tokens;
-
 	tokens = cmdtok(line, data);
-	tokens = expander(tokens, data);
+	if (tokens == NULL)
+		return ;
+	expander(tokens, data);
 	cmdlex(tokens, data);
 	free_tok(tokens);
 	parse(data);
@@ -26,31 +29,50 @@ void tokenize(char *line, t_data *data)
 char **cmdtok(char *line, t_data *data) {
     char *tok;
     char **tokens;
-    int tokens_capacity; // Current capacity of the tokens array
+	int double_quote;
+	int	single_quote;
     int i;
+	char *temp;
 
+	temp = line;
+	i = 0;
 	(void)data;
-    i = 0;
-    tokens_capacity = 10;
-    tokens = malloc(tokens_capacity * sizeof(char *));
-    while (*line != '\0') {
-        tok = getnexttoken(line);
-        if (tok == NULL)
-            break;
-        if (i == tokens_capacity) {
-            tokens_capacity *= 2;
-            char** temp = malloc(tokens_capacity * sizeof(char *));
-            ft_memcpy(temp, tokens, i * sizeof(char *));
-            free(tokens);
-            tokens = temp;
-        }
-        tokens[i] = strdup(tok);
-		if (tok != NULL)
-			free(tok);
-        i++;
-    }
-    tokens[i] = NULL;
-    return tokens;
+	single_quote = 0;
+	tokens = NULL;
+	double_quote = 0;
+	while (is_whitespace(line[i]))
+		i++;
+	while (line[i])
+	{
+		if (line[i] == '\'' && double_quote == 0)
+			single_quote = !single_quote;
+		else if (line[i] == '\"' && single_quote == 0)
+			double_quote = !double_quote;
+		else if (is_whitespace(line[i]) && single_quote == 0 && double_quote == 0)
+		{
+			while(is_whitespace(line[i]))
+				i++;
+			tok = malloc(i);
+			if (tok == NULL)
+				return (NULL);
+			line[i-1] = '\0';
+			ft_strlcpy(tok, line, i);
+			tokens = ft_appendstr(tokens, tok);
+			line = line + i;
+			i = -1;
+		}
+		i++;
+	}
+	if (double_quote || single_quote)
+	{
+		exiterror(data, "Error: Unclosed quotes not supported!", 0);
+		return (NULL);
+	}
+	tok = ft_strdup(line);
+	free(temp);
+	tokens = ft_appendstr(tokens, tok);
+	return (tokens);
+
 }
 
 void cmdlex(char **input_tokens, t_data *data)
@@ -60,54 +82,47 @@ void cmdlex(char **input_tokens, t_data *data)
 	t_cmd *new;
 	int j;
 	char *temp;
-	char aux;
+	char aux[1024];
+	int single_quotes;
+	int double_quotes;
 
 	temp = NULL;
+	single_quotes = 0;
+	double_quotes = 0;
 	head = create_t_cmd();
 	data->cmd_head = head;
 	new = head;
-	j = 0;
 	i = 0;
 	while (input_tokens[i])
 	{
-		j = 0;	
-		if (is_special_char(input_tokens[i][0]))
+		j = 0;
+		if (input_tokens[i][0] == '\'' || input_tokens[i][0] == '\"')
+		{
+			input_tokens[i][ft_strlen(input_tokens[i]) - 1] = '\0'; 
+			temp = ft_strdup(input_tokens[i] + 1);
+			new->str = temp;
+		}
+		else if(is_special_char(input_tokens[i][0]))
 		{
 			while (is_special_char(input_tokens[i][j]))
 				j++;
-			if ((input_tokens[i][0] == '|' && j > 1) || input_tokens[i][0] == '*')
-			{
-				exiterror(data, "ERROR: Unsupported stuff detected. pls don't use || or *     :3", 0);
-				return ;
-			}
-			new->str = ft_calloc((sizeof(char *) * j) + 1, sizeof(char));
-			ft_strlcpy(new->str, input_tokens[i], j+1);
-			new = create_t_cmd();
-			insert_t_cmd(&head, new);
-			if (j > 0)
-			{
-				temp = strdup(input_tokens[i] + j);
-				free(input_tokens[i]);
-				input_tokens[i] = temp;
-				j--;
-			}
+			ft_strlcpy(aux, input_tokens[i], j+1);
+			temp = ft_strdup(input_tokens[i] + j);
+			new->str = ft_strdup(aux);
+			input_tokens[i] = temp;			
 		}
-		else
+		else if (input_tokens[i][0])
 		{
-			while(input_tokens[i][j] &&!is_special_char(input_tokens[i][j]))
+			while(input_tokens[i][j] && !is_special_char(input_tokens[i][j]))
 				j++;
-			aux = input_tokens[i][j];
-			input_tokens[i][j] = '\0';
-			temp = strdup(input_tokens[i]);
-			new->str = temp;
-			new = create_t_cmd();
-			insert_t_cmd(&head, new);
-			input_tokens[i][j] = aux;
-			temp = strdup(input_tokens[i] + j);
-			free(input_tokens[i]);
+			ft_strlcpy(aux, input_tokens[i], j+1);
+			temp = ft_strdup(input_tokens[i] + j);
+			new->str = ft_strdup(aux);
 			input_tokens[i] = temp;
 		}
-		if (input_tokens[i][0] == '\0')
+		new = create_t_cmd();
+		insert_t_cmd(&head, new);
+		if(input_tokens[i][0] == '\0' || input_tokens[i] == NULL)
 			i++;
 	}
 }
@@ -128,22 +143,10 @@ char* getnexttoken(char *input) {
 	buffer_index = 0;
     while (is_whitespace(input[i]))
         i++;
-    if (input[i] == '\'' || input[i] == '\"') {
-        quote = input[i];
-				buffer[buffer_index++] = input[i];
-        i++; // Move past the quote character
-    }
-    while (input[i] != '\0' && (quote || !is_whitespace(input[i]))) {
-        if (quote && input[i] == quote) {
-						buffer[buffer_index++] = input[i];
-            quote = 0; // Reset the quote flag
-            i++; // Move past the closing quote character
-            break;
-        }
+    while (input[i] != '\0' && !is_whitespace(input[i])) {
         buffer[buffer_index++] = input[i];
         i++;
     }
-
     buffer[buffer_index] = '\0';
     j = 0;
     while (input[i] != '\0') {

@@ -44,6 +44,7 @@ void free_t_cmd_list(t_cmd *head) {
         free(temp);
 		temp = NULL;
     }
+	head = NULL;
 }
 
 t_cmd *get_t_cmd_at_index(t_cmd *head, int index) {

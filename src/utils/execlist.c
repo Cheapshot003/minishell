@@ -47,6 +47,7 @@ void free_t_exec_list(t_exec *head) {
 		temp->path = NULL;
         free(temp);
     }
+	head = NULL;
 }
 
 t_exec *get_t_exec_at_index(t_exec *head, int index) {
