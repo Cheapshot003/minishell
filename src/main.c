@@ -21,7 +21,7 @@ void intHandler(int sig, siginfo_t *info, void *context)
 void chldHandler(int sig)
 {
     received_signal = 0;
-    printf("\n\n");
+    //printf("\n\n");
     (void) sig;
 }
 
@@ -49,8 +49,13 @@ char *getPrompt(char *working_dir)
 
 void free_data(t_data *data)
 {
-    free(data->full_tokens);
-    free(data->path_args);
+	free_t_cmd_list(data->cmd_head);
+	free_t_exec_list(data->exec_head);
+	if (data->exit_str != NULL)
+	{
+		free(data->exit_str);
+		data->exit_str = NULL;
+	}
 }
 
 int main(int argc, char **argv, char **envp)
@@ -95,6 +100,7 @@ int main(int argc, char **argv, char **envp)
 	free(data.path_args);
     free(line);
   	data.skip = 0;
+	free_data(&data);
   }
   free_lst(&data);
   return (data.exit_arg);
