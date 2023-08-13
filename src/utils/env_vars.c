@@ -1,9 +1,6 @@
 #include "../../includes/minishell.h"
-#include "../../libft/libft.h"
 
-extern char **environ;
-
-t_list *init_env_vars()
+t_list *init_env_vars(char **environ)
 {
   int i;
   t_var *new_var;
@@ -16,8 +13,8 @@ t_list *init_env_vars()
   while (environ[i] != NULL)
   {
     new_var = malloc(sizeof(t_var));
-    new_var->var_name = ft_strdup(ft_strtok(environ[i], "="));
-    var_value = ft_strtok(NULL, "=");
+    new_var->var_name = ft_strdup(environ[i]);
+    var_value = getenv(environ[i]);
     if (var_value != NULL)
       var_value = ft_strdup(var_value);
     new_var->var_value = var_value;
@@ -60,7 +57,7 @@ void free_lst(t_data *data)
 	t_list *lst;
 
 	lst = data->vars;
-	while(lst->next != NULL)
+	while(lst != NULL)
 	{
 		temp = (t_var *)lst->content;
 		temp1 = lst;
@@ -70,12 +67,6 @@ void free_lst(t_data *data)
 		lst = lst->next;
 		free(temp1);
 	}
-	temp = (t_var *)lst->content;
-	temp1 = lst;
-	free(temp->var_name);
-	free(temp->var_value);
-	free(temp1->content);
-	free(temp1);
 	rl_clear_history();
 	
 }
