@@ -1,4 +1,4 @@
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>

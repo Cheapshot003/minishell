@@ -12,7 +12,8 @@
 
 #include "../../includes/minishell.h"
 
-t_list	*init_env_vars(char **environ)
+
+t_list *init_env_vars(char **environ)
 {
 	int		i;
 	t_var	*new_var;

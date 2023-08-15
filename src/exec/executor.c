@@ -4,6 +4,8 @@
 int execute1(t_data *data, t_exec *exec_head) {
     t_exec *current_exec = exec_head;
     int input_fd = 0; // Initial input file descriptor
+	if (data->skip)
+		return (0);
 	if (expand_paths(data, exec_head) == 1)
 	{
 		exiterror(data, "Error: Command not found", 0);
@@ -18,16 +20,10 @@ int execute1(t_data *data, t_exec *exec_head) {
         if (fork_exec(data, current_exec, input_fd, current_exec->pipes[1]) == 1) {
             return (1);
         }
-
-        // Close the write end of the pipe in the parent process
         close(current_exec->pipes[1]);
-
-        // Set the input file descriptor for the next iteration
         input_fd = current_exec->pipes[0];
-
         current_exec = current_exec->next;
     }
-
     return 0;
 }
 
@@ -81,7 +77,10 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 			close(output_fd);
 		}
 		execve(exec->path[0], exec->path, env_vars);
-		perror("Exec failed\n");
+		handle_execerr(data);
+		free(exec->path[0]);
+		exec->path[0] = NULL;
+		free_env(env_vars);
 		return (1);
 	}
 	else
@@ -92,7 +91,6 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 		data->exit_status = WEXITSTATUS(data->exit_status);
 		free_env(env_vars);
 	}
-
 	return (0);
 }
 
@@ -115,29 +113,17 @@ int	containsslash(char *path)
 int	isbuiltin(char *path)
 {
 	if (!ft_strncmp(path, "cd", 3))
-	{
 		return (1);
-	}
 	else if (!ft_strncmp(path, "exit", 5))
-	{
 		return (1);
-	}
 	else if (!ft_strncmp(path, "pwd", 4))
-	{
 		return (1);
-	}
 	else if (!ft_strncmp(path, "echo", 5))
-	{
 		return (1);
-	}
 	else if (!ft_strncmp(path, "export", 7))
-	{
 		return (1);
-	}
 	else if (!ft_strncmp(path, "unset", 6))
-	{
 		return (1);
-	}
 	return (0);
 }
 

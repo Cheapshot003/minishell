@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/12 17:05:06 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/13 16:48:43 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <term.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <errno.h>
 
 typedef struct s_cmd{
 	char					*str;
@@ -92,7 +93,7 @@ void	tokenize(char *line, t_data *data);
 char	*getnexttoken(char *line);
 int		is_whitespace(char c);
 void	*ft_realloc(void* ptr, size_t new_size);
-char	**expander(char **tokens, t_data *data);
+void	expander(char **tokens, t_data *data);
 int		is_special_char(char c);
 int		is_quote(char c);
 int		is_empty_string(const char* str);
@@ -137,4 +138,8 @@ void	free_lst(t_data *data);
 char	*get_env_var_value(t_data *data, char *var_name);
 int		ft_cd(char **tokens, t_data *data);
 int	ft_echo(t_data *data, char **tokens);
+void handle_execerr(t_data *data);
+int	is_closed(char **tokens, int i, int j);
+char *clear_single_quotes(char *str);
+int is_closed_line(char *line, int i);
 #endif

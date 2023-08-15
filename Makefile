@@ -6,7 +6,7 @@
 #    By: otietz <otietz@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 15:30:52 by ohnatiuk          #+#    #+#              #
-#    Updated: 2023/08/12 17:30:58 by otietz           ###   ########.fr        #
+#    Updated: 2023/08/13 10:24:35 by otietz           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRCS = src/main.c \
 		 src/utils/env_vars.c \
 		 src/utils/ft_isnum.c \
 	   src/parser/parse1.c \
-	   src/exec/executor.c
+	   src/exec/executor.c \
+	   src/utils/error.c
 
 libft = ./libft/libft.a
 

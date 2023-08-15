@@ -89,9 +89,7 @@ int	count_pipes(t_data *data)
 void	exiterror(t_data *data, char *errmsg, int exitbit)
 {
 	data->exit = exitbit;
-	if (exitbit == 0)
-		data->skip = 1;
+	data->skip = 1;
 	printf("%s\n", errmsg);
 	return ;
-
 }
