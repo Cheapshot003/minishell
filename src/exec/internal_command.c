@@ -91,26 +91,31 @@ void	ft_exit(char **tokens, t_data *data)
 	int	exit_arg;
 
 	data->exit = 1;
-	if (tokens[1])
+	if (getarrlen(tokens) > 2)
+	{
+		printf("exit\n");
+		ft_putstr_fd("minishell: exit: too many arguments", 2);
+		data->exit_arg = 1;
+	}
+	else if (tokens[1])
 	{
 		if (ft_isnum(tokens[1]) == 0)
 		{
-			exit_arg = ft_atoi(tokens[1]);
-			rl_clear_history();
-			free(tokens);
-			if (exit_arg >= 0 && exit_arg <= 255)
+			exit_arg = ft_atoi_long(tokens[1]) % 256;
+			if (exit_arg != -1)
 			{
-				printf("exit\n");
+				rl_clear_history();
 				data->exit_arg = exit_arg;
-				return ;
+				printf("exit\n");
+				return;
 			}
 		}
-		else
-			printf("exit: %s: numeric argument required\n", tokens[1]);
-		return ;
-	}
-	printf("exit\n");
-	data->exit = 1;
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(tokens[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		data->exit_arg = 2;
+	} else
+		printf("exit\n");
 }
 
 int	internal_command(char **tokens, t_data *data)

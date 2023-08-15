@@ -124,6 +124,8 @@ int	isbuiltin(char *path)
 		return (1);
 	else if (!ft_strncmp(path, "unset", 6))
 		return (1);
+	else if (!ft_strncmp(path, "env", 4))
+		return (1);
 	return (0);
 }
 

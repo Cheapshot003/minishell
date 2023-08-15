@@ -144,4 +144,5 @@ void handle_execerr(t_data *data);
 int	is_closed(char **tokens, int i, int j);
 char *clear_single_quotes(char *str);
 int is_closed_line(char *line, int i);
+long long int	ft_atoi_long(const char *str);
 #endif
