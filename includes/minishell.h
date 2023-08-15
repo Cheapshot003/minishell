@@ -124,7 +124,6 @@ void	delete_t_cmd_at_index(t_cmd **head, int index);
 int		execute1(t_data *data, t_exec *exec_head);
 int		fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd);
 int		expand_paths(t_data *data, t_exec *exec_head);
-void	ft_echo(t_data *data, char **tokens);
 char	**get_env_vars_array(t_data *data);
 void	free_array(void **arr);
 t_list	*init_env_vars(char **environ);

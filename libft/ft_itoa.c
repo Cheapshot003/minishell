@@ -33,7 +33,7 @@ static int	ft_digit_count(long int n)
 }
 
 char	*ft_itoa(int n)
-{	
+{
 	long int	nb;
 	char		*str;
 	int			i;

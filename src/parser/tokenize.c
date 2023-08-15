@@ -83,12 +83,12 @@ void cmdlex(char **input_tokens, t_data *data)
 	int j;
 	char *temp;
 	char aux[1024];
-	int single_quotes;
-	int double_quotes;
+	// int single_quotes;
+	// int double_quotes;
 
 	temp = NULL;
-	single_quotes = 0;
-	double_quotes = 0;
+	// single_quotes = 0;
+	// double_quotes = 0;
 	head = create_t_cmd();
 	data->cmd_head = head;
 	new = head;
@@ -136,12 +136,12 @@ int is_whitespace(char c) {
 char* getnexttoken(char *input) {
     static char buffer[1024]; // Buffer to hold the extracted token
     int buffer_index; // Index to track the position in the buffer
-    int quote; // Flag to indicate if we are inside a quote
+    // int quote; // Flag to indicate if we are inside a quote
     int i; // Index to traverse the input string
 	int j;
 
 	i = 0;
-	quote = 0;
+	// quote = 0;
 	buffer_index = 0;
     while (is_whitespace(input[i]))
         i++;

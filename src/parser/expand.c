@@ -51,15 +51,6 @@ char *find_and_replace_unclosed_quote(char  *str, char quote)
     }
     return str;
 }
-void	insert_var(t_data *data, char *line, int i)
-{
-	char *var;
-	char *rest;
-
-	rest = line + i ;
-	var = get_env_var_value(data, line+i);
-
-}
 
 char *get_env(t_data *data, char *token)
 {
