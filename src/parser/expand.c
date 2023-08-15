@@ -1,31 +1,5 @@
 #include "../../includes/minishell.h"
 
-char *get_env_var_value(t_data *data, char *var_name)
-{
-    t_list *current;
-    t_var *current_var;
-	int i;
-
-	i = 0;
-    current = data->vars;
-	while (*var_name == '\"' || *var_name == '$')
-		var_name++;
-	while (var_name[i] && var_name[i] != '\"' && var_name[i] != '\'' && !is_whitespace(var_name[i]))
-		i++;
-    data->exit_str = ft_itoa(data->exit_status);
-	if (ft_strncmp(var_name, "?", ft_strlen(var_name)) == 0)
-		return (data->exit_str);
-    while (current != NULL)
-    {
-        current_var = (t_var *)current->content;
-        if (ft_strncmp(current_var->var_name, var_name, i) == 0) {
-            return current_var->var_value;
-        }
-        current = current->next;
-    }
-    return getenv(var_name);
-}
-
 void cut_quotes(char **tokens)
 {
     int i;
@@ -76,15 +50,6 @@ char *find_and_replace_unclosed_quote(char  *str, char quote)
         }
     }
     return str;
-}
-void	insert_var(t_data *data, char *line, int i)
-{
-	char *var;
-	char *rest;
-
-	rest = line + i ;
-	var = get_env_var_value(data, line+i);
-
 }
 
 char *get_env(t_data *data, char *token)

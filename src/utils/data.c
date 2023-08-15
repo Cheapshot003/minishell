@@ -1,23 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/13 10:15:20 by ohnatiuk          #+#    #+#             */
+/*   Updated: 2023/08/13 10:15:22 by ohnatiuk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-void fill_path(t_data *data)
+void	fill_path(t_data *data)
 {
-    data->path_env = getenv("PATH");
-    return ;
+	data->path_env = getenv("PATH");
+	return ;
 }
 
-t_data *init_data(t_data *data)
+t_data	*init_data(t_data *data)
 {
-    data->append_redirection = 0;
-    data->arg_count = 0;
-    data->full_tokens = NULL;
-    data->input_file = NULL;
-    data->input_redirection = 0;
-    data->output_file = NULL;
-    data->output_redirection = 0;
-    data->path_args = NULL;
-    data->path_env = NULL;
-    data->working_dir = NULL;
+	data->append_redirection = 0;
+	data->arg_count = 0;
+	data->full_tokens = NULL;
+	data->input_file = NULL;
+	data->input_redirection = 0;
+	data->output_file = NULL;
+	data->output_redirection = 0;
+	data->path_args = NULL;
+	data->path_env = NULL;
+	data->working_dir = NULL;
 	data->builtin = 0;
 	data->exit_status = 0;
 	data->exit = 0;
@@ -26,6 +38,6 @@ t_data *init_data(t_data *data)
 	data->skip = 0;
 	data->cmd_head = 0;
 	data->exec_head = 0;
-  	fill_path(data);
-    return data;
+	fill_path(data);
+	return (data);
 }
