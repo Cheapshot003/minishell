@@ -15,8 +15,9 @@ char **ft_appendstr(char **dest, char *str)
 		output[i] = dest[i];
 		i++;
 	}
-	output[i] = str;
+	output[i] = ft_strdup(str);
 	output[i+1] = NULL;
+	//free(str);
 	free(dest);
 	return (output);
 }

@@ -43,7 +43,10 @@ void free_t_exec_list(t_exec *head) {
 		if (temp->output_file != NULL)
 			free(temp->output_file);
 		if (temp->path != NULL)
-			free(temp->path);
+		{
+			if (ft_strncmp(temp->path[0], "", ft_strlen(temp->path[0])) != 0)
+				free_array((void **)temp->path);
+		}
 		temp->path = NULL;
         free(temp);
     }

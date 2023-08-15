@@ -47,7 +47,7 @@ char *getPrompt(char *working_dir)
     return (prompt);
 }
 
-void free_data(t_data *data)
+void free_data(t_data *data, char *line)
 {
 	free_t_cmd_list(data->cmd_head);
 	free_t_exec_list(data->exec_head);
@@ -62,6 +62,11 @@ void free_data(t_data *data)
 	data->builtin = 0;
 	data->delim = NULL;
 	data->input_redirection = 0;
+	if (line)
+	{
+		free(line);
+		line = NULL;
+	}
 }
 
 int main(int argc, char **argv, char **envp)
@@ -109,7 +114,7 @@ int main(int argc, char **argv, char **envp)
     execute1(&data, data.exec_head);
 	free(data.path_args);
   	data.skip = 0;
-	free_data(&data);
+	free_data(&data, line);
   }
   free_lst(&data);
   return (data.exit_arg);
