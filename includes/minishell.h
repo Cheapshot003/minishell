@@ -129,8 +129,6 @@ void	free_array(void **arr);
 t_list	*init_env_vars(char **environ);
 int		ft_isnum(char *s);
 void	handleSignalByChild(int sig);
-void		add_or_replace_var(t_list **lst,
-			char *var_name, char *var_value);
 void	free_tok(char **tokens);
 void	free_env(char **env);
 void	free_lst(t_data *data);
@@ -139,7 +137,9 @@ int		ft_cd(char **tokens, t_data *data);
 int		ft_pwd(void);
 int		ft_unset(t_data *data, char **tokens);
 int		ft_env(t_data *data, char **tokens);
+int		ft_export(t_data *data, char **tokens);
 int		ft_echo(t_data *data, char **tokens);
+void	ft_exit(char **tokens, t_data *data);
 void handle_execerr(t_data *data);
 int	is_closed(char **tokens, int i, int j);
 char *clear_single_quotes(char *str);

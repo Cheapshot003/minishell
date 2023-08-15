@@ -12,13 +12,37 @@
 
 #include "../../includes/minishell.h"
 
+void	free_var(t_list *var_to_del)
+{
+	free(((t_var *)var_to_del->content)->var_name);
+	free(((t_var *)var_to_del->content)->var_value);
+	free(var_to_del->content);
+	free(var_to_del);
+}
+
+void	add_or_replace_var(t_list **lst, char *var_name, char *var_value)
+{
+	t_var	*new_var;
+	t_list	*new_lst_el;
+	t_list	*old_var;
+
+	new_var = malloc(sizeof(t_var));
+	new_var->var_name = var_name;
+	new_var->var_value = var_value;
+	new_lst_el = ft_lstnew(new_var);
+	old_var = ft_lst_remove(lst, (void *)new_var, ft_cmp);
+	if (old_var)
+		free_var(old_var);
+	ft_lstadd_back(lst, new_lst_el);
+}
+
 void	change_pwd_and_old(t_data *data)
 {
 	char	*old_pwd;
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
-	if (pwd  == NULL)
+	if (pwd == NULL)
 	{
 		perror("Getcwd error\n");
 		exit(1);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,23 +12,35 @@
 
 #include "../../includes/minishell.h"
 
-void	print_env_vars(t_list *lst)
+void	ft_exit(char **tokens, t_data *data)
 {
-	while (lst != NULL)
-	{
-		printf ("%s=%s\n", ((t_var *)lst->content)->var_name,
-			((t_var*)lst->content)->var_value);
-		lst = lst->next;
-	}
-}
+	int	exit_arg;
 
-int	ft_env(t_data *data, char **tokens)
-{
-	if (getarrlen(tokens) == 1)
+	data->exit = 1;
+	if (getarrlen(tokens) > 2)
 	{
-		print_env_vars(data->vars);
-		return (0);
+		printf("exit\n");
+		ft_putstr_fd("minishell: exit: too many arguments", 2);
+		data->exit_arg = 1;
 	}
-	ft_putstr_fd("minishell: env: too many arguments\n", 2);
-	return (1);
+	else if (tokens[1])
+	{
+		if (ft_isnum(tokens[1]) == 0)
+		{
+			exit_arg = ft_atoi_long(tokens[1]) % 256;
+			if (exit_arg != -1)
+			{
+				rl_clear_history();
+				data->exit_arg = exit_arg;
+				printf("exit\n");
+				return ;
+			}
+		}
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(tokens[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		data->exit_arg = 2;
+	}
+	else
+		printf("exit\n");
 }
