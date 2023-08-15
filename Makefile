@@ -32,6 +32,8 @@ SRCS = src/main.c \
 		 src/utils/ft_pwd.c \
 		 src/utils/ft_unset.c \
 		 src/utils/ft_env.c \
+		 src/utils/ft_export.c \
+		 src/utils/ft_exit.c \
 	   src/parser/tokenize.c \
 	   src/parser/expand.c \
 	   src/parser/parser_utils.c \

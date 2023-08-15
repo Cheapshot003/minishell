@@ -146,4 +146,5 @@ char *clear_single_quotes(char *str);
 int is_closed_line(char *line, int i);
 long long int	ft_atoi_long(const char *str);
 int	check_identifier(char *str);
+void	add_or_replace_var(t_list **lst, char *var_name, char *var_value);
 #endif
