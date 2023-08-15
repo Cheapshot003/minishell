@@ -101,6 +101,7 @@ void cmdlex(char **input_tokens, t_data *data)
 			input_tokens[i][ft_strlen(input_tokens[i]) - 1] = '\0'; 
 			temp = ft_strdup(input_tokens[i] + 1);
 			new->str = temp;
+			input_tokens[i][0] = '\0';
 		}
 		else if(is_special_char(input_tokens[i][0]))
 		{
@@ -118,6 +119,7 @@ void cmdlex(char **input_tokens, t_data *data)
 			ft_strlcpy(aux, input_tokens[i], j+1);
 			temp = ft_strdup(input_tokens[i] + j);
 			new->str = ft_strdup(aux);
+			free(input_tokens[i]);
 			input_tokens[i] = temp;
 		}
 		new = create_t_cmd();
