@@ -25,6 +25,7 @@ SRCS = src/main.c \
 	src/exec/internal_command.c \
 	src/utils/ft_strtok.c \
 	src/utils/ft_atoi_long.c \
+	src/utils/signals.c \
 	   src/utils/data.c \
 		 src/utils/get_env_var_value.c \
 		 src/utils/ft_cd.c \
