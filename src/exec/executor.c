@@ -112,7 +112,7 @@ int	containsslash(char *path)
 	return (0);
 }
 
-int isbuiltin(char *path)
+int	isbuiltin(char *path)
 {
 	if (!ft_strncmp(path, "cd", 3))
 	{
@@ -140,6 +140,7 @@ int isbuiltin(char *path)
 	}
 	return (0);
 }
+
 int expand_paths(t_data *data, t_exec *exec_head)
 {
 	t_exec *current;
