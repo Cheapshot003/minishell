@@ -25,6 +25,9 @@ SRCS = src/main.c \
 	src/exec/internal_command.c \
 	src/utils/ft_strtok.c \
 	   src/utils/data.c \
+		 src/utils/get_env_var_value.c \
+		 src/utils/ft_cd.c \
+		 src/utils/ft_echo.c \
 	   src/parser/tokenize.c \
 	   src/parser/expand.c \
 	   src/parser/parser_utils.c \

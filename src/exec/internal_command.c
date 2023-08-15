@@ -20,35 +20,7 @@ void	free_var(t_list *var_to_del)
 	free(var_to_del);
 }
 
-void	ft_echo(t_data *data, char **tokens)
-{
-	int with_newline;
-    int i;
-
-    with_newline = 1;
-    i = 1;
-    if (data->arg_count > 1)
-    {
-        if (ft_strncmp(tokens[i], "-n", 3) == 0)
-        {
-            with_newline = 0;
-            i++;
-        }
-        while (i < data->arg_count) {
-            printf("%s", tokens[i]);
-            if (i != data->arg_count - 1)
-                printf(" ");
-            i++;
-        }
-        if (with_newline)
-            printf("\n");
-    } else
-    {
-        printf("\n");
-    }
-}
-
-int add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned int token_len)
+int	add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned int token_len)
 {
 	t_var *new_var;
 	t_list *new_lst_el;
@@ -70,7 +42,7 @@ int add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned i
 	return (0);
 }
 
-void export_print_env_vars(t_list *vars)
+void	export_print_env_vars(t_list *vars)
 {
 	t_list *current;
 	t_var *current_var;
@@ -121,7 +93,7 @@ void	ft_exit(char **tokens, t_data *data)
 	data->exit = 1;
 	if (tokens[1])
 	{
-		if (ft_is_num(tokens[1]) == 0)
+		if (ft_isnum(tokens[1]) == 0)
 		{
 			exit_arg = ft_atoi(tokens[1]);
 			rl_clear_history();
@@ -249,8 +221,7 @@ int	internal_command(char **tokens, t_data *data)
 {
 	if (!ft_strncmp(tokens[0], "cd", 3))
 	{
-		if (chdir(tokens[1]) != 0)
-			printf("cd: %s: No such file or directory\n", tokens[1]);
+		data->exit_status = ft_cd(tokens, data);
 		return (1);
 	}
 	else if (!ft_strncmp(tokens[0], "exit", 5))
@@ -264,7 +235,7 @@ int	internal_command(char **tokens, t_data *data)
 	}
 	else if (!ft_strncmp(tokens[0], "echo", 5))
 	{
-		ft_echo(data, tokens);
+		data->exit_status = ft_echo(data, tokens);
 		return (1);
 	}
 	else if (!ft_strncmp(tokens[0], "export", 7))
