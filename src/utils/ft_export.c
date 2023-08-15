@@ -21,18 +21,39 @@ void	export_print_env_vars(t_list *vars)
 	while (current != NULL)
 	{
 		current_var = (t_var *)current->content;
-		printf("declare -x %s", current_var->var_name);
+		printf("declare -x %s=\"", current_var->var_name);
 		if (current_var->var_value != NULL)
-			printf("=\"%s\"", current_var->var_value);
-		printf("\n");
+			printf("%s", current_var->var_value);
+		printf("\"\n");
 		current = current->next;
+	}
+}
+
+void export_var(t_data *data, char *var_token, int *exit_status)
+{
+	char	*var_name;
+	char	*var_value;
+
+	var_name = ft_strtok(var_token, "=");
+	if (var_name == NULL || check_identifier(var_name) == 1)
+	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(var_token, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		*exit_status = 1;
+	}
+	else
+	{
+		var_name = ft_strdup(var_name);
+		var_value = ft_strtok(NULL, "=");
+		if (var_value != NULL)
+			var_value = ft_strdup(var_value);
+		add_or_replace_var(&data->vars, var_name, var_value);
 	}
 }
 
 int	ft_export(t_data *data, char **tokens)
 {
-	char	*var_name;
-	char	*var_value;
 	int		exit_status;
 	int		i;
 
@@ -42,22 +63,7 @@ int	ft_export(t_data *data, char **tokens)
 	exit_status = 0;
 	while (tokens[i] != NULL)
 	{
-		var_name = ft_strtok(tokens[i], "=");
-		if (var_name == NULL || check_identifier(var_name) == 1)
-		{
-			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(tokens[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			exit_status = 1;
-		}
-		else
-		{
-			var_name = ft_strdup(var_name);
-			var_value = ft_strtok(NULL, "=");
-			if (var_value != NULL)
-				var_value = ft_strdup(var_value);
-			add_or_replace_var(&data->vars, var_name, var_value);
-		}
+		export_var(data, tokens[i], &exit_status);
 		i++;
 	}
 	return (exit_status);

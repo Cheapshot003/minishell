@@ -12,6 +12,26 @@
 
 #include "../../includes/minishell.h"
 
+int internal_command_2(char **tokens, t_data *data)
+{
+	if (!ft_strncmp(tokens[0], "export", 7))
+	{
+		data->exit_status = ft_export(data, tokens);
+		return (1);
+	}
+	else if (!ft_strncmp(tokens[0], "unset", 6))
+	{
+		data->exit_status = ft_unset(data, tokens);
+		return (1);
+	}
+	else if (!ft_strncmp(tokens[0], "env", 4))
+	{
+		data->exit_status = ft_env(data, tokens);
+		return (1);
+	}
+	return (0);
+}
+
 int	internal_command(char **tokens, t_data *data)
 {
 	if (!ft_strncmp(tokens[0], "cd", 3))
@@ -33,20 +53,5 @@ int	internal_command(char **tokens, t_data *data)
 		data->exit_status = ft_echo(data, tokens);
 		return (1);
 	}
-	else if (!ft_strncmp(tokens[0], "export", 7))
-	{
-		data->exit_status = ft_export(data, tokens);
-		return (1);
-	}
-	else if (!ft_strncmp(tokens[0], "unset", 6))
-	{
-		data->exit_status = ft_unset(data, tokens);
-		return (1);
-	}
-	else if (!ft_strncmp(tokens[0], "env", 4))
-	{
-		data->exit_status = ft_env(data, tokens);
-		return (1);
-	}
-	return (0);
+	return internal_command_2(tokens, data);
 }

@@ -12,8 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-
-t_list *init_env_vars(char **environ)
+t_list	*init_env_vars(char **environ)
 {
 	int		i;
 	t_var	*new_var;
@@ -38,14 +37,28 @@ t_list *init_env_vars(char **environ)
 	return (result_list);
 }
 
+char *env_var_to_str(t_var *var)
+{
+	char	*env_var_str;
+
+	env_var_str = malloc(
+			ft_strlen(var->var_name) + ft_strlen(var->var_value) + 2);
+	env_var_str[0] = '\0';
+	ft_strlcat(env_var_str, var->var_name, ft_strlen(var->var_name) + 1);
+	ft_strlcat(env_var_str, "=", ft_strlen(var->var_name) + 2);
+	if (var->var_value != NULL)
+		ft_strlcat(env_var_str, var->var_value,
+			ft_strlen(var->var_name) + 1 + ft_strlen(var->var_value) + 1);
+	
+	return (env_var_str);
+}
+
 char	**get_env_vars_array(t_data *data)
 {
 	int		vars_len;
 	char	**env_vars;
 	t_list	*current;
 	int		i;
-	t_var	*var;
-	char	*env_var_str;
 
 	vars_len = ft_lstsize(data->vars);
 	current = data->vars;
@@ -53,16 +66,7 @@ char	**get_env_vars_array(t_data *data)
 	env_vars = malloc((vars_len + 1) * sizeof(char *));
 	while (current != NULL)
 	{
-		var = (t_var *)current->content;
-		env_var_str = malloc(
-				ft_strlen(var->var_name) + ft_strlen(var->var_value) + 2);
-		env_var_str[0] = '\0';
-		ft_strlcat(env_var_str, var->var_name, ft_strlen(var->var_name) + 1);
-		ft_strlcat(env_var_str, "=", ft_strlen(var->var_name) + 2);
-		if (var->var_value != NULL)
-			ft_strlcat(env_var_str, var->var_value,
-				ft_strlen(var->var_name) + 1 + ft_strlen(var->var_value) + 1);
-		env_vars[i] = env_var_str;
+		env_vars[i] = env_var_to_str((t_var *)current->content);
 		i++;
 		current = current->next;
 	}

@@ -1,38 +1,6 @@
 #include "../includes/minishell.h"
 
- static int received_signal;
-
-void intHandler(int sig, siginfo_t *info, void *context)
-{
-    (void) sig;
-    (void) context;
-
-    received_signal = info->si_code;
-    if (info->si_code == 0) {
-        // signal in prompt
-        printf("\n"); // Move to a new line
-        rl_on_new_line(); // Regenerate the prompt on a newline
-        rl_replace_line("", 0); // Clear the previous text
-        rl_redisplay();
-    }
-    return;
-}
-
-void chldHandler(int sig)
-{
-    received_signal = 0;
-    //printf("\n\n");
-    (void) sig;
-}
-
-void handleSignalByChild(int sig)
-{
-    (void) sig;
-
-    ft_putstr_fd("Quit (core dumped)\n", 2);
-    received_signal = 131;
-    signal(SIGQUIT, SIG_IGN);
-}
+int received_signal;
 
 char *getPrompt(char *working_dir)
 {
@@ -78,12 +46,7 @@ int main(int argc, char **argv, char **envp)
 
     (void) argc;
     (void) argv;
-  struct sigaction sa;
-  sigemptyset(&sa.sa_mask);
-  sa.sa_flags = SA_SIGINFO;
-  sa.sa_sigaction = intHandler;
-  sigaction(SIGINT, &sa, NULL);
-  signal(SIGCHLD,chldHandler);
+    init_signals();
   data.vars = init_env_vars(envp);
   received_signal = 0;
   using_history();

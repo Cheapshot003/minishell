@@ -12,35 +12,39 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_exit(char **tokens, t_data *data)
+void exit_with_code(char *code_token, t_data *data)
 {
-	int	exit_arg;
+	int exit_arg;
+
+	if (ft_isnum(code_token) == 0)
+	{
+		exit_arg = ft_atoi_long(code_token) % 256;
+		if (exit_arg != -1)
+		{
+			rl_clear_history();
+			data->exit_arg = exit_arg;
+			printf("exit\n");
+			return;
+		}
+	}
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(code_token, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
+	data->exit_arg = 2;
+}
+
+void ft_exit(char **tokens, t_data *data)
+{
 
 	data->exit = 1;
 	if (getarrlen(tokens) > 2)
 	{
 		printf("exit\n");
-		ft_putstr_fd("minishell: exit: too many arguments", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		data->exit_arg = 1;
 	}
 	else if (tokens[1])
-	{
-		if (ft_isnum(tokens[1]) == 0)
-		{
-			exit_arg = ft_atoi_long(tokens[1]) % 256;
-			if (exit_arg != -1)
-			{
-				rl_clear_history();
-				data->exit_arg = exit_arg;
-				printf("exit\n");
-				return ;
-			}
-		}
-		ft_putstr_fd("exit: ", 2);
-		ft_putstr_fd(tokens[1], 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
-		data->exit_arg = 2;
-	}
+		exit_with_code(tokens[1], data);
 	else
 		printf("exit\n");
 }
