@@ -138,6 +138,7 @@ char	*get_env_var_value(t_data *data, char *var_name);
 int		ft_cd(char **tokens, t_data *data);
 int		ft_pwd(void);
 int		ft_unset(t_data *data, char **tokens);
+int		ft_env(t_data *data, char **tokens);
 int		ft_echo(t_data *data, char **tokens);
 void handle_execerr(t_data *data);
 int	is_closed(char **tokens, int i, int j);

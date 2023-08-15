@@ -113,90 +113,6 @@ void	ft_exit(char **tokens, t_data *data)
 	data->exit = 1;
 }
 
-void	print_env_vars(t_list *lst)
-{
-	while(lst != NULL)
-	{
-		printf("%s=%s\n", ((t_var*)lst->content)->var_name, ((t_var*)lst->content)->var_value);
-		lst = lst->next;
-	}
-}
-
-void	ft_env(t_data *data, char **tokens)
-{
-	t_list *command_env;
-	t_list *current;
-	t_list *current_copy;
-	t_list *previous_current_copy;
-	t_var *current_var;
-
-	if(getarrlen(tokens) < 2)
-		print_env_vars(data->vars);
-	current = data->vars;
-	previous_current_copy = NULL;
-	command_env = NULL;
-	while (current != NULL)
-	{
-		current_var = (t_var *)current->content;
-		// copy
-		t_var *current_var_copy = malloc(sizeof(t_var));
-		current_var_copy->var_name = current_var->var_name;
-		current_var_copy->var_value = current_var->var_value;
-		current_copy = malloc(sizeof(t_list));
-		current_copy->content = current_var_copy;
-		current_copy->next = NULL;
-		if (previous_current_copy != NULL)
-		{
-			// non-first element
-			previous_current_copy->next = current_copy;
-		} else {
-			// first element
-			command_env = current_copy;
-		}
-		previous_current_copy = current_copy;
-		current = current->next;
-	}
-
-	// apply new vars
-	int current_token = 1;
-	char *var_name;
-	char *var_value;
-	int token_len;
-	while (1)
-	{
-		if (tokens[current_token] == NULL)
-		{
-			print_env_vars(command_env);
-			break;
-		}
-		token_len = ft_strlen(tokens[current_token]);
-		var_name = ft_strtok(tokens[current_token], "=");
-		var_value = ft_strtok(NULL, "=");
-		if (add_or_replace_var(&command_env, var_name, var_value, token_len))
-			break;
-		current_token++;
-	}
-
-	t_list *original_env = data->vars;
-	data->vars = command_env;
-	t_exec *exec_head;
-	exec_head = create_t_exec();
-	exec_head->path = &tokens[current_token];
-	execute1(data, exec_head);
-	data->vars = original_env;
-
-	// remove env copy
-	current = command_env;
-	t_list *next = NULL;
-	while (current != NULL)
-	{
-		next = current->next;
-		free(current->content);
-		free(current);
-		current = next;
-	}
-}
-
 int	internal_command(char **tokens, t_data *data)
 {
 	if (!ft_strncmp(tokens[0], "cd", 3))
@@ -230,7 +146,7 @@ int	internal_command(char **tokens, t_data *data)
 	}
 	else if (!ft_strncmp(tokens[0], "env", 4))
 	{
-		ft_env(data, tokens);
+		data->exit_status = ft_env(data, tokens);
 		return (1);
 	}
 	return (0);
