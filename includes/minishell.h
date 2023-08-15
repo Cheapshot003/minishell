@@ -128,17 +128,24 @@ char	**get_env_vars_array(t_data *data);
 void	free_array(void **arr);
 t_list	*init_env_vars(char **environ);
 int		ft_isnum(char *s);
-void	handleSignalByChild(int sig);
-int		add_or_replace_var(t_list **lst,
-			char *var_name, char *var_value, unsigned int token_len);
+void	handle_signal_by_child(int sig);
 void	free_tok(char **tokens);
 void	free_env(char **env);
 void	free_lst(t_data *data);
 char	*get_env_var_value(t_data *data, char *var_name);
 int		ft_cd(char **tokens, t_data *data);
-int	ft_echo(t_data *data, char **tokens);
+int		ft_pwd(void);
+int		ft_unset(t_data *data, char **tokens);
+int		ft_env(t_data *data, char **tokens);
+int		ft_export(t_data *data, char **tokens);
+int		ft_echo(t_data *data, char **tokens);
+void	ft_exit(char **tokens, t_data *data);
 void handle_execerr(t_data *data);
 int	is_closed(char **tokens, int i, int j);
 char *clear_single_quotes(char *str);
 int is_closed_line(char *line, int i);
+long long int	ft_atoi_long(const char *str);
+int	check_identifier(char *str);
+void	add_or_replace_var(t_list **lst, char *var_name, char *var_value);
+void init_signals(void);
 #endif

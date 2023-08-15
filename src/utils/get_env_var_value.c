@@ -24,10 +24,9 @@ char	*get_env_var_value(t_data *data, char *var_name)
 	while (current != NULL)
 	{
 		current_var = (t_var *)current->content;
-		if (ft_strncmp(current_var->var_name, var_name, ft_strlen(var_name)) == 0) {
+		if (ft_strncmp(current_var->var_name, var_name, ft_strlen(var_name)) == 0)
 				return current_var->var_value;
-		}
 		current = current->next;
 	}
-	return getenv(var_name);
+	return (getenv(var_name));
 }

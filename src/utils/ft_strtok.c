@@ -12,12 +12,36 @@
 
 #include "../../includes/minishell.h"
 
+int check_delim(const char *delim, char *s, int *i, int *start)
+{
+	int	j;
+
+	j = 0;
+	while (delim[j] != '\0')
+	{
+		if (s[*i] == delim[j])
+		{
+			s[*i] = '\0';
+			*i = *i + 1;
+			if (s[*start] != '\0')
+				return (1);
+			else
+			{
+				*start = *i;
+				*i = *i - 1;
+				break ;
+			}
+		}
+		j++;
+	}
+	return (0);
+}
+
 char	*ft_strtok(char *str, const char *delim)
 {
 	static int	i;
 	static char	*s;
 	int			start;
-	int			j;
 
 	if (str != NULL)
 	{
@@ -27,24 +51,8 @@ char	*ft_strtok(char *str, const char *delim)
 	start = i;
 	while (s[i] != '\0')
 	{
-		j = 0;
-		while (delim[j] != '\0')
-		{
-			if (s[i] == delim[j])
-			{
-				s[i] = '\0';
-				i = i + 1;
-				if (s[start] != '\0')
-					return (&s[start]);
-				else
-				{
-					start = i;
-					i--;
-					break ;
-				}
-			}
-			j++;
-		}
+		if (check_delim(delim, s, &i, &start) == 1)
+			return (&s[start]);
 		i++;
 	}
 	s[i] = '\0';

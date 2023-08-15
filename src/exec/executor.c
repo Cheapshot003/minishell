@@ -42,7 +42,7 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 
 	char **env_vars = get_env_vars_array(data);
 	pid = fork();
-	signal(SIGQUIT, handleSignalByChild);
+	signal(SIGQUIT, handle_signal_by_child);
 	if (pid == -1)
 	{
 		perror("Fork failed\n");
@@ -121,6 +121,8 @@ int	isbuiltin(char *path)
 	else if (!ft_strncmp(path, "export", 7))
 		return (1);
 	else if (!ft_strncmp(path, "unset", 6))
+		return (1);
+	else if (!ft_strncmp(path, "env", 4))
 		return (1);
 	return (0);
 }
