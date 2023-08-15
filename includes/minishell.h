@@ -19,7 +19,7 @@
 # include "readline/readline.h"
 # include "../libft/libft.h"
 # include <stdlib.h>
-#	include <unistd.h>
+# include <unistd.h>
 # include <sys/wait.h>
 # include <curses.h>
 # include <term.h>
@@ -27,23 +27,23 @@
 # include <sys/stat.h>
 
 typedef struct s_cmd{
-	char *str;
-	int	i;
-	struct s_cmd *next;
-	struct s_cmd *prev;
-} t_cmd;
+	char					*str;
+	int						i;
+	struct s_cmd			*next;
+	struct s_cmd			*prev;
+}	t_cmd;
 
 typedef struct s_exec{
-	char **path;
+	char	**path;
 	int		input_redirection;
 	int		output_redirection;
 	char	*input_file;
 	char	*output_file;
 	int		append_redirection;
 	int		pipes[2];
-	struct s_exec *next;
-	struct s_exec *prev;
-} t_exec;
+	struct s_exec	*next;
+	struct s_exec	*prev;
+}	t_exec;
 
 typedef struct s_data{
 	char	*working_dir;
@@ -60,7 +60,7 @@ typedef struct s_data{
 	t_list	*vars;
 	char	*delim;
 	int		exit_status;
-	t_exec *exec_head;
+	t_exec	*exec_head;
 	int		builtin;
 	int		exit;
 	int		exit_arg;
@@ -68,13 +68,12 @@ typedef struct s_data{
 	int		skip;
 }	t_data;
 
-
 typedef struct s_var
 {
-	struct s_var *next;
-	char *var_name;
-	char *var_value;
-} t_var;
+	struct s_var	*next;
+	char			*var_name;
+	char			*var_value;
+}	t_var;
 
 void	execute(t_data *data);
 int		internal_command(char **tokens, t_data *data);
@@ -84,19 +83,19 @@ int		countargs(char **tokens, t_data *data);
 int		is_special(char *token);
 void	checkRedirects(char **tokens, t_data *data);
 t_list	*ft_lst_remove(t_list **begin_list, void *data_ref, int (*cmp)());
-int	ft_cmp(void *a, void *b);
+int		ft_cmp(void *a, void *b);
 char	*ft_strtok(char *str, const char *delim);
 t_data	*init_data(t_data *data);
-char **cmdtok(char *line, t_data *data);
-void cmdlex(char **input_tokens, t_data *data);
-void 	tokenize(char *line, t_data *data);
+char	**cmdtok(char *line, t_data *data);
+void	cmdlex(char **input_tokens, t_data *data);
+void	tokenize(char *line, t_data *data);
 char	*getnexttoken(char *line);
 int		is_whitespace(char c);
 void	*ft_realloc(void* ptr, size_t new_size);
 char	**expander(char **tokens, t_data *data);
 int		is_special_char(char c);
 int		is_quote(char c);
-int 	is_empty_string(const char* str);
+int		is_empty_string(const char* str);
 char	**remove_empty_strings(char **input_tokens);
 void	parse(t_data *data);
 t_cmd	*getcmd(t_data *data);
@@ -107,32 +106,35 @@ t_cmd	*create_t_cmd(void);
 void	insert_t_cmd(t_cmd **head, t_cmd *new_cmd);
 void	free_t_cmd_list(t_cmd *head);
 t_cmd	*get_t_cmd_at_index(t_cmd *head, int index);
-void 	insert_t_cmd_at_index(t_cmd **head, t_cmd *new_cmd, int index);
+void	insert_t_cmd_at_index(t_cmd **head, t_cmd *new_cmd, int index);
 t_exec	*create_t_exec(void);
 void	insert_t_exec(t_exec **head, t_exec *new_cmd);
 void	free_t_exec_list(t_exec *head);
 t_exec	*get_t_exec_at_index(t_exec *head, int index);
-void 	insert_t_exec_at_index(t_exec **head, t_exec *new_cmd, int index);
+void	insert_t_exec_at_index(t_exec **head, t_exec *new_cmd, int index);
 char	isdouble(char *token);
-t_exec *getexecs(t_data *data);
+t_exec	*getexecs(t_data *data);
 void	fillpath(t_exec *head, t_data *data);
 char	**ft_appendstr(char **dest, char *str);
-int 	is_redirect(char *str);
+int		is_redirect(char *str);
 int		getarrlen(char **arr);
 void	fillredirects(t_exec *head, t_data *data);
-void 	delete_t_cmd_at_index(t_cmd **head, int index);
-int	execute1(t_data *data, t_exec *exec_head);
-int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd);
-int expand_paths(t_data *data, t_exec *exec_head);
+void	delete_t_cmd_at_index(t_cmd **head, int index);
+int		execute1(t_data *data, t_exec *exec_head);
+int		fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd);
+int		expand_paths(t_data *data, t_exec *exec_head);
 void	ft_echo(t_data *data, char **tokens);
-char **get_env_vars_array(t_data *data);
-void free_array(void **arr);
-t_list *init_env_vars(char **environ);
-int	ft_is_num(char *s);
-void handleSignalByChild(int sig);
-int add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned int token_len);
+char	**get_env_vars_array(t_data *data);
+void	free_array(void **arr);
+t_list	*init_env_vars(char **environ);
+int		ft_isnum(char *s);
+void	handleSignalByChild(int sig);
+int		add_or_replace_var(t_list **lst,
+			char *var_name, char *var_value, unsigned int token_len);
 void	free_tok(char **tokens);
-void free_env(char **env);
-void free_lst(t_data *data);
-
+void	free_env(char **env);
+void	free_lst(t_data *data);
+char	*get_env_var_value(t_data *data, char *var_name);
+int		ft_cd(char **tokens, t_data *data);
+int	ft_echo(t_data *data, char **tokens);
 #endif
