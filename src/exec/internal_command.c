@@ -20,7 +20,7 @@ void	free_var(t_list *var_to_del)
 	free(var_to_del);
 }
 
-int	add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned int token_len)
+void	add_or_replace_var(t_list **lst, char *var_name, char *var_value)
 {
 	t_var *new_var;
 	t_list *new_lst_el;
@@ -28,18 +28,12 @@ int	add_or_replace_var(t_list **lst, char *var_name, char *var_value, unsigned i
 
 	new_var = malloc(sizeof(t_var));
 	new_var->var_name = var_name;
-	if (ft_strlen(new_var->var_name) == token_len)
-	{
-		free(new_var);
-		return (1);
-	}
 	new_var->var_value = var_value;
 	new_lst_el = ft_lstnew(new_var);
 	old_var = ft_lst_remove(lst, (void *)new_var, ft_cmp);
 	if (old_var)
 		free_var(old_var);
 	ft_lstadd_back(lst, new_lst_el);
-	return (0);
 }
 
 void	export_print_env_vars(t_list *vars)
@@ -63,29 +57,33 @@ int	ft_export(t_data *data, char **tokens)
 {
 	char *var_name;
 	char *var_value;
-	size_t	len;
+	int exit_status;
 	int	i;
 
 	if (getarrlen(tokens) == 1)
 		export_print_env_vars(data->vars);
 	i = 1;
+	exit_status = 0;
 	while(tokens[i] != NULL)
 	{
-		len = ft_strlen(tokens[i]);
-		var_name = ft_strdup(ft_strtok(tokens[i], "="));
-		// TODO: validate identifier
-		var_value = ft_strtok(NULL, "=");
-		if (var_value != NULL)
-			var_value = ft_strdup(var_value);
-		if (add_or_replace_var(&data->vars, var_name, var_value, len))
+		var_name = ft_strtok(tokens[i], "=");
+		if (var_name == NULL || check_identifier(var_name) == 1)
 		{
-			printf("Error\n");
-			free(var_name);
-			free(var_value);
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(tokens[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			exit_status = 1;
+		} else
+		{
+			var_name = ft_strdup(var_name);
+			var_value = ft_strtok(NULL, "=");
+			if (var_value != NULL)
+				var_value = ft_strdup(var_value);
+			add_or_replace_var(&data->vars, var_name, var_value);
 		}
 		i++;
 	}
-	return (0);
+	return (exit_status);
 }
 
 void	ft_exit(char **tokens, t_data *data)

@@ -23,6 +23,9 @@ int	check_identifier(char *str)
 			return (1);
 		i++;
 	}
+
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (1);
 	return (0);
 }
 

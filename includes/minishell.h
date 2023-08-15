@@ -129,8 +129,8 @@ void	free_array(void **arr);
 t_list	*init_env_vars(char **environ);
 int		ft_isnum(char *s);
 void	handleSignalByChild(int sig);
-int		add_or_replace_var(t_list **lst,
-			char *var_name, char *var_value, unsigned int token_len);
+void		add_or_replace_var(t_list **lst,
+			char *var_name, char *var_value);
 void	free_tok(char **tokens);
 void	free_env(char **env);
 void	free_lst(t_data *data);
@@ -145,4 +145,5 @@ int	is_closed(char **tokens, int i, int j);
 char *clear_single_quotes(char *str);
 int is_closed_line(char *line, int i);
 long long int	ft_atoi_long(const char *str);
+int	check_identifier(char *str);
 #endif

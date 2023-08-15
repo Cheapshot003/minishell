@@ -24,8 +24,8 @@ void	change_pwd_and_old(t_data *data)
 		exit(1);
 	}
 	old_pwd = ft_strdup(get_env_var_value(data, "PWD"));
-	add_or_replace_var(&data->vars, ft_strdup("PWD"), pwd, ft_strlen("PWD=") + ft_strlen(pwd));
-	add_or_replace_var(&data->vars, ft_strdup("OLDPWD"), old_pwd, ft_strlen("OLDPWD=") + ft_strlen(old_pwd));
+	add_or_replace_var(&data->vars, ft_strdup("PWD"), pwd);
+	add_or_replace_var(&data->vars, ft_strdup("OLDPWD"), old_pwd);
 }
 
 int	ft_cd(char **tokens, t_data *data)
