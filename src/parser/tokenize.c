@@ -32,9 +32,9 @@ char **cmdtok(char *line, t_data *data) {
 	int double_quote;
 	int	single_quote;
     int i;
-	char *temp;
+	// char *temp;
 
-	temp = line;
+	// temp = line;
 	i = 0;
 	(void)data;
 	single_quote = 0;

@@ -59,7 +59,7 @@ void	export_print_env_vars(t_list *vars)
 	}
 }
 
-void	ft_export(t_data *data, char **tokens)
+int	ft_export(t_data *data, char **tokens)
 {
 	char *var_name;
 	char *var_value;
@@ -73,6 +73,7 @@ void	ft_export(t_data *data, char **tokens)
 	{
 		len = ft_strlen(tokens[i]);
 		var_name = ft_strdup(ft_strtok(tokens[i], "="));
+		// TODO: validate identifier
 		var_value = ft_strtok(NULL, "=");
 		if (var_value != NULL)
 			var_value = ft_strdup(var_value);
@@ -84,6 +85,7 @@ void	ft_export(t_data *data, char **tokens)
 		}
 		i++;
 	}
+	return (0);
 }
 
 void	ft_exit(char **tokens, t_data *data)
@@ -141,7 +143,7 @@ int	internal_command(char **tokens, t_data *data)
 	}
 	else if (!ft_strncmp(tokens[0], "export", 7))
 	{
-		ft_export(data, tokens);
+		data->exit_status = ft_export(data, tokens);
 		return (1);
 	}
 	else if (!ft_strncmp(tokens[0], "unset", 6))
