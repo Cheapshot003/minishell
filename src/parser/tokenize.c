@@ -58,6 +58,8 @@ char **cmdtok(char *line, t_data *data) {
 			line[i-1] = '\0';
 			ft_strlcpy(tok, line, i);
 			tokens = ft_appendstr(tokens, tok);
+			free(tok);
+			tok = NULL;
 			line = line + i;
 			i = -1;
 		}
@@ -69,8 +71,11 @@ char **cmdtok(char *line, t_data *data) {
 		return (NULL);
 	}
 	tok = ft_strdup(line);
-	free(temp);
+	//free(line);
+	//line = NULL;
+	//temp = NULL;
 	tokens = ft_appendstr(tokens, tok);
+	free(tok);
 	return (tokens);
 
 }
@@ -110,7 +115,8 @@ void cmdlex(char **input_tokens, t_data *data)
 			ft_strlcpy(aux, input_tokens[i], j+1);
 			temp = ft_strdup(input_tokens[i] + j);
 			new->str = ft_strdup(aux);
-			input_tokens[i] = temp;			
+			free(input_tokens[i]);			
+			input_tokens[i] = temp;
 		}
 		else if (input_tokens[i][0])
 		{

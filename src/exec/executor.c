@@ -78,15 +78,13 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 		}
 		execve(exec->path[0], exec->path, env_vars);
 		handle_execerr(data);
-		free(exec->path[0]);
-		exec->path[0] = NULL;
+		free_array((void **)exec->path);
 		free_env(env_vars);
 		return (1);
 	}
 	else
 	{
-		free(exec->path[0]);
-		exec->path[0] = NULL;
+		//free_array((void **)exec->path);
 		waitpid(pid, &(data->exit_status), 0);
 		data->exit_status = WEXITSTATUS(data->exit_status);
 		free_env(env_vars);
@@ -129,6 +127,7 @@ int isbuiltin(char *path)
 int expand_paths(t_data *data, t_exec *exec_head)
 {
 	t_exec *current;
+	char *temp;
 
 	current = exec_head;
 	while (current && current->path)
@@ -144,7 +143,9 @@ int expand_paths(t_data *data, t_exec *exec_head)
 		}
 		else
 		{
+			temp = current->path[0];
 			current->path[0] = find_path(current->path[0], data);
+			free(temp);
 			if (current->path[0] == NULL)
 				return (1);
 		}

@@ -143,7 +143,11 @@ void expander(char **tokens, t_data *data)
 					if (env != NULL)
 						ft_strlcat(temp, env, (ft_strlen(temp) + ft_strlen(env) + 1));
 					if (rest != NULL)
+					{
 						ft_strlcat(temp, rest, ft_strlen(temp) + ft_strlen(rest) + 1);
+						free(rest);
+					}
+					
 					j = j + ft_strlen(env) - 1;
 					free(tokens[i]);
 					tokens[i] = ft_strdup(temp);
