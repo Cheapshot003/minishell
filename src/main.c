@@ -88,6 +88,11 @@ int main(int argc, char **argv, char **envp)
           continue;
     signal(SIGQUIT, SIG_IGN);
     data.working_dir = getcwd(NULL, 0);
+    if (data.working_dir == NULL)
+	{
+		perror("Getcwd error\n");
+		exit(1);
+	}
     prompt = getPrompt(data.working_dir);
 	line = readline(prompt);
     free(prompt);

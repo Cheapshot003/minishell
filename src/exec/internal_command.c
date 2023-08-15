@@ -113,26 +113,6 @@ void	ft_exit(char **tokens, t_data *data)
 	data->exit = 1;
 }
 
-void	ft_unset(t_data *data, char **tokens)
-{
-	t_var	new_var;
-	t_list	*deleted_var;
-	int	i;
-
-	i = 1;
-	while(tokens[i] != NULL)
-	{
-		new_var.var_name = tokens[i];
-		deleted_var = ft_lst_remove(&data->vars, (void *)&new_var, ft_cmp);
-		if (deleted_var == NULL)
-		{
-			free(deleted_var);
-			break ;
-		}
-		i++;
-	}
-}
-
 void	print_env_vars(t_list *lst)
 {
 	while(lst != NULL)
@@ -230,7 +210,7 @@ int	internal_command(char **tokens, t_data *data)
 	}
 	else if (!ft_strncmp(tokens[0], "pwd", 4))
 	{
-		printf("%s\n", getcwd(NULL, 0));
+		data->exit_status = ft_pwd();
 		return (1);
 	}
 	else if (!ft_strncmp(tokens[0], "echo", 5))
@@ -245,7 +225,7 @@ int	internal_command(char **tokens, t_data *data)
 	}
 	else if (!ft_strncmp(tokens[0], "unset", 6))
 	{
-		ft_unset(data, tokens);
+		data->exit_status = ft_unset(data, tokens);
 		return (1);
 	}
 	else if (!ft_strncmp(tokens[0], "env", 4))

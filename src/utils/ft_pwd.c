@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,41 +12,17 @@
 
 #include "../../includes/minishell.h"
 
-void	change_pwd_and_old(t_data *data)
+int	ft_pwd(void)
 {
-	char	*old_pwd;
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
-	if (pwd  == NULL)
+	if (pwd == NULL)
 	{
 		perror("Getcwd error\n");
 		exit(1);
 	}
-	old_pwd = ft_strdup(get_env_var_value(data, "PWD"));
-	add_or_replace_var(&data->vars, ft_strdup("PWD"), pwd, ft_strlen("PWD=") + ft_strlen(pwd));
-	add_or_replace_var(&data->vars, ft_strdup("OLDPWD"), old_pwd, ft_strlen("OLDPWD=") + ft_strlen(old_pwd));
-}
-
-int	ft_cd(char **tokens, t_data *data)
-{
-	char	*cd_path;
-
-	cd_path = tokens[1];
-	if (getarrlen(tokens) == 1)
-		cd_path = get_env_var_value(data, "HOME");
-	else if (getarrlen(tokens) > 2)
-	{
-		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		return (1);
-	}
-	if (chdir(cd_path) != 0)
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(cd_path, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (1);
-	}
-	change_pwd_and_old(data);
+	printf("%s\n", pwd);
+	free(pwd);
 	return (0);
 }
