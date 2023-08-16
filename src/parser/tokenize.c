@@ -71,9 +71,6 @@ char **cmdtok(char *line, t_data *data) {
 		return (NULL);
 	}
 	tok = ft_strdup(line);
-	//free(line);
-	//line = NULL;
-	//temp = NULL;
 	tokens = ft_appendstr(tokens, tok);
 	free(tok);
 	return (tokens);
@@ -88,12 +85,8 @@ void cmdlex(char **input_tokens, t_data *data)
 	int j;
 	char *temp;
 	char aux[1024];
-	// int single_quotes;
-	// int double_quotes;
 
 	temp = NULL;
-	// single_quotes = 0;
-	// double_quotes = 0;
 	head = create_t_cmd();
 	data->cmd_head = head;
 	new = head;
@@ -137,29 +130,4 @@ void cmdlex(char **input_tokens, t_data *data)
 
 int is_whitespace(char c) {
     return c == ' ' || c == '\t' || c == '\n';
-}
-
-char* getnexttoken(char *input) {
-    static char buffer[1024]; // Buffer to hold the extracted token
-    int buffer_index; // Index to track the position in the buffer
-    // int quote; // Flag to indicate if we are inside a quote
-    int i; // Index to traverse the input string
-	int j;
-
-	i = 0;
-	// quote = 0;
-	buffer_index = 0;
-    while (is_whitespace(input[i]))
-        i++;
-    while (input[i] != '\0' && !is_whitespace(input[i])) {
-        buffer[buffer_index++] = input[i];
-        i++;
-    }
-    buffer[buffer_index] = '\0';
-    j = 0;
-    while (input[i] != '\0') {
-        input[j++] = input[i++];
-    }
-    input[j] = '\0';
-    return ft_strdup(buffer);
 }

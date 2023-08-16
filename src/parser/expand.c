@@ -1,57 +1,5 @@
 #include "../../includes/minishell.h"
 
-void cut_quotes(char **tokens)
-{
-    int i;
-    int len;
-    char *token;
-    char *new_token;
-
-    i = 0;
-    while (tokens[i] != NULL)
-    {
-        token = tokens[i];
-        len = ft_strlen(token);
-        if ((token[0] == '\'' && token[len-1] == '\'') || (token[0] == '"' && token[len-1] == '"'))
-        {
-            new_token = malloc(len - 1);
-            new_token[0] = '\0';
-            ft_strlcat(new_token, &token[1], len - 1);
-            free(token);
-            tokens[i] = new_token;
-        }
-        i++;
-    }
-}
-
-char *find_and_replace_unclosed_quote(char  *str, char quote)
-{
-    int i = 0;
-    int move = 0;
-    int count = 0;
-    int last_quote_pos = 0;
-
-    while (str[i] != '\0') {
-        if (str[i] == quote) {
-            count++;
-            last_quote_pos = i;
-        }
-        i++;
-    }
-
-    if (count % 2 != 0) {
-        i = last_quote_pos;
-        while (str[i] != '\0') {
-            if (str[i] == quote)
-                move = 1;
-            if (move)
-                str[i] = str[i+1];
-            i++;
-        }
-    }
-    return str;
-}
-
 char *get_env(t_data *data, char *token)
 {
 	int i;
@@ -137,26 +85,4 @@ int	clearstrlen(char *str)
 		i++;
 	}
 	return (j);
-}
-char *clear_single_quotes(char *str)
-{
-	int i;
-	char *output;
-	int len;
-
-	len = clearstrlen(str);
-	i = 0;
-	output = malloc(len);
-	while(str[i])
-	{
-		if (str[i] == '\'')
-		{
-			str[i] = '\0';
-			ft_strlcat(output, str, len);
-		}
-		i++;
-	}
-	free(str);
-	str = NULL;
-	return (output);
 }

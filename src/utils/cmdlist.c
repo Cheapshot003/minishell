@@ -68,48 +68,6 @@ t_cmd *get_t_cmd_at_index(t_cmd *head, int index) {
     return current;
 }
 
-void insert_t_cmd_at_index(t_cmd **head, t_cmd *new_cmd, int index) {
-    if (index < 0) {
-        fprintf(stderr, "Invalid index\n");
-        return;
-    }
-
-    if (*head == NULL) {
-        if (index == 0) {
-            *head = new_cmd;
-        } else {
-            fprintf(stderr, "Index out of bounds\n");
-        }
-        return;
-    }
-
-    if (index == 0) {
-        new_cmd->next = *head;
-        (*head)->prev = new_cmd;
-        *head = new_cmd;
-        return;
-    }
-
-    t_cmd *current = *head;
-    int count = 0;
-    while (current != NULL && count < index - 1) {
-        current = current->next;
-        count++;
-    }
-
-    if (current == NULL) {
-        fprintf(stderr, "Index out of bounds\n");
-        return;
-    }
-
-    new_cmd->next = current->next;
-    new_cmd->prev = current;
-    if (current->next != NULL) {
-        current->next->prev = new_cmd;
-    }
-    current->next = new_cmd;
-}
-
 void delete_t_cmd_at_index(t_cmd **head, int index) {
     if (index < 0) {
         fprintf(stderr, "Invalid index\n");
