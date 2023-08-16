@@ -6,7 +6,7 @@
 #    By: otietz <otietz@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 15:30:52 by ohnatiuk          #+#    #+#              #
-#    Updated: 2023/08/13 10:24:35 by otietz           ###   ########.fr        #
+#    Updated: 2023/08/16 10:39:50 by otietz           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,8 @@ SRCS = src/main.c \
 		 src/utils/ft_isnum.c \
 	   src/parser/parse1.c \
 	   src/exec/executor.c \
-	   src/utils/error.c
+	   src/utils/error.c \
+	   src/exec/heredoc.c
 
 libft = ./libft/libft.a
 

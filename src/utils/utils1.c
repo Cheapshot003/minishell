@@ -12,13 +12,14 @@ char **ft_appendstr(char **dest, char *str)
 	output = ft_calloc(fulllen, sizeof(char *));
 	while (dest != NULL && i < fulllen - 2)
 	{
-		output[i] = dest[i];
+		output[i] = ft_strdup(dest[i]);
 		i++;
 	}
 	output[i] = ft_strdup(str);
 	output[i+1] = NULL;
-	//free(str);
-	free(dest);
+	free(str);
+	if (dest != NULL)
+		free_array((void **)dest);
 	return (output);
 }
 
@@ -38,6 +39,8 @@ int	getarrlen(char **arr)
 
 void free_array(void **arr)
 {
+	if (arr == NULL)
+		return ;
 	int i = 0;
 		while (arr[i] != NULL)
 		{

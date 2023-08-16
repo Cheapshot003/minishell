@@ -32,9 +32,7 @@ void	fillpath(t_exec *head, t_data *data)
 			}
 			else
 			{
-				current_exec->path = ft_appendstr(current_exec->path, current_cmd->str);
-				free(current_cmd->str);
-				current_cmd->str = NULL;
+				current_exec->path = ft_appendstr(current_exec->path, ft_strdup(current_cmd->str));
 				current_cmd = current_cmd->next;
 			}
 		}

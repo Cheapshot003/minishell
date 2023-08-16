@@ -1,5 +1,16 @@
 #include "../../includes/minishell.h"
 
+t_heredoc *get_heredoc(void)
+{
+	t_heredoc *out;
+
+	out = malloc(sizeof(t_heredoc));
+	out->delims = NULL;
+	out->numheredoc = 0;
+	out->stuff = NULL;
+	return (out);
+}
+
 void	fillredirects(t_exec *head, t_data *data)
 {
 	t_cmd *head_cmd;
@@ -8,10 +19,12 @@ void	fillredirects(t_exec *head, t_data *data)
 	int done;
 	int i;
 	int redirect;
+	char *tmp;
 
 	redirect = -1;
 	done = 0;
 	i = 0;
+	tmp = NULL;
 	current_exec = head;
 	head_cmd = data->cmd_head;
 	current_cmd = head_cmd;
@@ -40,6 +53,9 @@ void	fillredirects(t_exec *head, t_data *data)
 					}
 					else if (redirect == 3) // << Heredoc
 					{
+						current_exec->heredoc->numheredoc += 1;
+						current_exec->heredoc->delims = ft_appendstr(current_exec->heredoc->delims, ft_strdup(current_cmd->next->str));
+						
 						//TBD
 					}
 					else if (redirect == 4) // >> Append

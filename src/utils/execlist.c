@@ -1,7 +1,7 @@
 #include "../../includes/minishell.h"
 
 t_exec *create_t_exec(void) {
-    t_exec *new_exec = (t_exec *)ft_calloc(1, sizeof(t_exec));
+	t_exec *new_exec = (t_exec *)ft_calloc(1, sizeof(t_exec));
     if (new_exec == NULL) {
         perror("Memory allocation error");
         exit(EXIT_FAILURE);
@@ -16,7 +16,7 @@ t_exec *create_t_exec(void) {
 	new_exec->output_redirection = 0;
 	new_exec->pipes[0] = -1;
 	new_exec->pipes[1] = -1;
-
+	new_exec->heredoc = get_heredoc();
     return new_exec;
 }
 
@@ -46,6 +46,15 @@ void free_t_exec_list(t_exec *head) {
 		{
 			if (ft_strncmp(temp->path[0], "", ft_strlen(temp->path[0])) != 0)
 				free_array((void **)temp->path);
+		}
+		if (temp->heredoc != NULL)
+		{
+			if (temp->heredoc->stuff != NULL)
+				free(temp->heredoc->stuff);
+			if (temp->heredoc->delims != NULL)
+				free_array((void **)temp->heredoc->delims);
+			
+			free(temp->heredoc);
 		}
 		temp->path = NULL;
         free(temp);

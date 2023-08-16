@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/13 16:48:43 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/16 11:29:56 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_exec{
 	char	*output_file;
 	int		append_redirection;
 	int		pipes[2];
+	struct s_heredoc *heredoc;
 	struct s_exec	*next;
 	struct s_exec	*prev;
 }	t_exec;
@@ -75,6 +76,13 @@ typedef struct s_var
 	char			*var_name;
 	char			*var_value;
 }	t_var;
+
+typedef struct s_heredoc
+{
+	int numheredoc;
+	char *stuff;
+	char **delims;
+} t_heredoc;
 
 void	execute(t_data *data);
 int		internal_command(char **tokens, t_data *data);
@@ -148,4 +156,6 @@ long long int	ft_atoi_long(const char *str);
 int	check_identifier(char *str);
 void	add_or_replace_var(t_list **lst, char *var_name, char *var_value);
 void init_signals(void);
+void fill_heredocs(t_data *data, t_exec *exec);
+t_heredoc *get_heredoc(void);
 #endif

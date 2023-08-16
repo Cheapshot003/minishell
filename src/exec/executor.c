@@ -31,7 +31,9 @@ int execute1(t_data *data, t_exec *exec_head) {
 int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 {
 	pid_t pid;
+	int i;
 
+	i = 0;
 	if (data->builtin == 1)
 	{
 		data->builtin = 0;
@@ -76,6 +78,10 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 			dup2(output_fd, 1);
 			close(output_fd);
 		}
+		if (exec->heredoc->numheredoc)
+		{
+			fill_heredocs(data, exec);
+		}
 		execve(exec->path[0], exec->path, env_vars);
 		handle_execerr(data);
 		free_array((void **)exec->path);
@@ -84,7 +90,6 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 	}
 	else
 	{
-		//free_array((void **)exec->path);
 		waitpid(pid, &(data->exit_status), 0);
 		data->exit_status = WEXITSTATUS(data->exit_status);
 		free_env(env_vars);

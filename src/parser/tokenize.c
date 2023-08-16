@@ -57,7 +57,7 @@ char **cmdtok(char *line, t_data *data) {
 				return (NULL);
 			line[i-1] = '\0';
 			ft_strlcpy(tok, line, i);
-			tokens = ft_appendstr(tokens, tok);
+			tokens = ft_appendstr(tokens, ft_strdup(tok));
 			free(tok);
 			tok = NULL;
 			line = line + i;
@@ -71,7 +71,7 @@ char **cmdtok(char *line, t_data *data) {
 		return (NULL);
 	}
 	tok = ft_strdup(line);
-	tokens = ft_appendstr(tokens, tok);
+	tokens = ft_appendstr(tokens, ft_strdup(tok));
 	free(tok);
 	return (tokens);
 
