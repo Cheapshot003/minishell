@@ -5,18 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 12:13:56 by otietz            #+#    #+#             */
-/*   Updated: 2023/08/13 12:17:32 otietz           ###   ########.fr       */
+/*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
+/*   Updated: 2023/08/16 10:45:07 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void tokenize(char *line, t_data *data)
+void	tokenize(char *line, t_data *data)
 {
+	char	**tokens;
+
 	if (data->skip)
 		return ;
-	char **tokens;
 	tokens = cmdtok(line, data);
 	if (tokens == NULL)
 		return ;
@@ -26,14 +27,14 @@ void tokenize(char *line, t_data *data)
 	parse(data);
 }
 
-char **cmdtok(char *line, t_data *data) {
-    char *tok;
-    char **tokens;
-	int double_quote;
-	int	single_quote;
-    int i;
+char	**cmdtok(char *line, t_data *data)
+{
+	char	*tok;
+	char	**tokens;
+	int		double_quote;
+	int		single_quote;
+	int		i;
 
-	// temp = line;
 	i = 0;
 	(void)data;
 	single_quote = 0;
@@ -47,15 +48,16 @@ char **cmdtok(char *line, t_data *data) {
 			single_quote = !single_quote;
 		else if (line[i] == '\"' && single_quote == 0)
 			double_quote = !double_quote;
-		else if (is_whitespace(line[i]) && single_quote == 0 && double_quote == 0)
+		else if (is_whitespace(line[i])
+			&& single_quote == 0 && double_quote == 0)
 		{
 			i++;
 			tok = malloc(i);
 			if (tok == NULL)
 				return (NULL);
-			line[i-1] = '\0';
+			line[i - 1] = '\0';
 			ft_strlcpy(tok, line, i);
-			while(is_whitespace(line[i]))
+			while (is_whitespace(line[i]))
 				i++;
 			tokens = ft_appendstr(tokens, ft_strdup(tok));
 			free(tok);
@@ -74,17 +76,16 @@ char **cmdtok(char *line, t_data *data) {
 	tokens = ft_appendstr(tokens, ft_strdup(tok));
 	free(tok);
 	return (tokens);
-
 }
 
-void cmdlex(char **input_tokens, t_data *data)
+void	cmdlex(char **input_tokens, t_data *data)
 {
-	int i;
-	t_cmd *head;
-	t_cmd *new;
-	int j;
-	char *temp;
-	char aux[1024];
+	int		i;
+	t_cmd	*head;
+	t_cmd	*new;
+	int		j;
+	char	*temp;
+	char	aux[1024];
 
 	temp = NULL;
 	head = create_t_cmd();
@@ -101,37 +102,36 @@ void cmdlex(char **input_tokens, t_data *data)
 			new->str = temp;
 			input_tokens[i][0] = '\0';
 		}
-		else if(is_special_char(input_tokens[i][0]))
+		else if (is_special_char(input_tokens[i][0]))
 		{
 			while (is_special_char(input_tokens[i][j]))
 				j++;
-			ft_strlcpy(aux, input_tokens[i], j+1);
-			temp = ft_strdup(input_tokens[i] + j);
-			new->str = ft_strdup(aux);
-			free(input_tokens[i]);			
-			input_tokens[i] = temp;
-		}
-		else if (input_tokens[i][0])
-		{
-			while(input_tokens[i][j] && !is_special_char(input_tokens[i][j]))
-			{
-				j++;
-			}
-
-			ft_strlcpy(aux, input_tokens[i], j+1);
-			cut_quotes(aux);
+			ft_strlcpy(aux, input_tokens[i], j + 1);
 			temp = ft_strdup(input_tokens[i] + j);
 			new->str = ft_strdup(aux);
 			free(input_tokens[i]);
 			input_tokens[i] = temp;
 		}
+		else if (input_tokens[i][0])
+		{
+			while (input_tokens[i][j]
+					&& !is_special_char(input_tokens[i][j]))
+				j++;
+			ft_strlcpy(aux, input_tokens[i], j + 1);
+			cut_quotes(aux);
+			temp = ft_strdup(input_tokens[i] + j);
+			new->str = ft_strdup(aux);
+			free(input_tokens[i]);
+			input_tokens[i] = temp; 
+		}
 		new = create_t_cmd();
 		insert_t_cmd(&head, new);
-		if(input_tokens[i][0] == '\0' || input_tokens[i] == NULL)
+		if (input_tokens[i][0] == '\0' || input_tokens[i] == NULL)
 			i++;
 	}
 }
 
-int is_whitespace(char c) {
-    return c == ' ' || c == '\t' || c == '\n';
+int	is_whitespace(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n');
 }

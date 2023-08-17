@@ -1,13 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils1.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
+/*   Updated: 2023/08/16 10:45:07 by otietz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-char **ft_appendstr(char **dest, char *str)
+char	**ft_appendstr(char **dest, char *str)
 {
-	int fulllen;
-	int	i;
-	char **output;
+	int		fulllen;
+	int		i;
+	char	**output;
 
 	i = 0;
-
 	fulllen = getarrlen(dest) + 2;
 	output = ft_calloc(fulllen, sizeof(char *));
 	while (dest != NULL && i < fulllen - 2)
@@ -16,7 +27,7 @@ char **ft_appendstr(char **dest, char *str)
 		i++;
 	}
 	output[i] = ft_strdup(str);
-	output[i+1] = NULL;
+	output[i + 1] = NULL;
 	free(str);
 	if (dest != NULL)
 		free_array((void **)dest);
@@ -25,39 +36,38 @@ char **ft_appendstr(char **dest, char *str)
 
 int	getarrlen(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arr == NULL)
 		return (0);
-	while(arr[i])
-	{
+	while (arr[i])
 		i++;
-	}
 	return (i);
 }
 
-void free_array(void **arr)
+void	free_array(void **arr)
 {
+	int	i;
+
 	if (arr == NULL)
 		return ;
-	int i = 0;
-		while (arr[i] != NULL)
-		{
-				free(arr[i]);
-				i++;
-		}
-		free(arr);
+	i = 0;
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }
 
-void free_env(char **env)
+void	free_env(char **env)
 {
-	int i;
+	int	i;
 
 	i = getarrlen(env);
-
 	while (i >= 0)
-	{	
+	{
 		free(env[i]);
 		i--;
 	}
@@ -65,21 +75,21 @@ void free_env(char **env)
 	return ;
 }
 
-void cut_quotes(char *aux)
+void	cut_quotes(char *aux)
 {
-	char *src;
-    char *dest;
+	char	*src;
+	char	*dest;
 
 	src = aux;
 	dest = aux;
-
-    while (*src)
+	while (*src)
 	{
-        if (*src != '"' && *src != '\'') {
-            *dest = *src;
-            dest++;
-        }
-        src++;
-    }
-    *dest = '\0';
+		if (*src != '"' && *src != '\'')
+		{
+			*dest = *src;
+			dest++;
+		}
+		src++;
+	}
+	*dest = '\0';
 }

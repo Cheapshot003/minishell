@@ -1,9 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
+/*   Updated: 2023/08/16 10:45:07 by otietz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
+int	execute1(t_data *data, t_exec *exec_head)
+{
+	t_exec	*current_exec;
+	int		input_fd;
 
-int execute1(t_data *data, t_exec *exec_head) {
-    t_exec *current_exec = exec_head;
-    int input_fd = 0; // Initial input file descriptor
+	current_exec = exec_head;
+	input_fd = 0;
 	if (data->skip)
 		return (0);
 	if (expand_paths(data, exec_head) == 1)
@@ -11,33 +26,34 @@ int execute1(t_data *data, t_exec *exec_head) {
 		exiterror(data, "Error: Command not found", 0);
 		return (1);
 	}
-    while (current_exec && current_exec->path) {
-        if (pipe(current_exec->pipes) == -1) {
-            perror("pipe");
-            exit(EXIT_FAILURE);
-        }
-
-        if (fork_exec(data, current_exec, input_fd, current_exec->pipes[1]) == 1) 
-            exiterror(data, "Error", 1);
-        close(current_exec->pipes[1]);
-        input_fd = current_exec->pipes[0];
-        current_exec = current_exec->next;
-    }
+	while (current_exec && current_exec->path)
+	{
+		if (pipe(current_exec->pipes) == -1)
+		{
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
+		if (fork_exec(data, current_exec,
+				input_fd, current_exec->pipes[1]) == 1)
+			exiterror(data, "Error", 1);
+		close(current_exec->pipes[1]);
+		input_fd = current_exec->pipes[0];
+		current_exec = current_exec->next;
+	}
 	waitpid(data->wait_pid, &(data->exit_status), 0);
-    return 0;
+	return (0);
 }
 
-
-int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
+int	fork_exec(t_data *data, t_exec *exec,
+		int input_fd, int output_fd)
 {
-	pid_t pid;
-	int i;
-	int	heredoc_file;
-	char **env_vars;
+	pid_t	pid;
+	int		i;
+	int		heredoc_file;
+	char	**env_vars;
 
 	i = 0;
 	env_vars = NULL;
-
 	if (data->builtin == 1)
 	{
 		data->builtin = 0;
@@ -58,14 +74,13 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 	}
 	else if (pid == 0)
 	{
-		if (input_fd != 0) {
-            dup2(input_fd, 0);
-            close(input_fd); // Close the read end of the previous pipe
-        }
-
-        if (exec->next) {
-            dup2(output_fd, 1);
-        }
+		if (input_fd != 0)
+		{
+			dup2(input_fd, 0);
+			close(input_fd);
+		}
+		if (exec->next)
+			dup2(output_fd, 1);
 		if (exec->input_redirection == 1)
 		{
 			input_fd = open(exec->input_file, O_RDONLY);
@@ -76,7 +91,8 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 		}
 		if (exec->output_redirection == 1)
 		{
-			output_fd = open(exec->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			output_fd = open(exec->output_file,
+					O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			if (output_fd == -1)
 				return (1);
 			dup2(output_fd, 1);
@@ -84,7 +100,8 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 		}
 		if (exec->append_redirection == 1)
 		{
-			output_fd = open(exec->output_file, O_WRONLY | O_CREAT | O_APPEND, 0666);
+			output_fd = open(exec->output_file,
+					O_WRONLY | O_CREAT | O_APPEND, 0666);
 			if (output_fd == -1)
 				return (1);
 			dup2(output_fd, 1);
@@ -113,7 +130,7 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 
 int	containsslash(char *path)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (path[i])
@@ -146,22 +163,18 @@ int	isbuiltin(char *path)
 	return (0);
 }
 
-int expand_paths(t_data *data, t_exec *exec_head)
+int	expand_paths(t_data *data, t_exec *exec_head)
 {
-	t_exec *current;
-	char *temp;
+	t_exec	*current;
+	char	*temp;
 
 	current = exec_head;
 	while (current && current->path)
 	{
 		if (containsslash(current->path[0]) == 1)
-		{
-			return(0);
-		}
+			return (0);
 		if (isbuiltin(current->path[0]) == 1)
-		{
 			data->builtin = 1;
-		}
 		else
 		{
 			temp = current->path[0];
@@ -172,5 +185,5 @@ int expand_paths(t_data *data, t_exec *exec_head)
 		}
 		current = current->next;
 	}
-	return(0);
+	return (0);
 }

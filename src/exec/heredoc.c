@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
+/*   Updated: 2023/08/16 10:45:07 by otietz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-void fill_heredocs(t_data *data, t_exec *exec)
+void	fill_heredocs(t_data *data, t_exec *exec)
 {
-	int i;
-	char *line;
-	char *delim;
-	int fulllen;
-	char *temp;
-	int heredoc_file;
+	int		i;
+	char	*line;
+	char	*delim;
+	int		fulllen;
+	char	*temp;
+	int		heredoc_file;
 
 	fulllen = 0;
 	heredoc_file = 0;
@@ -16,7 +28,7 @@ void fill_heredocs(t_data *data, t_exec *exec)
 	delim = NULL;
 	line = NULL;
 	i = 0;
-	while(i < exec->heredoc->numheredoc)
+	while (i < exec->heredoc->numheredoc)
 	{
 		delim = exec->heredoc->delims[i];
 		line = readline("heredoc> ");
@@ -30,7 +42,7 @@ void fill_heredocs(t_data *data, t_exec *exec)
 			if (exec->heredoc->stuff != NULL)
 				free(exec->heredoc->stuff);
 			exec->heredoc->stuff = temp;
-			free(line);	
+			free(line);
 			line = readline("heredoc> ");
 		}
 		if (line != NULL)
