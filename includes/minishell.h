@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/17 15:21:45 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/17 18:49:58 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_data{
 	int		exit_arg;
 	char	*exit_str;
 	int		skip;
+	int		wait_pid;
 }	t_data;
 
 typedef struct s_var

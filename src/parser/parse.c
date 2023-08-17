@@ -5,6 +5,8 @@ void parse(t_data *data)
 	data->exec_head = getexecs(data);
 	fillredirects(data->exec_head, data);
 	fillpath(data->exec_head, data);
+	if (data->exec_head->path == NULL)
+		exiterror(data, "Syntax Error", 0);
 
 }
 

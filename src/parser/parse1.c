@@ -37,6 +37,8 @@ void	fillredirects(t_exec *head, t_data *data)
 				redirect = is_redirect(current_cmd->str);
 				if (redirect > 0)
 				{
+					if (current_cmd->next->str == NULL || is_special_char(current_cmd->next->str[0]))
+						return ;
 					if (redirect == 1)// < Input Redirection
 					{
 						if (current_exec->output_file != NULL)

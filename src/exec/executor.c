@@ -17,13 +17,13 @@ int execute1(t_data *data, t_exec *exec_head) {
             exit(EXIT_FAILURE);
         }
 
-        if (fork_exec(data, current_exec, input_fd, current_exec->pipes[1]) == 1) {
-            return (1);
-        }
+        if (fork_exec(data, current_exec, input_fd, current_exec->pipes[1]) == 1) 
+            exiterror(data, "Error", 1);
         close(current_exec->pipes[1]);
         input_fd = current_exec->pipes[0];
         current_exec = current_exec->next;
     }
+	waitpid(data->wait_pid, &(data->exit_status), 0);
     return 0;
 }
 
@@ -33,8 +33,10 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 	pid_t pid;
 	int i;
 	int	heredoc_file;
+	char **env_vars;
 
 	i = 0;
+	env_vars = NULL;
 
 	if (data->builtin == 1)
 	{
@@ -43,7 +45,6 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 		exec_builtins(data, exec, input_fd, output_fd);
 		return (0);
 	}
-	char **env_vars = get_env_vars_array(data);
 	if (exec->heredoc->numheredoc)
 	{
 		fill_heredocs(data, exec);
@@ -68,18 +69,24 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 		if (exec->input_redirection == 1)
 		{
 			input_fd = open(exec->input_file, O_RDONLY);
+			if (input_fd == -1)
+				return (1);
 			dup2(input_fd, 0);
 			close(input_fd);
 		}
 		if (exec->output_redirection == 1)
 		{
 			output_fd = open(exec->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			if (output_fd == -1)
+				return (1);
 			dup2(output_fd, 1);
 			close(output_fd);
 		}
 		if (exec->append_redirection == 1)
 		{
 			output_fd = open(exec->output_file, O_WRONLY | O_CREAT | O_APPEND, 0666);
+			if (output_fd == -1)
+				return (1);
 			dup2(output_fd, 1);
 			close(output_fd);
 		}
@@ -88,17 +95,18 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 			heredoc_file = open(".temp", O_RDONLY);
 			dup2(heredoc_file, 0);
 		}
+		env_vars = get_env_vars_array(data);
 		execve(exec->path[0], exec->path, env_vars);
 		handle_execerr(data);
-		free_array((void **)exec->path);
-		free_env(env_vars);
+		exit(1);
 		return (1);
 	}
 	else
 	{
-		waitpid(pid, &(data->exit_status), 0);
+		data->wait_pid = pid;
 		data->exit_status = WEXITSTATUS(data->exit_status);
-		free_env(env_vars);
+		if (env_vars != NULL)
+			free(env_vars);
 	}
 	return (0);
 }
