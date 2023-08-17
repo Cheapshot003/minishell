@@ -35,14 +35,14 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 	int	heredoc_file;
 
 	i = 0;
+
 	if (data->builtin == 1)
 	{
 		data->builtin = 0;
 		data->arg_count = getarrlen(exec->path);
-		internal_command(exec->path, data);
+		exec_builtins(data, exec, input_fd, output_fd);
 		return (0);
 	}
-
 	char **env_vars = get_env_vars_array(data);
 	if (exec->heredoc->numheredoc)
 	{
@@ -153,7 +153,6 @@ int expand_paths(t_data *data, t_exec *exec_head)
 		if (isbuiltin(current->path[0]) == 1)
 		{
 			data->builtin = 1;
-			return(0);
 		}
 		else
 		{

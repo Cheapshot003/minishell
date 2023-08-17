@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/16 11:29:56 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/17 14:49:26 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,4 +158,5 @@ void	add_or_replace_var(t_list **lst, char *var_name, char *var_value);
 void init_signals(void);
 void fill_heredocs(t_data *data, t_exec *exec);
 t_heredoc *get_heredoc(void);
+int exec_builtins(t_data *data, t_exec *exec, int input_fd, int output_fd);
 #endif
