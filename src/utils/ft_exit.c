@@ -12,9 +12,9 @@
 
 #include "../../includes/minishell.h"
 
-void exit_with_code(char *code_token, t_data *data)
+void	exit_with_code(char *code_token, t_data *data)
 {
-	int exit_arg;
+	int	exit_arg;
 
 	if (ft_isnum(code_token) == 0)
 	{
@@ -24,7 +24,7 @@ void exit_with_code(char *code_token, t_data *data)
 			rl_clear_history();
 			data->exit_arg = exit_arg;
 			printf("exit\n");
-			return;
+			return ;
 		}
 	}
 	ft_putstr_fd("minishell: exit: ", 2);
@@ -33,9 +33,8 @@ void exit_with_code(char *code_token, t_data *data)
 	data->exit_arg = 2;
 }
 
-void ft_exit(char **tokens, t_data *data)
+void	ft_exit(char **tokens, t_data *data)
 {
-
 	data->exit = 1;
 	if (getarrlen(tokens) > 2)
 	{

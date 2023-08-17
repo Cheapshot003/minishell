@@ -14,8 +14,8 @@
 
 int	ft_echo(t_data *data, char **tokens)
 {
-	int with_newline;
-	int i;
+	int	with_newline;
+	int	i;
 
 	with_newline = 1;
 	i = 1;
@@ -23,14 +23,14 @@ int	ft_echo(t_data *data, char **tokens)
 	{
 		if (ft_strncmp(tokens[i], "-n", 3) == 0)
 		{
-				with_newline = 0;
-				i++;
+			with_newline = 0;
+			i++;
 		}
 		while (i < data->arg_count)
 		{
 			printf("%s", tokens[i]);
 			if (i != data->arg_count - 1)
-					printf(" ");
+				printf(" ");
 			i++;
 		}
 		if (with_newline)

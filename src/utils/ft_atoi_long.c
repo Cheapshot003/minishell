@@ -21,9 +21,9 @@ static void	init_variables(unsigned long long	*result, int	*i, int	*sign)
 
 long long int	ft_atoi_long(const char *str)
 {
-	unsigned long  long	result;
-	int		i;
-	int		sign;
+	unsigned long long	result;
+	int					i;
+	int					sign;
 
 	init_variables(&result, &i, &sign);
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))

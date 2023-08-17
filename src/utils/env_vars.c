@@ -37,7 +37,7 @@ t_list	*init_env_vars(char **environ)
 	return (result_list);
 }
 
-char *env_var_to_str(t_var *var)
+char	*env_var_to_str(t_var *var)
 {
 	char	*env_var_str;
 
@@ -49,7 +49,6 @@ char *env_var_to_str(t_var *var)
 	if (var->var_value != NULL)
 		ft_strlcat(env_var_str, var->var_value,
 			ft_strlen(var->var_name) + 1 + ft_strlen(var->var_value) + 1);
-	
 	return (env_var_str);
 }
 

@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int internal_command_2(char **tokens, t_data *data)
+int	internal_command_2(char **tokens, t_data *data)
 {
 	if (!ft_strncmp(tokens[0], "export", 7))
 	{
@@ -53,5 +53,5 @@ int	internal_command(char **tokens, t_data *data)
 		data->exit_status = ft_echo(data, tokens);
 		return (1);
 	}
-	return internal_command_2(tokens, data);
+	return (internal_command_2(tokens, data));
 }

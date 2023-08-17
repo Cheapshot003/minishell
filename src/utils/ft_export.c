@@ -29,7 +29,7 @@ void	export_print_env_vars(t_list *vars)
 	}
 }
 
-void export_var(t_data *data, char *var_token, int *exit_status)
+void	export_var(t_data *data, char *var_token, int *exit_status)
 {
 	char	*var_name;
 	char	*var_value;

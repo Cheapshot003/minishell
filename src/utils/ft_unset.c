@@ -17,13 +17,12 @@ int	check_identifier(char *str)
 	int	i;
 
 	i = 0;
-	while(str[i] != '\0')
+	while (str[i] != '\0')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (1);
 		i++;
 	}
-
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (1);
 	return (0);
@@ -33,12 +32,12 @@ int	ft_unset(t_data *data, char **tokens)
 {
 	t_var	new_var;
 	t_list	*deleted_var;
-	int	i;
-	int	is_error;
+	int		i;
+	int		is_error;
 
 	i = 1;
 	is_error = 0;
-	while(tokens[i] != NULL)
+	while (tokens[i] != NULL)
 	{
 		new_var.var_name = tokens[i];
 		if (check_identifier(new_var.var_name) == 1)

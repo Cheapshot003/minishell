@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int check_delim(const char *delim, char *s, int *i, int *start)
+int	check_delim(const char *delim, char *s, int *i, int *start)
 {
 	int	j;
 

@@ -17,8 +17,8 @@ void	print_env_vars(t_list *lst)
 	while (lst != NULL)
 	{
 		printf ("%s=", ((t_var *)lst->content)->var_name);
-		if (((t_var*)lst->content)->var_value != NULL)
-			printf("%s", ((t_var*)lst->content)->var_value);
+		if (((t_var *)lst->content)->var_value != NULL)
+			printf("%s", ((t_var *)lst->content)->var_value);
 		printf("\n");
 		lst = lst->next;
 	}

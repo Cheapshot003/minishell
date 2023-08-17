@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-extern int received_signal;
+extern int	g_received_signal;
 
 void	int_handler(int sig, siginfo_t *info, void *context)
 {
@@ -21,10 +21,9 @@ void	int_handler(int sig, siginfo_t *info, void *context)
 	received_signal = info->si_code;
 	if (info->si_code == 0)
 	{
-			// signal in prompt
-		printf("\n"); // Move to a new line
-		rl_on_new_line(); // Regenerate the prompt on a newline
-		rl_replace_line("", 0); // Clear the previous text
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	return ;
@@ -33,7 +32,6 @@ void	int_handler(int sig, siginfo_t *info, void *context)
 void	chld_handler(int sig)
 {
 	received_signal = 0;
-	//printf("\n\n");
 	(void) sig;
 }
 
