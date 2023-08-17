@@ -64,3 +64,22 @@ void free_env(char **env)
 	free(env);
 	return ;
 }
+
+void cut_quotes(char *aux)
+{
+	char *src;
+    char *dest;
+
+	src = aux;
+	dest = aux;
+
+    while (*src)
+	{
+        if (*src != '"' && *src != '\'') {
+            *dest = *src;
+            dest++;
+        }
+        src++;
+    }
+    *dest = '\0';
+}

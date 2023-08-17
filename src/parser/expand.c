@@ -8,7 +8,7 @@ char *get_env(t_data *data, char *token)
 
 	i = 0;
 
-	while(token[i] && !is_whitespace(token[i]) && !is_special_char(token[i]))
+	while(token[i] && !is_whitespace(token[i]) && !is_special_char(token[i]) && !is_quote(token[i]))
 	{
 		i++;
 	}
@@ -21,7 +21,7 @@ char *get_rest(char *rest)
 	int i;
 
 	i = 0;
-	while (rest[i] && !is_whitespace(rest[i]) && rest[i] != '\"' && !is_special_char(rest[i]))
+	while (rest[i] && !is_whitespace(rest[i]) && !is_quote(rest[i]) && !is_special_char(rest[i]))
 	{
 		i++;
 	}

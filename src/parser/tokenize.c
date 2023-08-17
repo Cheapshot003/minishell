@@ -114,8 +114,12 @@ void cmdlex(char **input_tokens, t_data *data)
 		else if (input_tokens[i][0])
 		{
 			while(input_tokens[i][j] && !is_special_char(input_tokens[i][j]))
+			{
 				j++;
+			}
+
 			ft_strlcpy(aux, input_tokens[i], j+1);
+			cut_quotes(aux);
 			temp = ft_strdup(input_tokens[i] + j);
 			new->str = ft_strdup(aux);
 			free(input_tokens[i]);
