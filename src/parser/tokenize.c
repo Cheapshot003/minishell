@@ -32,7 +32,6 @@ char **cmdtok(char *line, t_data *data) {
 	int double_quote;
 	int	single_quote;
     int i;
-	// char *temp;
 
 	// temp = line;
 	i = 0;
@@ -50,8 +49,7 @@ char **cmdtok(char *line, t_data *data) {
 			double_quote = !double_quote;
 		else if (is_whitespace(line[i]) && single_quote == 0 && double_quote == 0)
 		{
-			while(is_whitespace(line[i]))
-				i++;
+			i++;
 			tok = malloc(i);
 			if (tok == NULL)
 				return (NULL);
@@ -60,6 +58,8 @@ char **cmdtok(char *line, t_data *data) {
 			tokens = ft_appendstr(tokens, ft_strdup(tok));
 			free(tok);
 			tok = NULL;
+			while(is_whitespace(line[i]))
+				i++;
 			line = line + i;
 			i = -1;
 		}
