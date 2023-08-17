@@ -12,8 +12,8 @@ char *find_path(char *program, t_data *data)
 
     if (program[0] == '/' || program[0] == '.')
         return (strdup(program));
-    path_var = strdup(data->path_env); // Make a copy of the path_env to avoid modifying the original string
-    path = ft_strtok(path_var, ":");
+    path_var = ft_strdup(get_env_var_value(data, "PATH"));
+	path = ft_strtok(path_var, ":");
     while (path)
     {
         // Calculate the length needed for the full path

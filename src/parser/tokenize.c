@@ -49,13 +49,14 @@ char **cmdtok(char *line, t_data *data) {
 			double_quote = !double_quote;
 		else if (is_whitespace(line[i]) && single_quote == 0 && double_quote == 0)
 		{
-			while(is_whitespace(line[i]))
-				i++;
+			i++;
 			tok = malloc(i);
 			if (tok == NULL)
 				return (NULL);
 			line[i-1] = '\0';
 			ft_strlcpy(tok, line, i);
+			while(is_whitespace(line[i]))
+				i++;
 			tokens = ft_appendstr(tokens, ft_strdup(tok));
 			free(tok);
 			tok = NULL;
