@@ -72,6 +72,10 @@ void	fillredirects(t_exec *head, t_data *data)
 					continue;
 				}
 			}
+			else
+			{
+				current_exec = current_exec->next;
+			}
 			current_cmd = current_cmd->next;
 			i++;
 		}

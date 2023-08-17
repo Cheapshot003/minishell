@@ -33,11 +33,11 @@ void fill_heredocs(t_data *data, t_exec *exec)
 			free(line);	
 			line = readline("heredoc> ");
 		}
+		if (line != NULL)
+			free(line);
 		i++;
 	}
 	heredoc_file = open(".temp", O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	write(heredoc_file, exec->heredoc->stuff, ft_strlen(exec->heredoc->stuff));
 	close(heredoc_file);
-	heredoc_file = open(".temp", O_RDONLY);
-	dup2(heredoc_file, 0);
 }

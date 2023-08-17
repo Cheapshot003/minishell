@@ -32,6 +32,7 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 {
 	pid_t pid;
 	int i;
+	int	heredoc_file;
 
 	i = 0;
 	if (data->builtin == 1)
@@ -43,6 +44,10 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 	}
 
 	char **env_vars = get_env_vars_array(data);
+	if (exec->heredoc->numheredoc)
+	{
+		fill_heredocs(data, exec);
+	}
 	pid = fork();
 	signal(SIGQUIT, handle_signal_by_child);
 	if (pid == -1)
@@ -78,9 +83,10 @@ int fork_exec(t_data *data, t_exec *exec, int input_fd, int output_fd)
 			dup2(output_fd, 1);
 			close(output_fd);
 		}
-		if (exec->heredoc->numheredoc)
+		if (exec->heredoc->delims)
 		{
-			fill_heredocs(data, exec);
+			heredoc_file = open(".temp", O_RDONLY);
+			dup2(heredoc_file, 0);
 		}
 		execve(exec->path[0], exec->path, env_vars);
 		handle_execerr(data);
