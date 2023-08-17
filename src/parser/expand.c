@@ -37,6 +37,8 @@ void expander(char **tokens, t_data *data)
 	char temp[1024];
 	char *rest;
 	char *env;
+	int single_quotes;
+	single_quotes = 0;
 	i = 0;
 	while (tokens[i])
 	{
@@ -47,7 +49,9 @@ void expander(char **tokens, t_data *data)
 		{
 			while (tokens[i][j])
 			{
-				if (tokens[i][j] == '$' && (tokens[i][j+1] && !is_whitespace(tokens[i][j])))
+				if (tokens[i][j] == '\'')
+					single_quotes = !single_quotes;
+				if (tokens[i][j] == '$' && (tokens[i][j+1] && !is_whitespace(tokens[i][j]) && !single_quotes))
 				{
 					tokens[i][j] = '\0';
 					rest = get_rest(tokens[i] + j + 1);
