@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 14:38:47 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:13:48 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ typedef struct s_cmd{
 }	t_cmd;
 
 typedef struct s_exec{
-	char	**path;
-	int		input_redirection;
-	int		output_redirection;
-	char	*input_file;
-	char	*output_file;
-	int		append_redirection;
-	int		pipes[2];
+	char				**path;
+	int					input_redirection;
+	int					output_redirection;
+	char				*input_file;
+	char				*output_file;
+	int					append_redirection;
+	int					pipes[2];
 	struct s_heredoc	*heredoc;
-	struct s_exec	*next;
-	struct s_exec	*prev;
+	struct s_exec		*next;
+	struct s_exec		*prev;
 }	t_exec;
 
 typedef struct s_data{
@@ -85,7 +85,7 @@ typedef struct s_heredoc
 	int		numheredoc;
 	char	*stuff;
 	char	**delims;
-}	t_heredoc;
+}	t_hdoc;
 
 void	execute(t_data *data);
 int		internal_command(char **tokens, t_data *data);
@@ -163,11 +163,11 @@ void	cut_quotes(char *aux);
 int		prepare_output_fd_to_exec(t_exec *exec, int output_fd);
 int		prepare_input_fd_to_exec(t_exec *exec, int input_fd);
 void	exiterror(t_data *data, char *errmsg, int exitbit);
-void	check_redirects(t_exec **current_exec, t_cmd **current_cmd, int *redirect);
+void	check_redirects(t_exec **current_exec, t_cmd **current_cmd,
+			int *redirect);
 void	fillredirects(t_exec *head, t_data *data);
 void	check_end(t_exec **current_exec, t_cmd **current_cmd, int *done);
 void	init_vars_3(int	*i, int	*redirect);
 void	delete_commands(t_cmd **head_cmd, int i, t_cmd **current_cmd);
-long long int	ft_atoi_long(const char *str);
-t_heredoc	*get_heredoc(void);
+t_hdoc	*get_hdoc(void);
 #endif
