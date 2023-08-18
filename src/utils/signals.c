@@ -33,6 +33,11 @@ void	chld_handler(int sig)
 {
 	g_received_signal = 0;
 	(void) sig;
+
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	handle_signal_by_child(int sig)
