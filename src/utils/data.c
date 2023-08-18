@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
+/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 10:15:20 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/13 10:15:22 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 11:59:56 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_data	*init_data(t_data *data)
 	data->skip = 0;
 	data->cmd_head = 0;
 	data->exec_head = 0;
+	data->wait_pid = 0;
 	fill_path(data);
 	return (data);
 }
