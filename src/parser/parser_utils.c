@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/16 10:45:07 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 17:05:04 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_quote(char c)
 	return (c == '\'' || c == '\"');
 }
 
-int	is_redirect(char *str)
+int	is_rd(char *str)
 {
 	if (ft_strncmp(str, "<", ft_strlen(str)) == 0)
 		return (1);

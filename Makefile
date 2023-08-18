@@ -6,7 +6,7 @@
 #    By: otietz <otietz@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 15:30:52 by ohnatiuk          #+#    #+#              #
-#    Updated: 2023/08/18 14:54:28 by otietz           ###   ########.fr        #
+#    Updated: 2023/08/18 15:58:15 by otietz           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRCS = src/main.c \
 		src/utils/ft_lst_remove.c \
 		src/exec/internal_command.c \
 		src/utils/ft_strtok.c \
-		src/utils/ft_atoi_long.c \
 		src/utils/signals.c \
 		src/utils/data.c \
 		src/utils/get_env_var_value.c \

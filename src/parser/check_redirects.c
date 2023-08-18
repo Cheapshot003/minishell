@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 14:30:21 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:08:28 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ void	redirect4(
 void	check_redirects(
 	t_exec	**current_exec,
 	t_cmd	**current_cmd,
-	int	*redirect
+	int redirect
 )
 {
-	if (*redirect == 1)
+	if (redirect == 1)
 		redirect1(current_exec, current_cmd);
-	else if (*redirect == 2)
+	else if (redirect == 2)
 		redirect2(current_exec, current_cmd);
-	else if (*redirect == 3)
+	else if (redirect == 3)
 		redirect3(current_exec, current_cmd);
-	else if (*redirect == 4)
+	else if (redirect == 4)
 		redirect4(current_exec, current_cmd);
 }

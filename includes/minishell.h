@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 15:13:48 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 17:06:12 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char	isdouble(char *token);
 t_exec	*getexecs(t_data *data);
 void	fillpath(t_exec *head, t_data *data);
 char	**ft_appendstr(char **dest, char *str);
-int		is_redirect(char *str);
+int		is_rd(char *str);
 int		getarrlen(char **arr);
 void	fillredirects(t_exec *head, t_data *data);
 void	delete_t_cmd_at_index(t_cmd **head, int index);
@@ -164,10 +164,10 @@ int		prepare_output_fd_to_exec(t_exec *exec, int output_fd);
 int		prepare_input_fd_to_exec(t_exec *exec, int input_fd);
 void	exiterror(t_data *data, char *errmsg, int exitbit);
 void	check_redirects(t_exec **current_exec, t_cmd **current_cmd,
-			int *redirect);
+			int redirect);
 void	fillredirects(t_exec *head, t_data *data);
 void	check_end(t_exec **current_exec, t_cmd **current_cmd, int *done);
-void	init_vars_3(int	*i, int	*redirect);
+void	init_vars_3(int	*i);
 void	delete_commands(t_cmd **head_cmd, int i, t_cmd **current_cmd);
 t_hdoc	*get_hdoc(void);
 #endif

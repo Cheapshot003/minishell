@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/16 10:45:07 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 15:13:46 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_exec	*create_t_exec(void)
 	new_exec->output_redirection = 0;
 	new_exec->pipes[0] = -1;
 	new_exec->pipes[1] = -1;
-	new_exec->heredoc = get_heredoc();
+	new_exec->heredoc = get_hdoc();
 	return (new_exec);
 }
 

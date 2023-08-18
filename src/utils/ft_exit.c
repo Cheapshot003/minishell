@@ -3,14 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
+/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 07:21:55 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/12 08:29:26 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:12:02 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	init_variables(unsigned long long	*result, int	*i, int	*sign)
+{
+	*i = 0;
+	*sign = 1;
+	*result = 0;
+}
+
+long long int	ft_atoi_long(const char *str)
+{
+	unsigned long long	result;
+	int					i;
+	int					sign;
+
+	init_variables(&result, &i, &sign);
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	else if (str[i] == 43)
+		i++;
+	while (str[i] != '\0' && str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + str[i] - '0';
+		i++;
+		if (result > 9223372036854775808u && sign == -1)
+			return (-1);
+		if (result > 9223372036854775807 && sign == 1)
+			return (-1);
+	}
+	return (result * sign);
+}
 
 void	exit_with_code(char *code_token, t_data *data)
 {

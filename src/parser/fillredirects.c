@@ -3,10 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   fillredirects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/18 17:04:15 by otietz            #+#    #+#             */
+/*   Updated: 2023/08/18 17:07:44 by otietz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fillredirects.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 14:40:19 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:40:19y otihnaetuk       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +49,21 @@ void	fillredirects2(
 )
 {
 	int		i;
-	int		redirect;
 
-	init_vars_3(&i, &redirect);
+	init_vars_3(&i);
 	while (*done == 0 && *current_cmd)
 	{
 		while ((*current_cmd)->str != NULL)
 		{
 			if (str_is_pipe((*current_cmd)->str))
 			{
-				redirect = is_redirect((*current_cmd)->str);
-				if (redirect > 0)
+				if (is_rd((*current_cmd)->str) > 0)
 				{
 					if (str_is_not_null_or_special((*current_cmd)->next->str))
 						return ;
-					check_redirects(current_exec, current_cmd, &redirect);
-					delete_commands(head_cmd, i, current_cmd);
-					i--;
+					check_redirects(current_exec, current_cmd,
+						is_rd((*current_cmd)->str));
+					delete_commands(head_cmd, i--, current_cmd);
 					continue ;
 				}
 			}

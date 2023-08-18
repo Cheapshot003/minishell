@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parse1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 14:39:34 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:07:16 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_heredoc	*get_heredoc(void)
+t_hdoc	*get_hdoc(void)
 {
-	t_heredoc	*out;
+	t_hdoc	*out;
 
-	out = malloc(sizeof(t_heredoc));
+	out = malloc(sizeof(t_hdoc));
 	out->delims = NULL;
 	out->numheredoc = 0;
 	out->stuff = NULL;
@@ -39,11 +39,9 @@ void	check_end(
 }
 
 void	init_vars_3(
-	int *i,
-	int *redirect
+	int *i
 )
 {
-	*redirect = -1;
 	*i = 0;
 }
 

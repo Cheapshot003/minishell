@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 13:55:34 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:05:04 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	fillpath_iteration(
 	while ((*current_cmd)->str && ft_strncmp(
 			(*current_cmd)->str, "|", ft_strlen((*current_cmd)->str)) != 0)
 	{
-		if (is_redirect((*current_cmd)->str) != 0)
+		if (is_rd((*current_cmd)->str) != 0)
 			*current_cmd = (*current_cmd)->next;
 		else
 		{
