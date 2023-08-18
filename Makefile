@@ -6,7 +6,7 @@
 #    By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 15:30:52 by ohnatiuk          #+#    #+#              #
-#    Updated: 2023/08/18 13:56:37 by ohnatiuk         ###   ########.fr        #
+#    Updated: 2023/08/18 14:34:22 by ohnatiuk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,8 @@ SRCS = src/main.c \
 		src/utils/ft_isnum.c \
 		src/utils/exit_error.c \
 		src/parser/parse1.c \
+		src/parser/check_redirects.c \
+		src/parser/fillredirects.c \
 		src/exec/executor.c \
 		src/utils/error.c \
 		src/exec/heredoc.c \
