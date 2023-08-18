@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 07:21:55 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/12 08:29:26 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 13:19:28 by ohnatiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void	export_print_env_vars(t_list *vars)
 	while (current != NULL)
 	{
 		current_var = (t_var *)current->content;
+		if (ft_strncmp(current_var->var_name, "_", 2) == 0)
+		{
+			current = current->next;
+			continue ;
+		}
 		printf("declare -x %s=\"", current_var->var_name);
 		if (current_var->var_value != NULL)
 			printf("%s", current_var->var_value);
