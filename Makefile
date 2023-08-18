@@ -6,7 +6,7 @@
 #    By: otietz <otietz@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 15:30:52 by ohnatiuk          #+#    #+#              #
-#    Updated: 2023/08/17 13:42:36 by otietz           ###   ########.fr        #
+#    Updated: 2023/08/18 11:15:21 by otietz           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,8 @@ SRCS = src/main.c \
 		src/exec/executor.c \
 		src/utils/error.c \
 		src/exec/heredoc.c \
-		src/exec/builtin.c
+		src/exec/builtin.c \
+		src/exec/executor_2.c
 
 libft = ./libft/libft.a
 

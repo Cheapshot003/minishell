@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/16 10:45:07 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 11:50:46 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,34 @@ char	*get_rest(char *rest)
 		return (NULL);
 }
 
+void	expander_loop(char **tokens, int i, int *j, t_data *data)
+{
+	char	*rest;
+	char	temp[1024];
+	char	*env;
+
+	tokens[i][*j] = '\0';
+	rest = get_rest(tokens[i] + *j + 1);
+	ft_strlcpy(temp, tokens[i], ft_strlen(tokens[i]) + 1);
+	env = get_env(data, tokens[i] + *j + 1);
+	if (env != NULL)
+		ft_strlcat (temp, env, (
+				ft_strlen(temp) + ft_strlen(env) + 1));
+	if (rest != NULL)
+	{
+		ft_strlcat (temp, rest,
+			ft_strlen(temp) + ft_strlen(rest) + 1);
+		free(rest);
+	}
+	*j = *j + ft_strlen(env) - 1;
+	free(tokens[i]);
+	tokens[i] = ft_strdup(temp);
+}
+
 void	expander(char **tokens, t_data *data)
 {
 	int		i;
 	int		j;
-	char	temp[1024];
-	char	*rest;
-	char	*env;
 	int		single_quotes;
 
 	single_quotes = 0;
@@ -65,24 +86,7 @@ void	expander(char **tokens, t_data *data)
 					single_quotes = !single_quotes;
 				if (tokens[i][j] == '$' && (tokens[i][j + 1]
 						&& !is_whitespace(tokens[i][j]) && !single_quotes))
-				{
-					tokens[i][j] = '\0';
-					rest = get_rest(tokens[i] + j + 1);
-					ft_strlcpy(temp, tokens[i], ft_strlen(tokens[i]) + 1);
-					env = get_env(data, tokens[i] + j + 1);
-					if (env != NULL)
-						ft_strlcat (temp, env, (
-								ft_strlen(temp) + ft_strlen(env) + 1));
-					if (rest != NULL)
-					{
-						ft_strlcat (temp, rest,
-							ft_strlen(temp) + ft_strlen(rest) + 1);
-						free(rest);
-					}
-					j = j + ft_strlen(env) - 1;
-					free(tokens[i]);
-					tokens[i] = ft_strdup(temp);
-				}
+					expander_loop(tokens, i, &j, data);
 				j++;
 			}
 			i++;

@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/16 10:45:07 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 11:02:48 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,41 @@ void	free_data(t_data *data, char *line)
 	}
 }
 
+char	*main1(char **argv, t_data *data)
+{
+	char	*prompt;
+	char	*line;
+
+	line = NULL;
+	(void)argv;
+	data->working_dir = getcwd(NULL, 0);
+	if (data->working_dir == NULL)
+	{
+		perror("Getcwd error\n");
+		exit(1);
+	}
+	prompt = get_prompt(data->working_dir);
+	line = readline(prompt);
+	free(prompt);
+	if (line == NULL)
+	{
+		printf("exit\n");
+		return (NULL);
+	}
+	if (line[0] == '\0')
+		data->skip = 1;
+	if (line && *line)
+		add_history(line);
+	return (line);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	char	*line;
-	char	*prompt;
 
 	data = *(init_data(&data));
 	(void) argc;
-	(void) argv;
 	init_signals();
 	data.vars = init_env_vars(envp);
 	g_received_signal = 0;
@@ -67,24 +93,9 @@ int	main(int argc, char **argv, char **envp)
 		if (g_received_signal != 0)
 			continue ;
 		signal(SIGQUIT, SIG_IGN);
-		data.working_dir = getcwd(NULL, 0);
-		if (data.working_dir == NULL)
-		{
-			perror("Getcwd error\n");
-			exit(1);
-		}
-		prompt = get_prompt(data.working_dir);
-		line = readline(prompt);
-		free(prompt);
+		line = main1(argv, &data);
 		if (line == NULL)
-		{
-			printf("exit\n");
 			break ;
-		}
-		if (line[0] == '\0')
-			data.skip = 1;
-		if (line && *line)
-			add_history(line);
 		tokenize(line, &data);
 		execute1(&data, data.exec_head);
 		free(data.path_args);

@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/17 18:49:58 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 11:24:36 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void	getcmdlst(t_data *data, int npipes);
 t_cmd	*create_t_cmd(void);
 void	insert_t_cmd(t_cmd **head, t_cmd *new_cmd);
 void	free_t_cmd_list(t_cmd *head);
-t_cmd	*get_t_cmd_at_index(t_cmd *head, int index);
 void	insert_t_cmd_at_index(t_cmd **head, t_cmd *new_cmd, int index);
 t_exec	*create_t_exec(void);
 void	insert_t_exec(t_exec **head, t_exec *new_cmd);
@@ -162,4 +161,6 @@ void fill_heredocs(t_data *data, t_exec *exec);
 t_heredoc *get_heredoc(void);
 int exec_builtins(t_data *data, t_exec *exec, int input_fd, int output_fd);
 void cut_quotes(char *aux);
+int	prepare_output_fd_to_exec(t_exec *exec, int output_fd);
+int	prepare_input_fd_to_exec(t_exec *exec, int input_fd);
 #endif

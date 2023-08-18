@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/16 10:45:07 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 11:24:30 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,31 +62,6 @@ void	free_t_cmd_list(t_cmd *head)
 		temp = NULL;
 	}
 	head = NULL;
-}
-
-t_cmd	*get_t_cmd_at_index(t_cmd *head, int index)
-{
-	t_cmd	*current;
-	int		count;
-
-	if (index < 0)
-	{
-		fprintf(stderr, "Invalid index\n");
-		return (NULL);
-	}
-	current = head;
-	count = 0;
-	while (current != NULL && count < index)
-	{
-		current = current->next;
-		count++;
-	}
-	if (current == NULL)
-	{
-		fprintf(stderr, "Index out of bounds\n");
-		return (NULL);
-	}
-	return (current);
 }
 
 void	delete_t_cmd_at_index_helper(t_cmd *head, int index)
