@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 11:17:17 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 18:00:57 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	execute1(t_data *data, t_exec *exec_head)
 		current_exec = current_exec->next;
 	}
 	waitpid(data->wait_pid, &(data->exit_status), 0);
+	data->exit_status = WEXITSTATUS(data->exit_status);
 	return (0);
 }
 
