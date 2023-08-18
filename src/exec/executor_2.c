@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:13:21 by otietz            #+#    #+#             */
-/*   Updated: 2023/08/18 11:17:07 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 15:00:20 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,18 @@ int	child_process(t_data *data, t_exec *exec, int input_fd, int output_fd)
 		dup2(output_fd, 1);
 	input_fd = prepare_input_fd_to_exec(exec, input_fd);
 	if (input_fd == -1)
-		return (1);
+		exiterror(data, "File error", 0);
 	output_fd = prepare_output_fd_to_exec(exec, output_fd);
 	if (output_fd == -1)
-		return (1);
+		exiterror(data, "File error", 0);
 	if (exec->heredoc->delims)
 	{
 		heredoc_file = open(".temp", O_RDONLY);
 		dup2(heredoc_file, 0);
 	}
 	env_vars = get_env_vars_array(data);
-	execve(exec->path[0], exec->path, env_vars);
+	if (data->skip == 0 && data->exit == 0)
+		execve(exec->path[0], exec->path, env_vars);
 	handle_execerr(data);
 	exit(1);
 }
