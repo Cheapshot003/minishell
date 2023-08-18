@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 17:06:12 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 17:22:22 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ typedef struct s_heredoc
 	char	*stuff;
 	char	**delims;
 }	t_hdoc;
+
+typedef struct s_quotes
+{
+	int single_quote;
+	int double_quote;
+}	t_quotes;
 
 void	execute(t_data *data);
 int		internal_command(char **tokens, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 14:55:00 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 17:28:31 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,17 @@ char	*cmdtok_2(char *tok, int *i, char **line)
 	return (tok);
 }
 
-int	cmdtok_loop(char **line, char ***tokens, int *i)
+int	cmdtok_loop(char **line, char ***tokens, int *i, t_quotes *quotes)
 {
 	char	*tok;
-	int		single_quote;
-	int		double_quote;
 
-	single_quote = 0;
-	double_quote = 0;
 	tok = NULL;
-	if (line[0][*i] == '\'' && double_quote == 0)
-		single_quote = !(single_quote);
-	else if (line[0][*i] == '\"' && single_quote == 0)
-		double_quote = !double_quote;
+	if (line[0][*i] == '\'' && quotes->double_quote == 0)
+		quotes->single_quote = !(quotes->single_quote);
+	else if (line[0][*i] == '\"' && quotes->single_quote == 0)
+		quotes->double_quote = !quotes->double_quote;
 	else if (is_whitespace(line[0][*i])
-		&& single_quote == 0 && double_quote == 0)
+		&& quotes->single_quote == 0 && quotes->double_quote == 0)
 	{
 		*i = *i + 1;
 		tok = cmdtok_2(tok, i, line);
@@ -71,32 +67,30 @@ int	cmdtok_loop(char **line, char ***tokens, int *i)
 		*i = -1;
 	}
 	*i = *i + 1;
-	return (single_quote || double_quote);
+	return (0);
 }
 
 char	**cmdtok(char *line, t_data *data)
 {
-	char	*tok;
-	char	**tokens;
-	int		open_quotes;
-	int		i;
+	char		**tokens;
+	int			i;
+	t_quotes	quo;
 
 	i = 0;
 	(void)data;
-	open_quotes = 0;
 	tokens = NULL;
+	quo.double_quote = 0;
+	quo.single_quote = 0;
 	while (is_whitespace(line[i]))
 		i++;
 	while (line[i])
-		open_quotes = cmdtok_loop(&line, &tokens, &i);
-	if (open_quotes)
+		cmdtok_loop(&line, &tokens, &i, &quo);
+	if (quo.double_quote || quo.single_quote)
 	{
 		exiterror(data, "Error: Unclosed quotes not supported!", 0);
 		return (NULL);
 	}
-	tok = ft_strdup(line);
-	tokens = ft_appendstr(tokens, ft_strdup(tok));
-	free(tok);
+	tokens = ft_appendstr(tokens, ft_strdup(line));
 	return (tokens);
 }
 
