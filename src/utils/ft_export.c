@@ -6,7 +6,7 @@
 /*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 07:21:55 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 14:46:23 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:23:06 by ohnatiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,15 @@ void	export_var(t_data *data, char *var_token, int *exit_status)
 {
 	char	*var_name;
 	char	*var_value;
-	char	equal[2];
+	int		starts_with_equal;
 
-	equal[0] = '=';
-	equal[1] = '\0';
+	starts_with_equal = ft_strncmp(var_token, "=", 1) == 0;
 	var_name = ft_strtok(var_token, "=");
-	if (ft_strlen(var_name) == 0)
-		var_name = equal;
 	if (var_name == NULL || check_identifier(var_name) == 1)
 	{
 		ft_putstr_fd("minishell: export: `", 2);
+		if (starts_with_equal)
+			ft_putstr_fd("=", 2);
 		ft_putstr_fd(var_name, 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		*exit_status = 1;
