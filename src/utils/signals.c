@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnatiuk <ohnatiuk@student.42vienna.com>   +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:58:52 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/15 14:58:54 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:57:58 by ohnatiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	chld_handler(int sig)
 {
 	g_received_signal = 0;
 	(void) sig;
-
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
