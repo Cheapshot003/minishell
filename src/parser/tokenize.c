@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 17:28:31 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 17:46:20 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ char	*cmdtok_2(char *tok, int *i, char **line)
 int	cmdtok_loop(char **line, char ***tokens, int *i, t_quotes *quotes)
 {
 	char	*tok;
+	int		j;
 
+	j = 0;
 	tok = NULL;
 	if (line[0][*i] == '\'' && quotes->double_quote == 0)
 		quotes->single_quote = !(quotes->single_quote);
@@ -60,7 +62,9 @@ int	cmdtok_loop(char **line, char ***tokens, int *i, t_quotes *quotes)
 	{
 		*i = *i + 1;
 		tok = cmdtok_2(tok, i, line);
-		*tokens = ft_appendstr(*tokens, ft_strdup(tok));
+		while (is_whitespace(tok[j]))
+			j++;
+		*tokens = ft_appendstr(*tokens, ft_strdup(tok + j));
 		free(tok);
 		tok = NULL;
 		*line = *line + *i;
@@ -90,11 +94,8 @@ char	**cmdtok(char *line, t_data *data)
 		exiterror(data, "Error: Unclosed quotes not supported!", 0);
 		return (NULL);
 	}
+	while(is_whitespace(*line))
+		line++;
 	tokens = ft_appendstr(tokens, ft_strdup(line));
 	return (tokens);
-}
-
-int	is_whitespace(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\n');
 }
