@@ -6,7 +6,7 @@
 /*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 13:55:58 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:38:47 by ohnatiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,11 @@ void	cut_quotes(char *aux);
 int		prepare_output_fd_to_exec(t_exec *exec, int output_fd);
 int		prepare_input_fd_to_exec(t_exec *exec, int input_fd);
 void	exiterror(t_data *data, char *errmsg, int exitbit);
+void	check_redirects(t_exec **current_exec, t_cmd **current_cmd, int *redirect);
+void	fillredirects(t_exec *head, t_data *data);
+void	check_end(t_exec **current_exec, t_cmd **current_cmd, int *done);
+void	init_vars_3(int	*i, int	*redirect);
+void	delete_commands(t_cmd **head_cmd, int i, t_cmd **current_cmd);
 long long int	ft_atoi_long(const char *str);
 t_heredoc	*get_heredoc(void);
 #endif
