@@ -31,12 +31,10 @@ void	fillredirects(t_exec *head, t_data *data)
 	int		done;
 	int		i;
 	int		redirect;
-	char	*tmp;
 
 	redirect = -1;
 	done = 0;
 	i = 0;
-	tmp = NULL;
 	current_exec = head;
 	head_cmd = data->cmd_head;
 	current_cmd = head_cmd;

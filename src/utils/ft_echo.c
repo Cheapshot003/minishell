@@ -37,8 +37,6 @@ int	ft_echo(t_data *data, char **tokens)
 			printf("\n");
 	}
 	else
-	{
 		printf("\n");
-	}
 	return (0);
 }

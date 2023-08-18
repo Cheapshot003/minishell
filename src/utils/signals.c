@@ -18,7 +18,7 @@ void	int_handler(int sig, siginfo_t *info, void *context)
 {
 	(void) sig;
 	(void) context;
-	received_signal = info->si_code;
+	g_received_signal = info->si_code;
 	if (info->si_code == 0)
 	{
 		printf("\n");
@@ -31,7 +31,7 @@ void	int_handler(int sig, siginfo_t *info, void *context)
 
 void	chld_handler(int sig)
 {
-	received_signal = 0;
+	g_received_signal = 0;
 	(void) sig;
 }
 
@@ -39,7 +39,7 @@ void	handle_signal_by_child(int sig)
 {
 	(void) sig;
 	ft_putstr_fd("Quit (core dumped)\n", 2);
-	received_signal = 131;
+	g_received_signal = 131;
 	signal(SIGQUIT, SIG_IGN);
 }
 

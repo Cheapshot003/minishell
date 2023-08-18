@@ -89,11 +89,34 @@ t_cmd	*get_t_cmd_at_index(t_cmd *head, int index)
 	return (current);
 }
 
+void	delete_t_cmd_at_index_helper(t_cmd *head, int index)
+{
+	t_cmd	*current;
+	int		count;
+
+	current = head;
+	count = 0;
+	while (current != NULL && count < index)
+	{
+		current = current->next;
+		count++;
+	}
+	if (current == NULL)
+	{
+		fprintf(stderr, "Index out of bounds\n");
+		return ;
+	}
+	if (current->prev != NULL)
+		current->prev->next = current->next;
+	if (current->next != NULL)
+		current->next->prev = current->prev;
+	free(current->str);
+	free(current);
+}
+
 void	delete_t_cmd_at_index(t_cmd **head, int index)
 {
 	t_cmd	*temp;
-	t_cmd	*current;
-	int		count;
 
 	if (index < 0)
 	{
@@ -115,22 +138,5 @@ void	delete_t_cmd_at_index(t_cmd **head, int index)
 		free(temp);
 		return ;
 	}
-	current = *head;
-	count = 0;
-	while (current != NULL && count < index)
-	{
-		current = current->next;
-		count++;
-	}
-	if (current == NULL)
-	{
-		fprintf(stderr, "Index out of bounds\n");
-		return ;
-	}
-	if (current->prev != NULL)
-		current->prev->next = current->next;
-	if (current->next != NULL)
-		current->next->prev = current->prev;
-	free(current->str);
-	free(current);
+	delete_t_cmd_at_index_helper(*head, index);
 }
