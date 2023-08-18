@@ -20,6 +20,33 @@ void	parse(t_data *data)
 		exiterror(data, "Syntax Error", 0);
 }
 
+void fillpath_iteration(
+	t_exec	**current_exec,
+	t_cmd	**current_cmd,
+	int		*done
+)
+{
+	while ((*current_cmd)->str && ft_strncmp(
+			(*current_cmd)->str, "|", ft_strlen((*current_cmd)->str)) != 0)
+	{
+		if (is_redirect((*current_cmd)->str) != 0)
+			*current_cmd = (*current_cmd)->next;
+		else
+		{
+			(*current_exec)->path = ft_appendstr(
+					(*current_exec)->path, ft_strdup((*current_cmd)->str));
+			*current_cmd = (*current_cmd)->next;
+		}
+	}
+	if ((*current_cmd)->str == NULL)
+		*done = 1;
+	else
+	{
+		*current_exec = (*current_exec)->next;
+		*current_cmd = (*current_cmd)->next;
+	}
+}
+
 void	fillpath(t_exec *head, t_data *data)
 {
 	t_cmd	*head_cmd;
@@ -33,25 +60,7 @@ void	fillpath(t_exec *head, t_data *data)
 	current_cmd = head_cmd;
 	while (done == 0)
 	{
-		while (current_cmd->str && ft_strncmp(
-				current_cmd->str, "|", ft_strlen(current_cmd->str)) != 0)
-		{
-			if (is_redirect(current_cmd->str) != 0)
-				current_cmd = current_cmd->next;
-			else
-			{
-				current_exec->path = ft_appendstr(
-						current_exec->path, ft_strdup(current_cmd->str));
-				current_cmd = current_cmd->next;
-			}
-		}
-		if (current_cmd->str == NULL)
-			done = 1;
-		else
-		{
-			current_exec = current_exec->next;
-			current_cmd = current_cmd->next;
-		}
+		fillpath_iteration(&current_exec, &current_cmd, &done);
 	}
 }
 
