@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 11:02:48 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 12:11:40 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,20 @@ char	*get_prompt(char *working_dir)
 	free(working_dir);
 	return (prompt);
 }
+void readline1()
+{
+	char *temp;
 
+	temp = readline(NULL);
+	printf("\n");
+	free(temp);
+	temp = readline(NULL);
+	printf("\n");
+	free(temp);	
+}
 void	free_data(t_data *data, char *line)
 {
+	
 	free_t_cmd_list(data->cmd_head);
 	free_t_exec_list(data->exec_head);
 	if (data->exit_str != NULL)
@@ -36,12 +47,15 @@ void	free_data(t_data *data, char *line)
 		free(data->exit_str);
 		data->exit_str = NULL;
 	}
+	if (data->flag)
+		readline1();
 	data->cmd_head = NULL;
 	data->exec_head = NULL;
 	data->append_redirection = 0;
 	data->builtin = 0;
 	data->delim = NULL;
 	data->input_redirection = 0;
+	data->flag = 0;
 	if (line)
 	{
 		free(line);

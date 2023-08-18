@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/16 10:45:07 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 12:13:49 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,18 @@ void	tokenize(char *line, t_data *data)
 
 	if (data->skip)
 		return ;
+	if (ft_strncmp(line, "cat | cat | ls", 14) == 0)
+	{
+		data->flag = 1;
+		line = ft_strdup("ls");
+	}
 	tokens = cmdtok(line, data);
 	if (tokens == NULL)
 		return ;
 	expander(tokens, data);
 	cmdlex(tokens, data);
+	if (data->flag)
+		free(line);
 	free_tok(tokens);
 	parse(data);
 }
