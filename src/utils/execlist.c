@@ -51,6 +51,30 @@ void	insert_t_exec(t_exec **head, t_exec *new_exec)
 	}
 }
 
+void	free_t_exec(t_exec *temp)
+{
+	if (temp->input_file != NULL)
+		free(temp->input_file);
+	if (temp->output_file != NULL)
+		free(temp->output_file);
+	if (temp->path != NULL)
+	{
+		if (ft_strncmp(temp->path[0], "",
+				ft_strlen(temp->path[0])) != 0)
+			free_array((void **)temp->path);
+	}
+	if (temp->heredoc != NULL)
+	{
+		if (temp->heredoc->stuff != NULL)
+			free(temp->heredoc->stuff);
+		if (temp->heredoc->delims != NULL)
+			free_array((void **)temp->heredoc->delims);
+		free(temp->heredoc);
+	}
+	temp->path = NULL;
+	free(temp);
+}
+
 void	free_t_exec_list(t_exec *head)
 {
 	t_exec	*temp;
@@ -59,26 +83,7 @@ void	free_t_exec_list(t_exec *head)
 	{
 		temp = head;
 		head = head->next;
-		if (temp->input_file != NULL)
-			free(temp->input_file);
-		if (temp->output_file != NULL)
-			free(temp->output_file);
-		if (temp->path != NULL)
-		{
-			if (ft_strncmp(temp->path[0], "",
-					ft_strlen(temp->path[0])) != 0)
-				free_array((void **)temp->path);
-		}
-		if (temp->heredoc != NULL)
-		{
-			if (temp->heredoc->stuff != NULL)
-				free(temp->heredoc->stuff);
-			if (temp->heredoc->delims != NULL)
-				free_array((void **)temp->heredoc->delims);
-			free(temp->heredoc);
-		}
-		temp->path = NULL;
-		free(temp);
+		free_t_exec(temp);
 	}
 	head = NULL;
 }
