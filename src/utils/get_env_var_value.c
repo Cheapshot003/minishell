@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:58:52 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 17:42:36 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 17:53:39 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*get_env_var_value(t_data *data, char *var_name)
 	}
 	return (getenv(var_name));
 }
+
 int	is_whitespace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n');

@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 17:53:10 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 17:54:23 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	tokenize(char *line, t_data *data)
 			free(tokens);
 		}
 		return ;
-	}	
+	}
 	expander(tokens, data);
 	cmdlex(tokens, data);
 	if (data->flag)
@@ -101,7 +101,7 @@ char	**cmdtok(char *line, t_data *data)
 		exiterror(data, "Error: Unclosed quotes not supported!", 0);
 		return (NULL);
 	}
-	while(is_whitespace(*line))
+	while (is_whitespace(*line))
 		line++;
 	tokens = ft_appendstr(tokens, ft_strdup(line));
 	return (tokens);
