@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/16 10:45:07 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 13:55:34 by ohnatiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	parse(t_data *data)
@@ -20,7 +21,7 @@ void	parse(t_data *data)
 		exiterror(data, "Syntax Error", 0);
 }
 
-void fillpath_iteration(
+void	fillpath_iteration(
 	t_exec	**current_exec,
 	t_cmd	**current_cmd,
 	int		*done
@@ -59,9 +60,7 @@ void	fillpath(t_exec *head, t_data *data)
 	head_cmd = data->cmd_head;
 	current_cmd = head_cmd;
 	while (done == 0)
-	{
 		fillpath_iteration(&current_exec, &current_cmd, &done);
-	}
 }
 
 t_exec	*getexecs(t_data *data)
@@ -100,12 +99,4 @@ int	count_pipes(t_data *data)
 		this = this->next;
 	}
 	return (npipes);
-}
-
-void	exiterror(t_data *data, char *errmsg, int exitbit)
-{
-	data->exit = exitbit;
-	data->skip = 1;
-	printf("%s\n", errmsg);
-	return ;
 }

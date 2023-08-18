@@ -6,7 +6,7 @@
 /*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 12:31:51 by ohnatiuk         ###   ########.fr       */
+/*   Updated: 2023/08/18 13:55:58 by ohnatiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ int		exec_builtins(t_data *data, t_exec *exec, int input_fd, int output_fd);
 void	cut_quotes(char *aux);
 int		prepare_output_fd_to_exec(t_exec *exec, int output_fd);
 int		prepare_input_fd_to_exec(t_exec *exec, int input_fd);
+void	exiterror(t_data *data, char *errmsg, int exitbit);
 long long int	ft_atoi_long(const char *str);
 t_heredoc	*get_heredoc(void);
 #endif
