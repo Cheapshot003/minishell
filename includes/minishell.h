@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:31:25 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 12:05:26 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 12:31:51 by ohnatiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_exec{
 	char	*output_file;
 	int		append_redirection;
 	int		pipes[2];
-	struct s_heredoc *heredoc;
+	struct s_heredoc	*heredoc;
 	struct s_exec	*next;
 	struct s_exec	*prev;
 }	t_exec;
@@ -82,10 +82,10 @@ typedef struct s_var
 
 typedef struct s_heredoc
 {
-	int numheredoc;
-	char *stuff;
-	char **delims;
-} t_heredoc;
+	int		numheredoc;
+	char	*stuff;
+	char	**delims;
+}	t_heredoc;
 
 void	execute(t_data *data);
 int		internal_command(char **tokens, t_data *data);
@@ -103,11 +103,11 @@ void	cmdlex(char **input_tokens, t_data *data);
 void	tokenize(char *line, t_data *data);
 char	*getnexttoken(char *line);
 int		is_whitespace(char c);
-void	*ft_realloc(void* ptr, size_t new_size);
+void	*ft_realloc(void *ptr, size_t new_size);
 void	expander(char **tokens, t_data *data);
 int		is_special_char(char c);
 int		is_quote(char c);
-int		is_empty_string(const char* str);
+int		is_empty_string(const char *str);
 char	**remove_empty_strings(char **input_tokens);
 void	parse(t_data *data);
 t_cmd	*getcmd(t_data *data);
@@ -150,18 +150,18 @@ int		ft_env(t_data *data, char **tokens);
 int		ft_export(t_data *data, char **tokens);
 int		ft_echo(t_data *data, char **tokens);
 void	ft_exit(char **tokens, t_data *data);
-void handle_execerr(t_data *data);
-int	is_closed(char **tokens, int i, int j);
-char *clear_single_quotes(char *str);
-int is_closed_line(char *line, int i);
-long long int	ft_atoi_long(const char *str);
-int	check_identifier(char *str);
+void	handle_execerr(t_data *data);
+int		is_closed(char **tokens, int i, int j);
+char	*clear_single_quotes(char *str);
+int		is_closed_line(char *line, int i);
+int		check_identifier(char *str);
 void	add_or_replace_var(t_list **lst, char *var_name, char *var_value);
-void init_signals(void);
-void fill_heredocs(t_data *data, t_exec *exec);
-t_heredoc *get_heredoc(void);
-int exec_builtins(t_data *data, t_exec *exec, int input_fd, int output_fd);
-void cut_quotes(char *aux);
-int	prepare_output_fd_to_exec(t_exec *exec, int output_fd);
-int	prepare_input_fd_to_exec(t_exec *exec, int input_fd);
+void	init_signals(void);
+void	fill_heredocs(t_data *data, t_exec *exec);
+int		exec_builtins(t_data *data, t_exec *exec, int input_fd, int output_fd);
+void	cut_quotes(char *aux);
+int		prepare_output_fd_to_exec(t_exec *exec, int output_fd);
+int		prepare_input_fd_to_exec(t_exec *exec, int input_fd);
+long long int	ft_atoi_long(const char *str);
+t_heredoc	*get_heredoc(void);
 #endif

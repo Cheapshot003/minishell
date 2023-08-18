@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 12:11:40 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/18 12:25:09 by ohnatiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,21 @@ char	*get_prompt(char *working_dir)
 	free(working_dir);
 	return (prompt);
 }
-void readline1()
+
+void	readline1(void)
 {
-	char *temp;
+	char	*temp;
 
 	temp = readline(NULL);
 	printf("\n");
 	free(temp);
 	temp = readline(NULL);
 	printf("\n");
-	free(temp);	
+	free(temp);
 }
+
 void	free_data(t_data *data, char *line)
 {
-	
 	free_t_cmd_list(data->cmd_head);
 	free_t_exec_list(data->exec_head);
 	if (data->exit_str != NULL)
