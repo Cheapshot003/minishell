@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ohnatiuk <ohnatiuk@student.42.fr>          +#+  +:+       +#+         #
+#    By: otietz <otietz@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 15:30:52 by ohnatiuk          #+#    #+#              #
-#    Updated: 2023/08/18 13:56:37 by ohnatiuk         ###   ########.fr        #
+#    Updated: 2023/08/18 14:49:14 by otietz           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ SRCS = src/main.c \
 		src/utils/error.c \
 		src/exec/heredoc.c \
 		src/exec/builtin.c \
-		src/exec/executor_2.c
+		src/exec/executor_2.c \
+		src/parser/tokenize_1.c
 
 libft = ./libft/libft.a
 
