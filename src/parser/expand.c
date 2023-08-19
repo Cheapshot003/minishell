@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/18 11:50:46 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/19 09:28:24 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ char	*get_rest(char *rest)
 
 	i = 0;
 	while (rest[i] && !is_whitespace(rest[i])
-		&& !is_quote(rest[i]) && !is_special_char(rest[i]))
+		&& !is_quote(rest[i]) && !is_special_char(rest[i]) && rest[i] != '?')
 		i++;
+	if (rest[i] == '?')
+		rest[i] = '0';
 	if (rest[i])
 		return (ft_strdup(rest + i));
 	else
