@@ -89,8 +89,8 @@ typedef struct s_heredoc
 
 typedef struct s_quotes
 {
-	int single_quote;
-	int double_quote;
+	int	single_quote;
+	int	double_quote;
 }	t_quotes;
 
 void	execute(t_data *data);

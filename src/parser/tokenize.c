@@ -26,7 +26,7 @@ void	tokenize(char *line, t_data *data)
 	tokens = cmdtok(line, data);
 	if (tokens == NULL || tokens[0][0] == ' ' || tokens[0][0] == '\0')
 	{
-		if (tokens[0] != NULL)
+		if (tokens != NULL && tokens[0] != NULL)
 		{
 			free(tokens[0]);
 			free(tokens);
