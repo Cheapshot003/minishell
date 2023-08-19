@@ -99,6 +99,7 @@ char	**cmdtok(char *line, t_data *data)
 	if (quo.double_quote || quo.single_quote)
 	{
 		exiterror(data, "Error: Unclosed quotes not supported!", 0);
+		free_tok(tokens);
 		return (NULL);
 	}
 	while (is_whitespace(*line))
