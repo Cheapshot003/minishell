@@ -45,8 +45,12 @@ int	execute1(t_data *data, t_exec *exec_head)
 		input_fd = current_exec->pipes[0];
 		current_exec = current_exec->next;
 	}
-	waitpid(data->wait_pid, &(data->exit_status), 0);
-	data->exit_status = WEXITSTATUS(data->exit_status);
+	if (data->wait_pid != 0)
+	{
+		waitpid(data->wait_pid, &(data->exit_status), 0);
+		data->exit_status = WEXITSTATUS(data->exit_status);
+		data->wait_pid = 0;
+	}
 	return (0);
 }
 
