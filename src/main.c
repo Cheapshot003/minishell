@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/19 09:22:44 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/19 09:37:04 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	readline1(void)
 
 void	free_data(t_data *data, char *line)
 {
-	if (g_received_signal == 0)
-		data->exit_status = 130;
 	free_t_cmd_list(data->cmd_head);
 	free_t_exec_list(data->exec_head);
 	if (data->exit_str != NULL)

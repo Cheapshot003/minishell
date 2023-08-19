@@ -6,7 +6,7 @@
 /*   By: otietz <otietz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:50:09 by ohnatiuk          #+#    #+#             */
-/*   Updated: 2023/08/19 09:28:24 by otietz           ###   ########.fr       */
+/*   Updated: 2023/08/19 09:36:24 by otietz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ char	*get_env(t_data *data, char *token)
 
 	i = 0;
 	while (token[i] && !is_whitespace(token[i])
-		&& !is_special_char(token[i]) && !is_quote(token[i]))
+		&& !is_special_char(token[i]) && !is_quote(token[i]) && token[i] != '?')
 		i++;
 	ft_strlcpy (name, token, i + 1);
-	value = get_env_var_value(data, name);
+	if (token[0] == '?')
+		value = get_env_var_value(data, "?");
+	else
+		value = get_env_var_value(data, name);
 	return (value);
 }
 
@@ -36,7 +39,7 @@ char	*get_rest(char *rest)
 		&& !is_quote(rest[i]) && !is_special_char(rest[i]) && rest[i] != '?')
 		i++;
 	if (rest[i] == '?')
-		rest[i] = '0';
+		i++;
 	if (rest[i])
 		return (ft_strdup(rest + i));
 	else
