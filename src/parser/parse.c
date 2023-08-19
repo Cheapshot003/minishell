@@ -94,7 +94,7 @@ int	count_pipes(t_data *data)
 	npipes = 0;
 	while (this->str != NULL)
 	{
-		if (ft_strncmp(this->str, "|", ft_strlen(this->str)) == 0)
+		if (ft_strncmp(this->str, "|", 2) == 0)
 			npipes++;
 		this = this->next;
 	}
