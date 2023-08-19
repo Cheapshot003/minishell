@@ -36,7 +36,7 @@ int	execute1(t_data *data, t_exec *exec_head)
 		return (0);
 	if (expand_paths(data, exec_head) == 1)
 	{
-		exiterror(data, "Error: Command not found", 0);
+		exiterror(data, "Error: command not found", 0);
 		return (1);
 	}
 	while (current_exec && current_exec->path)

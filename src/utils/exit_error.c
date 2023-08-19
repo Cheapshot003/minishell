@@ -16,6 +16,7 @@ void	exiterror(t_data *data, char *errmsg, int exitbit)
 {
 	data->exit = exitbit;
 	data->skip = 1;
-	printf("%s\n", errmsg);
+	ft_putstr_fd(errmsg, 2);
+	ft_putstr_fd("\n", 2);
 	return ;
 }

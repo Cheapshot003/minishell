@@ -34,7 +34,7 @@ int	child_process(t_data *data, t_exec *exec, int input_fd, int output_fd)
 	if (data->skip == 0 && data->exit == 0)
 		execve(exec->path[0], exec->path, env_vars);
 	handle_execerr(data);
-	exit(1);
+	exit(data->exit_status);
 }
 
 int	fork_exec(t_data *data, t_exec *exec,
@@ -118,7 +118,10 @@ int	expand_paths(t_data *data, t_exec *exec_head)
 			current->path[0] = find_path(current->path[0], data);
 			free(temp);
 			if (current->path[0] == NULL)
+			{
+				data->exit_status = 127;
 				return (1);
+			}
 		}
 		current = current->next;
 	}

@@ -15,9 +15,15 @@
 void	handle_execerr(t_data *data)
 {
 	if (errno == EACCES)
-		exiterror(data, "Permission denied", 1);
+	{
+		data->exit_status = 126;
+		exiterror(data, " Permission denied", 1);
+	}
 	else if (errno == ENOENT)
-		exiterror(data, "File not found", 1);
+	{
+		data->exit_status = 127;
+		exiterror(data, " No such file or directory", 1);
+	}
 	else
 		exiterror(data, "Error", 1);
 }
