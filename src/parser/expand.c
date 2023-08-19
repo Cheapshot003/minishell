@@ -67,6 +67,11 @@ void	expander_loop(char **tokens, int i, int *j, t_data *data)
 	tokens[i] = ft_strdup(temp);
 }
 
+int	char_is_var_start(char ch)
+{
+	return (ch && !is_whitespace(ch) && !is_quote(ch));
+}
+
 void	expander(char **tokens, t_data *data)
 {
 	int		i;
@@ -86,28 +91,12 @@ void	expander(char **tokens, t_data *data)
 			{
 				if (tokens[i][j] == '\'')
 					single_quotes = !single_quotes;
-				if (tokens[i][j] == '$' && (tokens[i][j + 1]
-						&& !is_whitespace(tokens[i][j]) && !single_quotes))
+				if (tokens[i][j] == '$' &&
+					(char_is_var_start(tokens[i][j + 1]) && !single_quotes))
 					expander_loop(tokens, i, &j, data);
 				j++;
 			}
 			i++;
 		}
 	}
-}
-
-int	clearstrlen(char *str)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != '\'')
-			j++;
-		i++;
-	}
-	return (j);
 }
