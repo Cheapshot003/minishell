@@ -18,7 +18,10 @@ void	parse(t_data *data)
 	fillredirects(data->exec_head, data);
 	fillpath(data->exec_head, data);
 	if (data->exec_head->path == NULL)
-		exiterror(data, "Syntax Error", 0);
+	{
+		data->exit_status = 2;
+		exiterror(data, " syntax error near unexpected token\n", 0);
+	}
 }
 
 void	fillpath_iteration(
