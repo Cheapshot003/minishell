@@ -19,8 +19,7 @@ char	*get_env_var_value(t_data *data, char *var_name)
 
 	current = data->vars;
 	data->exit_str = ft_itoa(data->exit_status);
-	if (ft_strncmp(var_name, "?",
-			ft_strlen(var_name)) == 0)
+	if (ft_strncmp(var_name, "?", 2) == 0)
 		return (data->exit_str);
 	if (data->exit_str != NULL)
 		free(data->exit_str);
